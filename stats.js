@@ -468,14 +468,152 @@ function displayStats(stats) {
     }
 }
 
+function calculateOpeningStats(gamesByMonth, player1Name, player2Name) {
+    const allGames = Object.values(gamesByMonth).flat();
+
+    const player1AsWhite = {};
+    const player1AsBlack = {};
+    const player2AsWhite = {};
+    const player2AsBlack = {};
+
+    allGames.forEach(game => {
+        if (!game.opening || !game.opening.name) return;
+
+        const openingName = game.opening.name;
+        const whitePlayer = game.players.white.user.name;
+        const blackPlayer = game.players.black.user.name;
+        const winner = game.winner;
+
+        // Determine which player is white and black
+        const isPlayer1White = whitePlayer === player1Name;
+
+        // Initialize opening stats if needed
+        const initOpening = (obj, opening) => {
+            if (!obj[opening]) {
+                obj[opening] = { wins: 0, draws: 0, losses: 0, games: 0 };
+            }
+        };
+
+        if (isPlayer1White) {
+            // Player 1 as white, Player 2 as black
+            initOpening(player1AsWhite, openingName);
+            initOpening(player2AsBlack, openingName);
+
+            player1AsWhite[openingName].games++;
+            player2AsBlack[openingName].games++;
+
+            if (winner === 'white') {
+                player1AsWhite[openingName].wins++;
+                player2AsBlack[openingName].losses++;
+            } else if (winner === 'black') {
+                player1AsWhite[openingName].losses++;
+                player2AsBlack[openingName].wins++;
+            } else {
+                player1AsWhite[openingName].draws++;
+                player2AsBlack[openingName].draws++;
+            }
+        } else {
+            // Player 2 as white, Player 1 as black
+            initOpening(player2AsWhite, openingName);
+            initOpening(player1AsBlack, openingName);
+
+            player2AsWhite[openingName].games++;
+            player1AsBlack[openingName].games++;
+
+            if (winner === 'white') {
+                player2AsWhite[openingName].wins++;
+                player1AsBlack[openingName].losses++;
+            } else if (winner === 'black') {
+                player2AsWhite[openingName].losses++;
+                player1AsBlack[openingName].wins++;
+            } else {
+                player2AsWhite[openingName].draws++;
+                player1AsBlack[openingName].draws++;
+            }
+        }
+    });
+
+    return {
+        player1AsWhite,
+        player1AsBlack,
+        player2AsWhite,
+        player2AsBlack
+    };
+}
+
+function displayOpeningStats(gamesByMonth, player1Name, player2Name) {
+    const openingStats = calculateOpeningStats(gamesByMonth, player1Name, player2Name);
+
+    // Update titles
+    const p1OpeningsTitle = document.getElementById('player1-openings-title');
+    const p2OpeningsTitle = document.getElementById('player2-openings-title');
+    if (p1OpeningsTitle) p1OpeningsTitle.textContent = player1Name;
+    if (p2OpeningsTitle) p2OpeningsTitle.textContent = player2Name;
+
+    // Helper function to render opening list
+    const renderOpeningList = (containerId, openings) => {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        // Calculate success rate and sort
+        const openingList = Object.entries(openings).map(([name, stats]) => {
+            const points = stats.wins + stats.draws * 0.5;
+            const successRate = stats.games > 0 ? (points / stats.games) * 100 : 0;
+            return { name, ...stats, successRate };
+        });
+
+        // Sort by success rate, then by number of games
+        openingList.sort((a, b) => {
+            if (Math.abs(b.successRate - a.successRate) > 0.1) {
+                return b.successRate - a.successRate;
+            }
+            return b.games - a.games;
+        });
+
+        // Show top 10 openings
+        openingList.slice(0, 10).forEach(opening => {
+            const div = document.createElement('div');
+            div.className = 'flex justify-between items-center py-1 border-b border-gray-700/50';
+
+            const successColor = opening.successRate >= 60 ? 'text-green-400' :
+                                 opening.successRate >= 40 ? 'text-yellow-400' : 'text-red-400';
+
+            div.innerHTML = `
+                <div class="flex-1">
+                    <div class="text-gray-200">${opening.name}</div>
+                    <div class="text-xs text-gray-500">
+                        ${opening.wins}W-${opening.draws}D-${opening.losses}L (${opening.games} games)
+                    </div>
+                </div>
+                <div class="text-right ml-2">
+                    <div class="${successColor} font-bold">${opening.successRate.toFixed(0)}%</div>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+
+        if (openingList.length === 0) {
+            container.innerHTML = '<div class="text-gray-500 text-xs">No data</div>';
+        }
+    };
+
+    renderOpeningList('player1-white-openings', openingStats.player1AsWhite);
+    renderOpeningList('player1-black-openings', openingStats.player1AsBlack);
+    renderOpeningList('player2-white-openings', openingStats.player2AsWhite);
+    renderOpeningList('player2-black-openings', openingStats.player2AsBlack);
+}
+
 function displayStatsWithChart(gamesByMonth) {
     const stats = calculateStats(gamesByMonth);
     displayStats(stats);
 
-    // Render the points chart
+    // Render the points chart and opening stats
     if (stats && Object.keys(gamesByMonth).length > 0) {
         const [player1Name, player2Name] = getPlayerNames(globalGamesByMonth);
         renderPointsChart(gamesByMonth, player1Name, player2Name);
+        displayOpeningStats(gamesByMonth, player1Name, player2Name);
     }
 }
 
