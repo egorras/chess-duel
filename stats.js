@@ -78,26 +78,37 @@ function calculateStats(games) {
         const winner = game.winner;
 
         // Determine result for each player
+        let player1Result, player2Result;
         if (winner === 'white') {
             if (whitePlayer === player1Name) {
                 stats.player1.wins++;
                 stats.player2.losses++;
+                player1Result = 'win';
+                player2Result = 'loss';
             } else {
                 stats.player2.wins++;
                 stats.player1.losses++;
+                player1Result = 'loss';
+                player2Result = 'win';
             }
         } else if (winner === 'black') {
             if (blackPlayer === player1Name) {
                 stats.player1.wins++;
                 stats.player2.losses++;
+                player1Result = 'win';
+                player2Result = 'loss';
             } else {
                 stats.player2.wins++;
                 stats.player1.losses++;
+                player1Result = 'loss';
+                player2Result = 'win';
             }
         } else {
             // Draw
             stats.player1.draws++;
             stats.player2.draws++;
+            player1Result = 'draw';
+            player2Result = 'draw';
         }
 
         // Time control stats
@@ -107,29 +118,33 @@ function calculateStats(games) {
         }
         stats.byTimeControl[speed].count++;
 
-        if (winner === 'white') {
-            if (whitePlayer === player1Name) {
-                stats.byTimeControl[speed].player1Wins++;
-            } else {
-                stats.byTimeControl[speed].player2Wins++;
-            }
-        } else if (winner === 'black') {
-            if (blackPlayer === player1Name) {
-                stats.byTimeControl[speed].player1Wins++;
-            } else {
-                stats.byTimeControl[speed].player2Wins++;
-            }
+        if (player1Result === 'win') {
+            stats.byTimeControl[speed].player1Wins++;
+        } else if (player2Result === 'win') {
+            stats.byTimeControl[speed].player2Wins++;
         } else {
             stats.byTimeControl[speed].draws++;
         }
 
-        // Monthly stats
+        // Monthly stats with detailed breakdown
         const date = new Date(game.createdAt);
         const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
         if (!stats.byMonth[monthKey]) {
-            stats.byMonth[monthKey] = 0;
+            stats.byMonth[monthKey] = {
+                count: 0,
+                player1Wins: 0,
+                player2Wins: 0,
+                draws: 0
+            };
         }
-        stats.byMonth[monthKey]++;
+        stats.byMonth[monthKey].count++;
+        if (player1Result === 'win') {
+            stats.byMonth[monthKey].player1Wins++;
+        } else if (player2Result === 'win') {
+            stats.byMonth[monthKey].player2Wins++;
+        } else {
+            stats.byMonth[monthKey].draws++;
+        }
 
         // Termination stats
         const status = game.status || 'unknown';
@@ -163,19 +178,23 @@ function formatMonthKey(monthKey) {
 
 function displayStats(stats) {
     if (!stats) {
-        document.getElementById('error').textContent = 'No game data available.';
-        document.getElementById('loading').style.display = 'none';
+        const errorEl = document.getElementById('error');
+        errorEl.textContent = 'No game data available.';
+        errorEl.classList.remove('hidden');
+        document.getElementById('loading').classList.add('hidden');
         return;
     }
 
     // Hide loading, show stats
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('stats-container').style.display = 'block';
+    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('stats-container').classList.remove('hidden');
 
     // Overall stats
     document.getElementById('total-games').textContent = stats.totalGames;
     document.getElementById('date-range').textContent =
         `${formatDate(stats.firstGame)} - ${formatDate(stats.lastGame)}`;
+    const drawRate = ((stats.player1.draws / stats.totalGames) * 100).toFixed(1);
+    document.getElementById('draw-rate').textContent = `${drawRate}%`;
 
     // Player 1 stats
     document.getElementById('player1-name').textContent = stats.player1.name;
@@ -193,12 +212,52 @@ function displayStats(stats) {
     const player2WinRate = ((stats.player2.wins / stats.totalGames) * 100).toFixed(1);
     document.getElementById('player2-winrate').textContent = `${player2WinRate}%`;
 
-    // Highlight winner
+    // Highlight leader
     if (stats.player1.wins > stats.player2.wins) {
-        document.getElementById('player1-card').classList.add('leading');
+        document.getElementById('player1-card').classList.add('border-green-500');
+        document.getElementById('player1-card').classList.add('shadow-lg');
     } else if (stats.player2.wins > stats.player1.wins) {
-        document.getElementById('player2-card').classList.add('leading');
+        document.getElementById('player2-card').classList.add('border-green-500');
+        document.getElementById('player2-card').classList.add('shadow-lg');
     }
+
+    // Update table headers with player names
+    document.getElementById('player1-header').textContent = stats.player1.name;
+    document.getElementById('player2-header').textContent = stats.player2.name;
+
+    // Monthly breakdown
+    const monthlyBreakdownContainer = document.getElementById('monthly-breakdown');
+    const sortedMonths = Object.keys(stats.byMonth).sort().reverse(); // Most recent first
+
+    sortedMonths.forEach(month => {
+        const data = stats.byMonth[month];
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-indigo-50';
+
+        const player1WinPct = ((data.player1Wins / data.count) * 100).toFixed(0);
+        const player2WinPct = ((data.player2Wins / data.count) * 100).toFixed(0);
+
+        row.innerHTML = `
+            <td class="px-4 py-3 font-medium text-gray-700">${formatMonthKey(month)}</td>
+            <td class="px-4 py-3 text-center font-semibold">${data.count}</td>
+            <td class="px-4 py-3 text-center">
+                <span class="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 font-semibold">
+                    ${data.player1Wins} (${player1WinPct}%)
+                </span>
+            </td>
+            <td class="px-4 py-3 text-center">
+                <span class="inline-block px-3 py-1 rounded-full bg-gray-100 text-gray-600 font-semibold">
+                    ${data.draws}
+                </span>
+            </td>
+            <td class="px-4 py-3 text-center">
+                <span class="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-semibold">
+                    ${data.player2Wins} (${player2WinPct}%)
+                </span>
+            </td>
+        `;
+        monthlyBreakdownContainer.appendChild(row);
+    });
 
     // Time control stats
     const timeControlContainer = document.getElementById('time-control-stats');
@@ -215,30 +274,15 @@ function displayStats(stats) {
     sortedTimeControls.forEach(timeControl => {
         const data = stats.byTimeControl[timeControl];
         const div = document.createElement('div');
-        div.className = 'breakdown-item';
+        div.className = 'bg-gray-50 p-4 rounded-lg border-l-4 border-indigo-500';
         div.innerHTML = `
-            <div class="breakdown-label">${timeControl.charAt(0).toUpperCase() + timeControl.slice(1)}</div>
-            <div class="breakdown-value">${data.count} games</div>
-            <div class="breakdown-detail">
-                ${stats.player1.name}: ${data.player1Wins}W ${data.draws}D ${data.player2Wins}L
+            <div class="font-bold text-indigo-600 mb-2">${timeControl.charAt(0).toUpperCase() + timeControl.slice(1)}</div>
+            <div class="text-2xl font-bold text-gray-800 mb-2">${data.count}</div>
+            <div class="text-sm text-gray-600">
+                ${stats.player1.name}: ${data.player1Wins}W-${data.draws}D-${data.player2Wins}L
             </div>
         `;
         timeControlContainer.appendChild(div);
-    });
-
-    // Monthly stats
-    const monthlyContainer = document.getElementById('monthly-stats');
-    const sortedMonths = Object.keys(stats.byMonth).sort();
-
-    sortedMonths.forEach(month => {
-        const count = stats.byMonth[month];
-        const div = document.createElement('div');
-        div.className = 'monthly-item';
-        div.innerHTML = `
-            <div class="monthly-label">${formatMonthKey(month)}</div>
-            <div class="monthly-value">${count}</div>
-        `;
-        monthlyContainer.appendChild(div);
     });
 
     // Termination stats
@@ -257,12 +301,13 @@ function displayStats(stats) {
         stats.byTermination[b] - stats.byTermination[a]
     ).forEach(status => {
         const count = stats.byTermination[status];
+        const percentage = ((count / stats.totalGames) * 100).toFixed(1);
         const div = document.createElement('div');
-        div.className = 'breakdown-item';
+        div.className = 'bg-gray-50 p-4 rounded-lg border-l-4 border-purple-500';
         div.innerHTML = `
-            <div class="breakdown-label">${terminationLabels[status] || status}</div>
-            <div class="breakdown-value">${count} games</div>
-            <div class="breakdown-detail">${((count / stats.totalGames) * 100).toFixed(1)}%</div>
+            <div class="font-bold text-purple-600 mb-2">${terminationLabels[status] || status}</div>
+            <div class="text-2xl font-bold text-gray-800 mb-1">${count}</div>
+            <div class="text-sm text-gray-600">${percentage}%</div>
         `;
         terminationContainer.appendChild(div);
     });
@@ -276,8 +321,10 @@ async function init() {
         displayStats(stats);
     } catch (error) {
         console.error('Error loading games:', error);
-        document.getElementById('error').textContent = 'Error loading game data. Please try again later.';
-        document.getElementById('loading').style.display = 'none';
+        const errorEl = document.getElementById('error');
+        errorEl.textContent = 'Error loading game data. Please try again later.';
+        errorEl.classList.remove('hidden');
+        document.getElementById('loading').classList.add('hidden');
     }
 }
 
