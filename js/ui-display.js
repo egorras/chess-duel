@@ -166,7 +166,6 @@ function displayOpeningStats(gamesByMonth, player1Name, player2Name) {
             .replace(/--+/g, '-');
 
         row.innerHTML = `
-            <td class="px-4 py-3 text-center text-blue-400 font-bold">${opening.player1Wins}</td>
             <td class="px-4 py-3">
                 <a href="https://www.chess.com/openings/${openingUrl}"
                    target="_blank"
@@ -175,6 +174,7 @@ function displayOpeningStats(gamesByMonth, player1Name, player2Name) {
                     ${opening.name}
                 </a>
             </td>
+            <td class="px-4 py-3 text-center text-blue-400 font-bold">${opening.player1Wins}</td>
             <td class="px-4 py-3 text-center text-gray-400">${opening.draws}</td>
             <td class="px-4 py-3 text-center text-red-400 font-bold">${opening.player2Wins}</td>
             <td class="px-4 py-3 text-center text-gray-500">${opening.games}</td>

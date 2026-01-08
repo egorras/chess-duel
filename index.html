@@ -48,55 +48,32 @@
             </div>
 
             <!-- Overall Stats -->
-            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
-                <!-- Wins and Draws -->
-                <div class="grid grid-cols-3 gap-4 text-center mb-6">
-                    <!-- Player 1 Wins -->
-                    <div class="border-r border-gray-700">
-                        <h2 class="text-lg font-bold mb-3 text-blue-400" id="player1-name">Player 1</h2>
-                        <div class="text-5xl font-bold text-blue-400 mb-2" id="player1-wins">0</div>
-                        <div class="text-gray-400 text-sm">Wins</div>
+            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <!-- Player 1 -->
+                    <div>
+                        <h2 class="text-md font-bold mb-2 text-blue-400" id="player1-name">Player 1</h2>
+                        <div class="text-3xl font-bold text-blue-400">
+                            <span id="player1-wins">0</span>
+                            <span class="text-sm text-purple-400 ml-1">(<span id="player1-streak">0</span>)</span>
+                        </div>
+                        <div class="text-xl font-bold text-yellow-400 mt-1" id="player1-winrate">0%</div>
                     </div>
 
                     <!-- Draws -->
-                    <div class="border-r border-gray-700">
-                        <div class="text-gray-400 text-sm mb-3">Draws</div>
-                        <div class="text-5xl font-bold text-gray-400 mb-2" id="draws">0</div>
-                        <div class="text-gray-400 text-xs">games</div>
+                    <div class="border-x border-gray-700">
+                        <div class="text-gray-400 text-sm mb-2">Draws</div>
+                        <div class="text-3xl font-bold text-gray-400" id="draws">0</div>
                     </div>
 
-                    <!-- Player 2 Wins -->
+                    <!-- Player 2 -->
                     <div>
-                        <h2 class="text-lg font-bold mb-3 text-red-400" id="player2-name">Player 2</h2>
-                        <div class="text-5xl font-bold text-red-400 mb-2" id="player2-wins">0</div>
-                        <div class="text-gray-400 text-sm">Wins</div>
-                    </div>
-                </div>
-
-                <!-- Win Rates and Streaks -->
-                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-gray-700">
-                    <!-- Player 1 Stats -->
-                    <div class="text-center border-r border-gray-700">
-                        <div class="mb-3">
-                            <div class="text-gray-400 text-xs mb-1">Win Rate</div>
-                            <div class="text-2xl font-bold text-yellow-400" id="player1-winrate">0%</div>
+                        <h2 class="text-md font-bold mb-2 text-red-400" id="player2-name">Player 2</h2>
+                        <div class="text-3xl font-bold text-red-400">
+                            <span id="player2-wins">0</span>
+                            <span class="text-sm text-purple-400 ml-1">(<span id="player2-streak">0</span>)</span>
                         </div>
-                        <div>
-                            <div class="text-gray-400 text-xs mb-1">Best Streak</div>
-                            <div class="text-xl font-bold text-purple-400" id="player1-streak">0</div>
-                        </div>
-                    </div>
-
-                    <!-- Player 2 Stats -->
-                    <div class="text-center">
-                        <div class="mb-3">
-                            <div class="text-gray-400 text-xs mb-1">Win Rate</div>
-                            <div class="text-2xl font-bold text-yellow-400" id="player2-winrate">0%</div>
-                        </div>
-                        <div>
-                            <div class="text-gray-400 text-xs mb-1">Best Streak</div>
-                            <div class="text-xl font-bold text-purple-400" id="player2-streak">0</div>
-                        </div>
+                        <div class="text-xl font-bold text-yellow-400 mt-1" id="player2-winrate">0%</div>
                     </div>
                 </div>
             </div>
@@ -109,8 +86,8 @@
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="border-b border-gray-700 bg-gray-900">
-                                <th class="px-4 py-3 text-center text-blue-400 font-semibold" id="openings-player1">P1</th>
                                 <th class="px-4 py-3 text-left text-gray-400 font-semibold">Opening</th>
+                                <th class="px-4 py-3 text-center text-blue-400 font-semibold" id="openings-player1">P1</th>
                                 <th class="px-4 py-3 text-center text-gray-400 font-semibold">Draws</th>
                                 <th class="px-4 py-3 text-center text-red-400 font-semibold" id="openings-player2">P2</th>
                                 <th class="px-4 py-3 text-center text-gray-400 font-semibold">Games</th>
