@@ -121,8 +121,8 @@ function getMonthsToFetch() {
     // Start from the last existing month to update it
     startMonth = existingMonths[existingMonths.length - 1];
   } else {
-    // No existing data, start from January 2024
-    startMonth = '2024-01';
+    // No existing data, start from July 2024
+    startMonth = '2024-07';
   }
 
   // Generate list of months from start to current
