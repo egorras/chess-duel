@@ -49,10 +49,12 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
         player1Name,
         player2Name,
         totalGames: allGames.length,
-        player1: { wins: 0, losses: 0, draws: 0, bestStreak: 0 },
-        player2: { wins: 0, losses: 0, draws: 0, bestStreak: 0 },
+        player1: { wins: 0, losses: 0, draws: 0, bestStreak: 0, accuracy: [], blunders: 0, mistakes: 0, inaccuracies: 0 },
+        player2: { wins: 0, losses: 0, draws: 0, bestStreak: 0, accuracy: [], blunders: 0, mistakes: 0, inaccuracies: 0 },
         byTermination: {},
-        monthlyStats: {}
+        monthlyStats: {},
+        gameLengths: [],
+        openingCounts: {}
     };
 
     // Calculate overall streaks
@@ -80,10 +82,11 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
         games.forEach(game => {
             const whitePlayer = game.players.white.user.name;
             const winner = game.winner;
+            const isPlayer1White = whitePlayer === player1Name;
 
             // Determine result
             if (winner === 'white') {
-                if (whitePlayer === player1Name) {
+                if (isPlayer1White) {
                     monthStat.player1Wins++;
                     stats.player1.wins++;
                     stats.player2.losses++;
@@ -93,7 +96,7 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
                     stats.player1.losses++;
                 }
             } else if (winner === 'black') {
-                if (whitePlayer === player1Name) {
+                if (isPlayer1White) {
                     monthStat.player2Wins++;
                     stats.player2.wins++;
                     stats.player1.losses++;
@@ -108,6 +111,43 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
                 stats.player2.draws++;
             }
 
+            // Collect accuracy and error stats
+            const whiteAnalysis = game.players?.white?.analysis;
+            const blackAnalysis = game.players?.black?.analysis;
+
+            if (isPlayer1White && whiteAnalysis) {
+                if (whiteAnalysis.accuracy) stats.player1.accuracy.push(whiteAnalysis.accuracy);
+                stats.player1.blunders += whiteAnalysis.blunder || 0;
+                stats.player1.mistakes += whiteAnalysis.mistake || 0;
+                stats.player1.inaccuracies += whiteAnalysis.inaccuracy || 0;
+            } else if (isPlayer1White && blackAnalysis) {
+                if (blackAnalysis.accuracy) stats.player2.accuracy.push(blackAnalysis.accuracy);
+                stats.player2.blunders += blackAnalysis.blunder || 0;
+                stats.player2.mistakes += blackAnalysis.mistake || 0;
+                stats.player2.inaccuracies += blackAnalysis.inaccuracy || 0;
+            } else if (!isPlayer1White && whiteAnalysis) {
+                if (whiteAnalysis.accuracy) stats.player2.accuracy.push(whiteAnalysis.accuracy);
+                stats.player2.blunders += whiteAnalysis.blunder || 0;
+                stats.player2.mistakes += whiteAnalysis.mistake || 0;
+                stats.player2.inaccuracies += whiteAnalysis.inaccuracy || 0;
+            } else if (!isPlayer1White && blackAnalysis) {
+                if (blackAnalysis.accuracy) stats.player1.accuracy.push(blackAnalysis.accuracy);
+                stats.player1.blunders += blackAnalysis.blunder || 0;
+                stats.player1.mistakes += blackAnalysis.mistake || 0;
+                stats.player1.inaccuracies += blackAnalysis.inaccuracy || 0;
+            }
+
+            // Game length (count moves)
+            if (game.moves) {
+                const moveCount = game.moves.split(' ').length;
+                stats.gameLengths.push(moveCount);
+            }
+
+            // Opening counts
+            if (game.opening?.name) {
+                stats.openingCounts[game.opening.name] = (stats.openingCounts[game.opening.name] || 0) + 1;
+            }
+
             // Termination stats
             const status = game.status || 'unknown';
             if (!stats.byTermination[status]) {
@@ -118,6 +158,33 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
 
         stats.monthlyStats[monthKey] = monthStat;
     });
+
+    // Calculate averages
+    stats.player1.avgAccuracy = stats.player1.accuracy.length > 0
+        ? Math.round(stats.player1.accuracy.reduce((a, b) => a + b, 0) / stats.player1.accuracy.length)
+        : 0;
+    stats.player2.avgAccuracy = stats.player2.accuracy.length > 0
+        ? Math.round(stats.player2.accuracy.reduce((a, b) => a + b, 0) / stats.player2.accuracy.length)
+        : 0;
+
+    // Game length stats
+    stats.avgGameLength = stats.gameLengths.length > 0
+        ? Math.round(stats.gameLengths.reduce((a, b) => a + b, 0) / stats.gameLengths.length)
+        : 0;
+    stats.longestGame = stats.gameLengths.length > 0 ? Math.max(...stats.gameLengths) : 0;
+    stats.shortestGame = stats.gameLengths.length > 0 ? Math.min(...stats.gameLengths) : 0;
+
+    // Most common opening
+    const sortedOpenings = Object.entries(stats.openingCounts).sort((a, b) => b[1] - a[1]);
+    stats.mostCommonOpening = sortedOpenings.length > 0 ? sortedOpenings[0][0] : '-';
+
+    // Most common termination
+    const sortedTerminations = Object.entries(stats.byTermination).sort((a, b) => b[1] - a[1]);
+    stats.mostCommonTermination = sortedTerminations.length > 0 ? sortedTerminations[0][0] : '-';
+
+    // Date range
+    const months = Object.keys(gamesByMonth).sort();
+    stats.dateRange = months.length > 0 ? `(${months[0]} to ${months[months.length - 1]})` : '';
 
     return stats;
 }

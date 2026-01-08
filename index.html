@@ -107,9 +107,54 @@
                 </div>
             </div>
 
-            <!-- Total Games -->
+            <!-- Total Games and Period -->
             <div class="text-center mb-6 text-gray-400">
                 Total Games: <span class="text-white font-bold text-xl" id="total-games">0</span>
+                <span class="text-sm ml-2" id="date-range"></span>
+            </div>
+
+            <!-- Additional Stats -->
+            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
+                    <!-- Player 1 Stats -->
+                    <div class="border-r border-gray-700">
+                        <div class="text-blue-400 font-semibold mb-2" id="stats-player1">Player 1</div>
+                        <div class="space-y-1">
+                            <div><span class="text-gray-400">Avg Accuracy:</span> <span class="text-yellow-400 font-bold" id="player1-accuracy">0%</span></div>
+                            <div><span class="text-gray-400">Blunders:</span> <span class="text-red-300" id="player1-blunders">0</span></div>
+                            <div><span class="text-gray-400">Mistakes:</span> <span class="text-orange-300" id="player1-mistakes">0</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Player 2 Stats -->
+                    <div class="border-r border-gray-700">
+                        <div class="text-red-400 font-semibold mb-2" id="stats-player2">Player 2</div>
+                        <div class="space-y-1">
+                            <div><span class="text-gray-400">Avg Accuracy:</span> <span class="text-yellow-400 font-bold" id="player2-accuracy">0%</span></div>
+                            <div><span class="text-gray-400">Blunders:</span> <span class="text-red-300" id="player2-blunders">0</span></div>
+                            <div><span class="text-gray-400">Mistakes:</span> <span class="text-orange-300" id="player2-mistakes">0</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Game Stats -->
+                    <div class="border-r border-gray-700">
+                        <div class="text-gray-400 font-semibold mb-2">Games</div>
+                        <div class="space-y-1">
+                            <div><span class="text-gray-400">Avg Length:</span> <span class="text-white" id="avg-game-length">0</span> moves</div>
+                            <div><span class="text-gray-400">Longest:</span> <span class="text-white" id="longest-game">0</span> moves</div>
+                            <div><span class="text-gray-400">Shortest:</span> <span class="text-white" id="shortest-game">0</span> moves</div>
+                        </div>
+                    </div>
+
+                    <!-- Termination -->
+                    <div>
+                        <div class="text-gray-400 font-semibold mb-2">Most Common</div>
+                        <div class="space-y-1">
+                            <div><span class="text-gray-400">Finish:</span> <span class="text-white" id="most-common-termination">-</span></div>
+                            <div><span class="text-gray-400">Opening:</span> <span class="text-white text-xs" id="most-common-opening">-</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Monthly Breakdown -->

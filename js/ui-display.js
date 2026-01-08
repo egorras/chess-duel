@@ -29,9 +29,11 @@ function displayStats(stats) {
         titleEl.textContent = `Lichess Blitz Stats: ${stats.player1Name} vs ${stats.player2Name}`;
     }
 
-    // Total games
+    // Total games and date range
     const totalGamesEl = document.getElementById('total-games');
+    const dateRangeEl = document.getElementById('date-range');
     if (totalGamesEl) totalGamesEl.textContent = stats.totalGames;
+    if (dateRangeEl) dateRangeEl.textContent = stats.dateRange;
 
     // Player names
     const p1Name = document.querySelectorAll('#player1-name');
@@ -62,6 +64,59 @@ function displayStats(stats) {
     const p2Streak = document.getElementById('player2-streak');
     if (p1Streak) p1Streak.textContent = stats.player1.bestStreak;
     if (p2Streak) p2Streak.textContent = stats.player2.bestStreak;
+
+    // Additional stats - Player names
+    const statsP1 = document.getElementById('stats-player1');
+    const statsP2 = document.getElementById('stats-player2');
+    if (statsP1) statsP1.textContent = stats.player1Name;
+    if (statsP2) statsP2.textContent = stats.player2Name;
+
+    // Accuracy stats
+    const p1Accuracy = document.getElementById('player1-accuracy');
+    const p2Accuracy = document.getElementById('player2-accuracy');
+    if (p1Accuracy) p1Accuracy.textContent = `${stats.player1.avgAccuracy}%`;
+    if (p2Accuracy) p2Accuracy.textContent = `${stats.player2.avgAccuracy}%`;
+
+    // Blunders and mistakes
+    const p1Blunders = document.getElementById('player1-blunders');
+    const p2Blunders = document.getElementById('player2-blunders');
+    const p1Mistakes = document.getElementById('player1-mistakes');
+    const p2Mistakes = document.getElementById('player2-mistakes');
+    if (p1Blunders) p1Blunders.textContent = stats.player1.blunders;
+    if (p2Blunders) p2Blunders.textContent = stats.player2.blunders;
+    if (p1Mistakes) p1Mistakes.textContent = stats.player1.mistakes;
+    if (p2Mistakes) p2Mistakes.textContent = stats.player2.mistakes;
+
+    // Game length stats
+    const avgGameLength = document.getElementById('avg-game-length');
+    const longestGame = document.getElementById('longest-game');
+    const shortestGame = document.getElementById('shortest-game');
+    if (avgGameLength) avgGameLength.textContent = stats.avgGameLength;
+    if (longestGame) longestGame.textContent = stats.longestGame;
+    if (shortestGame) shortestGame.textContent = stats.shortestGame;
+
+    // Most common stats
+    const mostCommonTermination = document.getElementById('most-common-termination');
+    const mostCommonOpening = document.getElementById('most-common-opening');
+
+    const terminationLabels = {
+        'mate': 'Checkmate',
+        'resign': 'Resignation',
+        'timeout': 'Timeout',
+        'draw': 'Draw',
+        'stalemate': 'Stalemate',
+        'outoftime': 'Out of Time'
+    };
+
+    if (mostCommonTermination) {
+        mostCommonTermination.textContent = terminationLabels[stats.mostCommonTermination] || stats.mostCommonTermination;
+    }
+    if (mostCommonOpening) {
+        // Truncate long opening names
+        const openingName = stats.mostCommonOpening;
+        mostCommonOpening.textContent = openingName.length > 20 ? openingName.substring(0, 20) + '...' : openingName;
+        mostCommonOpening.title = openingName; // Show full name on hover
+    }
 
     // Table headers
     const tableP1 = document.getElementById('table-player1');
