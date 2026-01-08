@@ -32,6 +32,7 @@ async function fetchGamesForPeriod(username, apiKey, since, until, vsPlayer = nu
       clocks: 'true',
       division: 'true',
       moves: 'true',
+      opening: 'true',
       sort: 'dateAsc'
     });
 

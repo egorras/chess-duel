@@ -471,6 +471,12 @@ function displayStats(stats) {
 function calculateOpeningStats(gamesByMonth, player1Name, player2Name) {
     const allGames = Object.values(gamesByMonth).flat();
 
+    // Debug: Check if opening data exists
+    if (allGames.length > 0) {
+        console.log('Sample game data:', allGames[0]);
+        console.log('Opening data:', allGames[0].opening);
+    }
+
     const player1AsWhite = {};
     const player1AsBlack = {};
     const player2AsWhite = {};

@@ -101,42 +101,9 @@
                 </div>
             </div>
 
-            <!-- Points Graph -->
+            <!-- Openings -->
             <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
-                <h2 class="text-lg font-semibold mb-4 text-gray-300">Cumulative Points Over Time</h2>
-                <div class="relative" style="height: 300px;">
-                    <canvas id="points-chart"></canvas>
-                </div>
-            </div>
-
-            <!-- Total Games -->
-            <div class="text-center mb-6 text-gray-400">
-                Total Games: <span class="text-white font-bold text-xl" id="total-games">0</span>
-            </div>
-
-            <!-- Monthly Breakdown -->
-            <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-6">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr class="border-b border-gray-700 bg-gray-900">
-                                <th class="px-4 py-3 text-left text-gray-400 font-semibold">Month</th>
-                                <th class="px-4 py-3 text-center text-gray-400 font-semibold">Games</th>
-                                <th class="px-4 py-3 text-center text-blue-400 font-semibold" id="table-player1">P1</th>
-                                <th class="px-4 py-3 text-center text-gray-400 font-semibold">Draws</th>
-                                <th class="px-4 py-3 text-center text-red-400 font-semibold" id="table-player2">P2</th>
-                                <th class="px-4 py-3 text-left text-gray-400 font-semibold">Streaks</th>
-                            </tr>
-                        </thead>
-                        <tbody id="monthly-breakdown" class="divide-y divide-gray-700">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Opening Repertoire -->
-            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
-                <h2 class="text-lg font-semibold mb-4 text-gray-300 border-b border-gray-700 pb-2">Opening Repertoire by Success</h2>
+                <h2 class="text-lg font-semibold mb-4 text-gray-300 border-b border-gray-700 pb-2">Openings</h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Player 1 Openings -->
@@ -168,6 +135,39 @@
                             <div id="player2-black-openings" class="space-y-1 text-sm"></div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Points Graph -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
+                <h2 class="text-lg font-semibold mb-4 text-gray-300">Cumulative Points Over Time</h2>
+                <div class="relative" style="height: 300px;">
+                    <canvas id="points-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Total Games -->
+            <div class="text-center mb-6 text-gray-400">
+                Total Games: <span class="text-white font-bold text-xl" id="total-games">0</span>
+            </div>
+
+            <!-- Monthly Breakdown -->
+            <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-6">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-700 bg-gray-900">
+                                <th class="px-4 py-3 text-left text-gray-400 font-semibold">Month</th>
+                                <th class="px-4 py-3 text-center text-gray-400 font-semibold">Games</th>
+                                <th class="px-4 py-3 text-center text-blue-400 font-semibold" id="table-player1">P1</th>
+                                <th class="px-4 py-3 text-center text-gray-400 font-semibold">Draws</th>
+                                <th class="px-4 py-3 text-center text-red-400 font-semibold" id="table-player2">P2</th>
+                                <th class="px-4 py-3 text-left text-gray-400 font-semibold">Streaks</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthly-breakdown" class="divide-y divide-gray-700">
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
