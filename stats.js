@@ -1,6 +1,6 @@
 // Load all game data from monthly JSON files
 async function loadAllGames() {
-    const games = [];
+    const gamesByMonth = {};
     const startYear = 2024;
     const startMonth = 1;
     const currentDate = new Date();
@@ -12,13 +12,16 @@ async function loadAllGames() {
 
     while (year < currentYear || (year === currentYear && month <= currentMonth)) {
         const monthStr = String(month).padStart(2, '0');
-        const fileName = `data/games/${year}-${monthStr}.json`;
+        const monthKey = `${year}-${monthStr}`;
+        const fileName = `data/games/${monthKey}.json`;
 
         try {
             const response = await fetch(fileName);
             if (response.ok) {
                 const monthGames = await response.json();
-                games.push(...monthGames);
+                if (monthGames.length > 0) {
+                    gamesByMonth[monthKey] = monthGames;
+                }
             }
         } catch (error) {
             // File doesn't exist or couldn't be loaded, skip
@@ -31,149 +34,154 @@ async function loadAllGames() {
         }
     }
 
-    return games;
+    return gamesByMonth;
 }
 
-function getPlayerNames(games) {
-    if (games.length === 0) return ['Player 1', 'Player 2'];
-
-    const firstGame = games[0];
-    return [
-        firstGame.players.white.user.name,
-        firstGame.players.black.user.name
-    ];
-}
-
-function calculateStats(games) {
-    if (games.length === 0) {
-        return null;
+function getPlayerNames(gamesByMonth) {
+    for (const games of Object.values(gamesByMonth)) {
+        if (games.length > 0) {
+            return [
+                games[0].players.white.user.name,
+                games[0].players.black.user.name
+            ];
+        }
     }
+    return ['Player 1', 'Player 2'];
+}
 
-    const [player1Name, player2Name] = getPlayerNames(games);
-
-    const stats = {
-        totalGames: games.length,
-        player1: {
-            name: player1Name,
-            wins: 0,
-            losses: 0,
-            draws: 0
-        },
-        player2: {
-            name: player2Name,
-            wins: 0,
-            losses: 0,
-            draws: 0
-        },
-        byTimeControl: {},
-        byMonth: {},
-        byTermination: {},
-        firstGame: null,
-        lastGame: null
-    };
+function calculateStreaks(games, player1Name) {
+    let currentStreak = 0;
+    let maxPlayer1Streak = 0;
+    let maxPlayer2Streak = 0;
+    let currentPlayer = null;
 
     games.forEach(game => {
         const whitePlayer = game.players.white.user.name;
-        const blackPlayer = game.players.black.user.name;
         const winner = game.winner;
 
-        // Determine result for each player
-        let player1Result, player2Result;
+        let gameWinner = null;
         if (winner === 'white') {
-            if (whitePlayer === player1Name) {
-                stats.player1.wins++;
-                stats.player2.losses++;
-                player1Result = 'win';
-                player2Result = 'loss';
-            } else {
-                stats.player2.wins++;
-                stats.player1.losses++;
-                player1Result = 'loss';
-                player2Result = 'win';
-            }
+            gameWinner = whitePlayer === player1Name ? 'player1' : 'player2';
         } else if (winner === 'black') {
-            if (blackPlayer === player1Name) {
-                stats.player1.wins++;
-                stats.player2.losses++;
-                player1Result = 'win';
-                player2Result = 'loss';
+            gameWinner = whitePlayer === player1Name ? 'player2' : 'player1';
+        }
+
+        if (gameWinner) {
+            if (gameWinner === currentPlayer) {
+                currentStreak++;
             } else {
-                stats.player2.wins++;
-                stats.player1.losses++;
-                player1Result = 'loss';
-                player2Result = 'win';
+                currentStreak = 1;
+                currentPlayer = gameWinner;
+            }
+
+            if (gameWinner === 'player1') {
+                maxPlayer1Streak = Math.max(maxPlayer1Streak, currentStreak);
+            } else {
+                maxPlayer2Streak = Math.max(maxPlayer2Streak, currentStreak);
             }
         } else {
-            // Draw
-            stats.player1.draws++;
-            stats.player2.draws++;
-            player1Result = 'draw';
-            player2Result = 'draw';
+            currentStreak = 0;
+            currentPlayer = null;
         }
+    });
 
-        // Time control stats
-        const speed = game.speed || 'unknown';
-        if (!stats.byTimeControl[speed]) {
-            stats.byTimeControl[speed] = { count: 0, player1Wins: 0, player2Wins: 0, draws: 0 };
-        }
-        stats.byTimeControl[speed].count++;
+    return { player1: maxPlayer1Streak, player2: maxPlayer2Streak };
+}
 
-        if (player1Result === 'win') {
-            stats.byTimeControl[speed].player1Wins++;
-        } else if (player2Result === 'win') {
-            stats.byTimeControl[speed].player2Wins++;
-        } else {
-            stats.byTimeControl[speed].draws++;
-        }
+function calculateStats(gamesByMonth) {
+    if (Object.keys(gamesByMonth).length === 0) {
+        return null;
+    }
 
-        // Monthly stats with detailed breakdown
-        const date = new Date(game.createdAt);
-        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-        if (!stats.byMonth[monthKey]) {
-            stats.byMonth[monthKey] = {
-                count: 0,
-                player1Wins: 0,
-                player2Wins: 0,
-                draws: 0
-            };
-        }
-        stats.byMonth[monthKey].count++;
-        if (player1Result === 'win') {
-            stats.byMonth[monthKey].player1Wins++;
-        } else if (player2Result === 'win') {
-            stats.byMonth[monthKey].player2Wins++;
-        } else {
-            stats.byMonth[monthKey].draws++;
-        }
+    const [player1Name, player2Name] = getPlayerNames(gamesByMonth);
+    const allGames = Object.values(gamesByMonth).flat();
 
-        // Termination stats
-        const status = game.status || 'unknown';
-        if (!stats.byTermination[status]) {
-            stats.byTermination[status] = 0;
-        }
-        stats.byTermination[status]++;
+    const stats = {
+        player1Name,
+        player2Name,
+        totalGames: allGames.length,
+        wins: 0,
+        losses: 0,
+        draws: 0,
+        byTimeControl: {},
+        byTermination: {},
+        monthlyStats: {},
+        years: new Set(),
+        bestStreak: 0
+    };
 
-        // Track first and last games
-        if (!stats.firstGame || game.createdAt < stats.firstGame) {
-            stats.firstGame = game.createdAt;
-        }
-        if (!stats.lastGame || game.createdAt > stats.lastGame) {
-            stats.lastGame = game.createdAt;
-        }
+    // Sort months
+    const sortedMonths = Object.keys(gamesByMonth).sort();
+
+    sortedMonths.forEach(monthKey => {
+        const games = gamesByMonth[monthKey];
+        const year = monthKey.split('-')[0];
+        stats.years.add(year);
+
+        const monthStat = {
+            games: games.length,
+            wins: 0,
+            losses: 0,
+            draws: 0,
+            streaks: { player1: 0, player2: 0 }
+        };
+
+        // Calculate streaks for this month
+        monthStat.streaks = calculateStreaks(games, player1Name);
+        stats.bestStreak = Math.max(stats.bestStreak, monthStat.streaks.player1);
+
+        games.forEach(game => {
+            const whitePlayer = game.players.white.user.name;
+            const winner = game.winner;
+
+            // Determine result from player1's perspective
+            let result;
+            if (winner === 'white') {
+                result = whitePlayer === player1Name ? 'win' : 'loss';
+            } else if (winner === 'black') {
+                result = whitePlayer === player1Name ? 'loss' : 'win';
+            } else {
+                result = 'draw';
+            }
+
+            if (result === 'win') {
+                monthStat.wins++;
+                stats.wins++;
+            } else if (result === 'loss') {
+                monthStat.losses++;
+                stats.losses++;
+            } else {
+                monthStat.draws++;
+                stats.draws++;
+            }
+
+            // Time control stats
+            const speed = game.speed || 'unknown';
+            if (!stats.byTimeControl[speed]) {
+                stats.byTimeControl[speed] = { count: 0, wins: 0, losses: 0, draws: 0 };
+            }
+            stats.byTimeControl[speed].count++;
+            stats.byTimeControl[speed][result === 'win' ? 'wins' : result === 'loss' ? 'losses' : 'draws']++;
+
+            // Termination stats
+            const status = game.status || 'unknown';
+            if (!stats.byTermination[status]) {
+                stats.byTermination[status] = 0;
+            }
+            stats.byTermination[status]++;
+        });
+
+        stats.monthlyStats[monthKey] = monthStat;
     });
 
     return stats;
 }
 
-function formatDate(timestamp) {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
-}
-
-function formatMonthKey(monthKey) {
+function formatMonthName(monthKey) {
     const [year, month] = monthKey.split('-');
-    const date = new Date(year, parseInt(month) - 1);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    return monthNames[parseInt(month) - 1];
 }
 
 function displayStats(stats) {
@@ -189,75 +197,50 @@ function displayStats(stats) {
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('stats-container').classList.remove('hidden');
 
+    // Get year range
+    const years = Array.from(stats.years).sort();
+    const yearRange = years.length > 1 ? `${years[0]}-${years[years.length - 1]}` : years[0];
+
+    // Update title
+    document.getElementById('main-title').textContent =
+        `Lichess Stats: ${stats.player1Name} vs ${stats.player2Name} (${yearRange})`;
+
     // Overall stats
     document.getElementById('total-games').textContent = stats.totalGames;
-    document.getElementById('date-range').textContent =
-        `${formatDate(stats.firstGame)} - ${formatDate(stats.lastGame)}`;
-    const drawRate = ((stats.player1.draws / stats.totalGames) * 100).toFixed(1);
-    document.getElementById('draw-rate').textContent = `${drawRate}%`;
-
-    // Player 1 stats
-    document.getElementById('player1-name').textContent = stats.player1.name;
-    document.getElementById('player1-wins').textContent = stats.player1.wins;
-    document.getElementById('player1-draws').textContent = stats.player1.draws;
-    document.getElementById('player1-losses').textContent = stats.player1.losses;
-    const player1WinRate = ((stats.player1.wins / stats.totalGames) * 100).toFixed(1);
-    document.getElementById('player1-winrate').textContent = `${player1WinRate}%`;
-
-    // Player 2 stats
-    document.getElementById('player2-name').textContent = stats.player2.name;
-    document.getElementById('player2-wins').textContent = stats.player2.wins;
-    document.getElementById('player2-draws').textContent = stats.player2.draws;
-    document.getElementById('player2-losses').textContent = stats.player2.losses;
-    const player2WinRate = ((stats.player2.wins / stats.totalGames) * 100).toFixed(1);
-    document.getElementById('player2-winrate').textContent = `${player2WinRate}%`;
-
-    // Highlight leader
-    if (stats.player1.wins > stats.player2.wins) {
-        document.getElementById('player1-card').classList.add('border-green-500');
-        document.getElementById('player1-card').classList.add('shadow-lg');
-    } else if (stats.player2.wins > stats.player1.wins) {
-        document.getElementById('player2-card').classList.add('border-green-500');
-        document.getElementById('player2-card').classList.add('shadow-lg');
-    }
-
-    // Update table headers with player names
-    document.getElementById('player1-header').textContent = stats.player1.name;
-    document.getElementById('player2-header').textContent = stats.player2.name;
+    document.getElementById('wld-total').textContent = `${stats.wins}/${stats.losses}/${stats.draws}`;
+    const winRate = ((stats.wins / stats.totalGames) * 100).toFixed(1);
+    document.getElementById('overall-winrate').textContent = `${winRate}%`;
+    document.getElementById('best-streak').textContent = stats.bestStreak;
 
     // Monthly breakdown
     const monthlyBreakdownContainer = document.getElementById('monthly-breakdown');
-    const sortedMonths = Object.keys(stats.byMonth).sort().reverse(); // Most recent first
+    const sortedMonths = Object.keys(stats.monthlyStats).sort().reverse();
 
-    sortedMonths.forEach(month => {
-        const data = stats.byMonth[month];
+    sortedMonths.forEach(monthKey => {
+        const data = stats.monthlyStats[monthKey];
         const row = document.createElement('tr');
-        row.className = 'hover:bg-indigo-50';
+        row.className = 'hover:bg-gray-700';
 
-        const player1WinPct = ((data.player1Wins / data.count) * 100).toFixed(0);
-        const player2WinPct = ((data.player2Wins / data.count) * 100).toFixed(0);
+        const winrate = ((data.wins / data.games) * 100).toFixed(1);
+        const streakText = data.streaks.player1 > 0 || data.streaks.player2 > 0
+            ? `${stats.player1Name}=${data.streaks.player1}, ${stats.player2Name}=${data.streaks.player2}`
+            : '-';
 
         row.innerHTML = `
-            <td class="px-4 py-3 font-medium text-gray-700">${formatMonthKey(month)}</td>
-            <td class="px-4 py-3 text-center font-semibold">${data.count}</td>
-            <td class="px-4 py-3 text-center">
-                <span class="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 font-semibold">
-                    ${data.player1Wins} (${player1WinPct}%)
-                </span>
-            </td>
-            <td class="px-4 py-3 text-center">
-                <span class="inline-block px-3 py-1 rounded-full bg-gray-100 text-gray-600 font-semibold">
-                    ${data.draws}
-                </span>
-            </td>
-            <td class="px-4 py-3 text-center">
-                <span class="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-semibold">
-                    ${data.player2Wins} (${player2WinPct}%)
-                </span>
-            </td>
+            <td class="px-4 py-3">${formatMonthName(monthKey)}</td>
+            <td class="px-4 py-3 text-center">${data.games}</td>
+            <td class="px-4 py-3 text-center">${data.wins}/${data.losses}/${data.draws}</td>
+            <td class="px-4 py-3 text-center">${winrate}%</td>
+            <td class="px-4 py-3">${streakText}</td>
         `;
         monthlyBreakdownContainer.appendChild(row);
     });
+
+    // Year totals (for now, just overall stats)
+    document.getElementById('year-total-games').textContent = stats.totalGames;
+    document.getElementById('year-total-wld').textContent = `${stats.wins}/${stats.losses}/${stats.draws}`;
+    document.getElementById('year-total-winrate').textContent = `${winRate}%`;
+    document.getElementById('year-best-streak').textContent = `${stats.player1Name}=${stats.bestStreak}`;
 
     // Time control stats
     const timeControlContainer = document.getElementById('time-control-stats');
@@ -273,14 +256,12 @@ function displayStats(stats) {
 
     sortedTimeControls.forEach(timeControl => {
         const data = stats.byTimeControl[timeControl];
+        const winrate = ((data.wins / data.count) * 100).toFixed(1);
         const div = document.createElement('div');
-        div.className = 'bg-gray-50 p-4 rounded-lg border-l-4 border-indigo-500';
+        div.className = 'flex justify-between items-center text-sm py-1 border-b border-gray-700';
         div.innerHTML = `
-            <div class="font-bold text-indigo-600 mb-2">${timeControl.charAt(0).toUpperCase() + timeControl.slice(1)}</div>
-            <div class="text-2xl font-bold text-gray-800 mb-2">${data.count}</div>
-            <div class="text-sm text-gray-600">
-                ${stats.player1.name}: ${data.player1Wins}W-${data.draws}D-${data.player2Wins}L
-            </div>
+            <span class="text-gray-300">${timeControl.charAt(0).toUpperCase() + timeControl.slice(1)}</span>
+            <span class="text-gray-400">${data.wins}/${data.losses}/${data.draws} (${winrate}%)</span>
         `;
         timeControlContainer.appendChild(div);
     });
@@ -303,11 +284,10 @@ function displayStats(stats) {
         const count = stats.byTermination[status];
         const percentage = ((count / stats.totalGames) * 100).toFixed(1);
         const div = document.createElement('div');
-        div.className = 'bg-gray-50 p-4 rounded-lg border-l-4 border-purple-500';
+        div.className = 'flex justify-between items-center text-sm py-1 border-b border-gray-700';
         div.innerHTML = `
-            <div class="font-bold text-purple-600 mb-2">${terminationLabels[status] || status}</div>
-            <div class="text-2xl font-bold text-gray-800 mb-1">${count}</div>
-            <div class="text-sm text-gray-600">${percentage}%</div>
+            <span class="text-gray-300">${terminationLabels[status] || status}</span>
+            <span class="text-gray-400">${count} (${percentage}%)</span>
         `;
         terminationContainer.appendChild(div);
     });
@@ -316,8 +296,8 @@ function displayStats(stats) {
 // Initialize
 async function init() {
     try {
-        const games = await loadAllGames();
-        const stats = calculateStats(games);
+        const gamesByMonth = await loadAllGames();
+        const stats = calculateStats(gamesByMonth);
         displayStats(stats);
     } catch (error) {
         console.error('Error loading games:', error);
