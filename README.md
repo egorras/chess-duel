@@ -43,13 +43,17 @@ The GitHub Action `fetch-games.yml` runs daily at 2 AM UTC to:
 ## Website Features
 
 The statistics page displays:
-- **Overall Record**: Total games and date range
-- **Player Records**: Wins, losses, draws, and win rate for each player
-- **Time Control Breakdown**: Statistics by bullet, blitz, rapid, classical
-- **Monthly Games**: Number of games played each month
+- **Overall Record**: Side-by-side wins and draws for both players
+- **Player Stats**: Win rates and best win streaks for each player
+- **Date Range Filtering**: Filter by year and specific month with URL routing
+- **Opening Repertoire**: Top 10 most successful openings for each player as White and Black
+  - Success rates with color coding (green ≥60%, yellow 40-60%, red <40%)
+  - Links to chess.com opening explorer for each opening
+- **Cumulative Points Chart**: Visual graph showing points progression over time
+- **Monthly Breakdown**: Games, wins, draws, and streaks for each month
 - **Game Termination**: How games ended (checkmate, resignation, timeout, etc.)
 
-The page automatically loads all game data and updates when new games are fetched.
+The page automatically loads all game data and updates dynamically when you change date filters.
 
 ## Manual Operations
 
@@ -68,6 +72,16 @@ To test the fetch script locally:
 export LICHESS_API_KEY="your_api_key_here"
 node scripts/fetch-games.js player1 player2
 ```
+
+## Code Structure
+
+The JavaScript code is organized into modular files:
+
+- **js/data-loader.js** - Loading and filtering game data from JSON files
+- **js/stats-calculator.js** - Calculating statistics, streaks, and opening analysis
+- **js/chart.js** - Rendering cumulative points chart with Chart.js
+- **js/ui-display.js** - Displaying statistics and openings in the UI
+- **js/main.js** - Main initialization and coordination logic
 
 ## Technical Details
 
@@ -90,4 +104,5 @@ The script fetches games with these Lichess API parameters:
 - `clocks=true` - Include clock states
 - `division=true` - Include middlegame/endgame division
 - `moves=true` - Include PGN moves
+- `opening=true` - Include opening classification and ECO code
 - `sort=dateAsc` - Sort by date ascending
