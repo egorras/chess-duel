@@ -1,0 +1,42 @@
+name: Fetch Chess Games
+
+on:
+  schedule:
+    # Run every day at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  fetch-games:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch head-to-head games (player 1 vs player 2)
+        env:
+          LICHESS_API_KEY: ${{ secrets.LICHESS_API_KEY }}
+        run: node scripts/fetch-games.js ${{ vars.PLAYER1_USERNAME }} ${{ vars.PLAYER2_USERNAME }}
+
+      - name: Fetch head-to-head games (player 2 vs player 1)
+        env:
+          LICHESS_API_KEY: ${{ secrets.LICHESS_API_KEY }}
+        run: node scripts/fetch-games.js ${{ vars.PLAYER2_USERNAME }} ${{ vars.PLAYER1_USERNAME }}
+
+      - name: Commit and push if changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/games/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update chess games data"
+            git push
+          fi
