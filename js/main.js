@@ -6,11 +6,12 @@ function displayStatsWithChart(gamesByMonth) {
     const stats = calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames);
     displayStats(stats);
 
-    // Render the points chart and opening stats
+    // Render the points chart, opening stats, and skirmishes
     if (stats && Object.keys(gamesByMonth).length > 0) {
         const [player1Name, player2Name] = getPlayerNames(globalGamesByMonth);
         renderPointsChart(gamesByMonth, player1Name, player2Name);
         displayOpeningStats(gamesByMonth, player1Name, player2Name);
+        displaySkirmishStats(gamesByMonth, player1Name, player2Name);
     }
 }
 

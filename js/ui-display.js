@@ -181,6 +181,67 @@ function displayStats(stats) {
     }
 }
 
+function displaySkirmishStats(gamesByMonth, player1Name, player2Name) {
+    const skirmishes = clusterGamesIntoSkirmishes(gamesByMonth, player1Name);
+    const skirmishStats = calculateSkirmishStats(skirmishes);
+
+    // Update player names in headers
+    const skirmishP1 = document.getElementById('skirmish-player1');
+    const skirmishP2 = document.getElementById('skirmish-player2');
+    if (skirmishP1) skirmishP1.textContent = player1Name;
+    if (skirmishP2) skirmishP2.textContent = player2Name;
+
+    // Update summary stats
+    const totalSkirmishes = document.getElementById('total-skirmishes');
+    const avgGamesPerSkirmish = document.getElementById('avg-games-per-skirmish');
+    const skirmishP1Wins = document.getElementById('skirmish-player1-wins');
+    const skirmishP2Wins = document.getElementById('skirmish-player2-wins');
+
+    if (totalSkirmishes) totalSkirmishes.textContent = skirmishStats.totalSkirmishes;
+    if (avgGamesPerSkirmish) avgGamesPerSkirmish.textContent = `${skirmishStats.avgGamesPerSkirmish} games avg`;
+    if (skirmishP1Wins) skirmishP1Wins.textContent = skirmishStats.player1Wins;
+    if (skirmishP2Wins) skirmishP2Wins.textContent = skirmishStats.player2Wins;
+
+    // Display recent skirmishes
+    const recentSkirmishesContainer = document.getElementById('recent-skirmishes');
+    if (!recentSkirmishesContainer) return;
+
+    recentSkirmishesContainer.innerHTML = '';
+
+    // Show last 10 skirmishes, most recent first
+    const recentSkirmishes = skirmishes.slice(-10).reverse();
+
+    recentSkirmishes.forEach(skirmish => {
+        const div = document.createElement('div');
+        div.className = 'flex items-center justify-between p-3 bg-gray-900 rounded border border-gray-700 hover:border-gray-600 text-sm';
+
+        const winnerClass = skirmish.winner === 'player1' ? 'text-blue-400' :
+                           skirmish.winner === 'player2' ? 'text-red-400' : 'text-gray-400';
+        const winnerText = skirmish.winner === 'player1' ? player1Name :
+                          skirmish.winner === 'player2' ? player2Name : 'Draw';
+
+        div.innerHTML = `
+            <div class="flex items-center gap-3">
+                <div class="text-gray-500 text-xs">${skirmish.date}</div>
+                <div class="font-bold ${winnerClass}">${winnerText}</div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-blue-400 font-bold">${skirmish.player1Score}</div>
+                <div class="text-gray-500">-</div>
+                <div class="text-red-400 font-bold">${skirmish.player2Score}</div>
+                <div class="text-gray-500 text-xs">${skirmish.totalGames} games</div>
+                <div class="text-gray-500 text-xs">${skirmish.duration}m</div>
+            </div>
+        `;
+
+        recentSkirmishesContainer.appendChild(div);
+    });
+
+    if (recentSkirmishes.length === 0) {
+        recentSkirmishesContainer.innerHTML = '<div class="text-gray-500 text-sm text-center py-4">No skirmishes found</div>';
+    }
+}
+
 function displayOpeningStats(gamesByMonth, player1Name, player2Name) {
     console.log('displayOpeningStats called with:', Object.keys(gamesByMonth).length, 'months');
     console.log('Player names:', player1Name, player2Name);

@@ -99,6 +99,35 @@
                 </div>
             </div>
 
+            <!-- Skirmishes -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
+                <h2 class="text-lg font-semibold mb-4 text-gray-300 border-b border-gray-700 pb-2">Skirmishes</h2>
+
+                <!-- Skirmish Stats Summary -->
+                <div class="grid grid-cols-3 gap-4 text-center mb-4">
+                    <div>
+                        <div class="text-sm text-gray-400 mb-1">Total Sessions</div>
+                        <div class="text-2xl font-bold text-white" id="total-skirmishes">0</div>
+                        <div class="text-xs text-gray-500" id="avg-games-per-skirmish">0 games avg</div>
+                    </div>
+                    <div class="border-x border-gray-700">
+                        <div class="text-sm text-gray-400 mb-1"><span id="skirmish-player1">P1</span> Wins</div>
+                        <div class="text-2xl font-bold text-blue-400" id="skirmish-player1-wins">0</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-400 mb-1"><span id="skirmish-player2">P2</span> Wins</div>
+                        <div class="text-2xl font-bold text-red-400" id="skirmish-player2-wins">0</div>
+                    </div>
+                </div>
+
+                <!-- Recent Skirmishes -->
+                <div class="mt-4">
+                    <h3 class="text-sm font-semibold text-gray-400 mb-2">Recent Sessions (Last 10)</h3>
+                    <div class="space-y-2" id="recent-skirmishes">
+                    </div>
+                </div>
+            </div>
+
             <!-- Points Graph -->
             <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
                 <h2 class="text-lg font-semibold mb-4 text-gray-300">Cumulative Points Over Time</h2>
@@ -187,6 +216,7 @@
 
     <script src="js/data-loader.js"></script>
     <script src="js/stats-calculator.js"></script>
+    <script src="js/skirmish-analyzer.js"></script>
     <script src="js/chart.js"></script>
     <script src="js/ui-display.js"></script>
     <script src="js/main.js"></script>

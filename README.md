@@ -43,12 +43,15 @@ The GitHub Action `fetch-games.yml` runs daily at 2 AM UTC to:
 ## Website Features
 
 The statistics page displays:
-- **Overall Record**: Side-by-side wins and draws for both players
-- **Player Stats**: Win rates and best win streaks for each player
+- **Overall Record**: Side-by-side wins and draws for both players with win rates and best streaks
+- **Additional Stats**: Average accuracy, blunders, mistakes, game length statistics, most common finish and opening
 - **Date Range Filtering**: Filter by year and specific month with URL routing
-- **Opening Repertoire**: Top 10 most successful openings for each player as White and Black
-  - Success rates with color coding (green ≥60%, yellow 40-60%, red <40%)
+- **Opening Repertoire**: Top 10 most played openings showing wins for each player and draws
   - Links to chess.com opening explorer for each opening
+- **Skirmishes**: Gaming sessions clustered by time (games played within 30 minutes)
+  - Session win stats (who won each session based on total score)
+  - Recent 10 sessions with scores, duration, and winner
+  - Useful for tracking multi-game sessions
 - **Cumulative Points Chart**: Visual graph showing points progression over time
 - **Monthly Breakdown**: Games, wins, draws, and streaks for each month
 - **Game Termination**: How games ended (checkmate, resignation, timeout, etc.)
@@ -79,8 +82,9 @@ The JavaScript code is organized into modular files:
 
 - **js/data-loader.js** - Loading and filtering game data from JSON files
 - **js/stats-calculator.js** - Calculating statistics, streaks, and opening analysis
+- **js/skirmish-analyzer.js** - Clustering games into sessions based on time gaps
 - **js/chart.js** - Rendering cumulative points chart with Chart.js
-- **js/ui-display.js** - Displaying statistics and openings in the UI
+- **js/ui-display.js** - Displaying statistics, openings, and skirmishes in the UI
 - **js/main.js** - Main initialization and coordination logic
 
 ## Technical Details
