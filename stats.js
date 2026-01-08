@@ -586,9 +586,21 @@ function displayOpeningStats(gamesByMonth, player1Name, player2Name) {
             const successColor = opening.successRate >= 60 ? 'text-green-400' :
                                  opening.successRate >= 40 ? 'text-yellow-400' : 'text-red-400';
 
+            // Convert opening name to chess.com URL format
+            // Remove special characters, replace spaces with hyphens
+            const openingUrl = opening.name
+                .replace(/[':,\.]/g, '') // Remove colons, apostrophes, commas, periods
+                .replace(/\s+/g, '-')     // Replace spaces with hyphens
+                .replace(/--+/g, '-');    // Replace multiple hyphens with single hyphen
+
             div.innerHTML = `
                 <div class="flex-1">
-                    <div class="text-gray-200">${opening.name}</div>
+                    <a href="https://www.chess.com/openings/${openingUrl}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="text-gray-200 hover:text-blue-400 hover:underline">
+                        ${opening.name}
+                    </a>
                     <div class="text-xs text-gray-500">
                         ${opening.wins}W-${opening.draws}D-${opening.losses}L (${opening.games} games)
                     </div>
