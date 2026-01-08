@@ -133,77 +133,58 @@ function displayOpeningStats(gamesByMonth, player1Name, player2Name) {
     const openingStats = calculateOpeningStats(gamesByMonth, player1Name, player2Name);
 
     console.log('Opening stats calculated:', openingStats);
-    console.log('Player 1 as White openings:', Object.keys(openingStats.player1AsWhite).length);
-    console.log('Player 1 as Black openings:', Object.keys(openingStats.player1AsBlack).length);
+    console.log('Total unique openings:', Object.keys(openingStats).length);
 
-    // Update titles
-    const p1OpeningsTitle = document.getElementById('player1-openings-title');
-    const p2OpeningsTitle = document.getElementById('player2-openings-title');
-    if (p1OpeningsTitle) p1OpeningsTitle.textContent = player1Name;
-    if (p2OpeningsTitle) p2OpeningsTitle.textContent = player2Name;
+    // Update table headers with player names
+    const p1Header = document.getElementById('openings-player1');
+    const p2Header = document.getElementById('openings-player2');
+    if (p1Header) p1Header.textContent = player1Name;
+    if (p2Header) p2Header.textContent = player2Name;
 
-    // Helper function to render opening list
-    const renderOpeningList = (containerId, openings) => {
-        const container = document.getElementById(containerId);
-        if (!container) return;
+    const tableBody = document.getElementById('openings-table');
+    if (!tableBody) return;
 
-        container.innerHTML = '';
+    tableBody.innerHTML = '';
 
-        // Calculate success rate and sort
-        const openingList = Object.entries(openings).map(([name, stats]) => {
-            const points = stats.wins + stats.draws * 0.5;
-            const successRate = stats.games > 0 ? (points / stats.games) * 100 : 0;
-            return { name, ...stats, successRate };
-        });
+    // Convert to array and sort by number of games (most played first)
+    const openingList = Object.entries(openingStats).map(([name, stats]) => ({
+        name,
+        ...stats
+    }));
 
-        // Sort by success rate, then by number of games
-        openingList.sort((a, b) => {
-            if (Math.abs(b.successRate - a.successRate) > 0.1) {
-                return b.successRate - a.successRate;
-            }
-            return b.games - a.games;
-        });
+    openingList.sort((a, b) => b.games - a.games);
 
-        // Show top 10 openings
-        openingList.slice(0, 10).forEach(opening => {
-            const div = document.createElement('div');
-            div.className = 'flex justify-between items-center py-1 border-b border-gray-700/50';
+    // Show top 10 openings
+    openingList.slice(0, 10).forEach(opening => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-gray-700';
 
-            const successColor = opening.successRate >= 60 ? 'text-green-400' :
-                                 opening.successRate >= 40 ? 'text-yellow-400' : 'text-red-400';
+        // Convert opening name to chess.com URL format
+        const openingUrl = opening.name
+            .replace(/[':,\.]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/--+/g, '-');
 
-            // Convert opening name to chess.com URL format
-            const openingUrl = opening.name
-                .replace(/[':,\.]/g, '')
-                .replace(/\s+/g, '-')
-                .replace(/--+/g, '-');
+        row.innerHTML = `
+            <td class="px-4 py-3 text-center text-blue-400 font-bold">${opening.player1Wins}</td>
+            <td class="px-4 py-3">
+                <a href="https://www.chess.com/openings/${openingUrl}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="text-gray-200 hover:text-blue-400 hover:underline">
+                    ${opening.name}
+                </a>
+            </td>
+            <td class="px-4 py-3 text-center text-gray-400">${opening.draws}</td>
+            <td class="px-4 py-3 text-center text-red-400 font-bold">${opening.player2Wins}</td>
+            <td class="px-4 py-3 text-center text-gray-500">${opening.games}</td>
+        `;
+        tableBody.appendChild(row);
+    });
 
-            div.innerHTML = `
-                <div class="flex-1">
-                    <a href="https://www.chess.com/openings/${openingUrl}"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="text-gray-200 hover:text-blue-400 hover:underline">
-                        ${opening.name}
-                    </a>
-                    <div class="text-xs text-gray-500">
-                        ${opening.wins}W-${opening.draws}D-${opening.losses}L (${opening.games} games)
-                    </div>
-                </div>
-                <div class="text-right ml-2">
-                    <div class="${successColor} font-bold">${opening.successRate.toFixed(0)}%</div>
-                </div>
-            `;
-            container.appendChild(div);
-        });
-
-        if (openingList.length === 0) {
-            container.innerHTML = '<div class="text-gray-500 text-xs">No data</div>';
-        }
-    };
-
-    renderOpeningList('player1-white-openings', openingStats.player1AsWhite);
-    renderOpeningList('player1-black-openings', openingStats.player1AsBlack);
-    renderOpeningList('player2-white-openings', openingStats.player2AsWhite);
-    renderOpeningList('player2-black-openings', openingStats.player2AsBlack);
+    if (openingList.length === 0) {
+        const row = document.createElement('tr');
+        row.innerHTML = '<td colspan="5" class="px-4 py-3 text-center text-gray-500">No opening data available</td>';
+        tableBody.appendChild(row);
+    }
 }

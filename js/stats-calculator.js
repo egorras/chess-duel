@@ -131,10 +131,7 @@ function calculateOpeningStats(gamesByMonth, player1Name, player2Name) {
         console.log('Opening data:', allGames[0].opening);
     }
 
-    const player1AsWhite = {};
-    const player1AsBlack = {};
-    const player2AsWhite = {};
-    const player2AsBlack = {};
+    const openings = {};
 
     allGames.forEach(game => {
         if (!game.opening || !game.opening.name) return;
@@ -143,59 +140,38 @@ function calculateOpeningStats(gamesByMonth, player1Name, player2Name) {
         const whitePlayer = game.players.white.user.name;
         const winner = game.winner;
 
-        // Determine which player is white and black
+        // Initialize opening stats if needed
+        if (!openings[openingName]) {
+            openings[openingName] = {
+                player1Wins: 0,
+                player2Wins: 0,
+                draws: 0,
+                games: 0
+            };
+        }
+
+        openings[openingName].games++;
+
+        // Determine which player is white
         const isPlayer1White = whitePlayer === player1Name;
 
-        // Initialize opening stats if needed
-        const initOpening = (obj, opening) => {
-            if (!obj[opening]) {
-                obj[opening] = { wins: 0, draws: 0, losses: 0, games: 0 };
-            }
-        };
-
-        if (isPlayer1White) {
-            // Player 1 as white, Player 2 as black
-            initOpening(player1AsWhite, openingName);
-            initOpening(player2AsBlack, openingName);
-
-            player1AsWhite[openingName].games++;
-            player2AsBlack[openingName].games++;
-
-            if (winner === 'white') {
-                player1AsWhite[openingName].wins++;
-                player2AsBlack[openingName].losses++;
-            } else if (winner === 'black') {
-                player1AsWhite[openingName].losses++;
-                player2AsBlack[openingName].wins++;
+        // Count wins/draws
+        if (winner === 'white') {
+            if (isPlayer1White) {
+                openings[openingName].player1Wins++;
             } else {
-                player1AsWhite[openingName].draws++;
-                player2AsBlack[openingName].draws++;
+                openings[openingName].player2Wins++;
+            }
+        } else if (winner === 'black') {
+            if (isPlayer1White) {
+                openings[openingName].player2Wins++;
+            } else {
+                openings[openingName].player1Wins++;
             }
         } else {
-            // Player 2 as white, Player 1 as black
-            initOpening(player2AsWhite, openingName);
-            initOpening(player1AsBlack, openingName);
-
-            player2AsWhite[openingName].games++;
-            player1AsBlack[openingName].games++;
-
-            if (winner === 'white') {
-                player2AsWhite[openingName].wins++;
-                player1AsBlack[openingName].losses++;
-            } else if (winner === 'black') {
-                player2AsWhite[openingName].losses++;
-                player1AsBlack[openingName].wins++;
-            } else {
-                player2AsWhite[openingName].draws++;
-                player1AsBlack[openingName].draws++;
-            }
+            openings[openingName].draws++;
         }
     });
 
-    return {
-        player1AsWhite,
-        player1AsBlack,
-        player2AsWhite,
-        player2AsBlack
-    };
+    return openings;
 }
