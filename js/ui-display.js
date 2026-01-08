@@ -222,34 +222,124 @@ function displaySkirmishStats(gamesByMonth, player1Name, player2Name) {
     // Show last 10 skirmishes, most recent first
     const recentSkirmishes = skirmishes.slice(-10).reverse();
 
-    recentSkirmishes.forEach(skirmish => {
-        const div = document.createElement('div');
-        div.className = 'flex items-center justify-between p-3 bg-gray-900 rounded border border-gray-700 hover:border-gray-600 text-sm';
+    recentSkirmishes.forEach((skirmish, index) => {
+        const container = document.createElement('div');
+        container.className = 'bg-gray-900 rounded border border-gray-700';
 
         const winnerClass = skirmish.winner === 'player1' ? 'text-blue-400' :
                            skirmish.winner === 'player2' ? 'text-red-400' : 'text-gray-400';
         const winnerText = skirmish.winner === 'player1' ? player1Name :
                           skirmish.winner === 'player2' ? player2Name : 'Draw';
 
-        // Get game IDs for this skirmish
-        const gameLinks = skirmish.games.map(g => `<a href="https://lichess.org/${g.id}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">G${skirmish.games.indexOf(g) + 1}</a>`).join(' ');
-
-        div.innerHTML = `
+        // Create header (clickable to expand)
+        const header = document.createElement('div');
+        header.className = 'flex items-center justify-between p-3 cursor-pointer hover:bg-gray-800';
+        header.innerHTML = `
             <div class="flex items-center gap-3">
+                <svg class="accordion-arrow w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
                 <div class="text-gray-500 text-xs">${skirmish.date}</div>
                 <div class="font-bold ${winnerClass}">${winnerText}</div>
             </div>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4 text-sm">
                 <div class="text-blue-400 font-bold">${skirmish.player1Score}</div>
                 <div class="text-gray-500">-</div>
                 <div class="text-red-400 font-bold">${skirmish.player2Score}</div>
                 <div class="text-gray-500 text-xs">${skirmish.totalGames} games</div>
                 <div class="text-gray-500 text-xs">${skirmish.duration}m</div>
-                <div class="text-xs">${gameLinks}</div>
             </div>
         `;
 
-        recentSkirmishesContainer.appendChild(div);
+        // Create details section (expandable)
+        const details = document.createElement('div');
+        details.className = 'skirmish-details';
+
+        // Create games table
+        let tableHTML = `
+            <div class="border-t border-gray-700 p-3">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs">
+                        <thead>
+                            <tr class="border-b border-gray-700 text-gray-400">
+                                <th class="px-2 py-2 text-left">#</th>
+                                <th class="px-2 py-2 text-center">White</th>
+                                <th class="px-2 py-2 text-center">Black</th>
+                                <th class="px-2 py-2 text-left">Opening</th>
+                                <th class="px-2 py-2 text-center">Result</th>
+                                <th class="px-2 py-2 text-center">Moves</th>
+                                <th class="px-2 py-2 text-center">W Acc</th>
+                                <th class="px-2 py-2 text-center">B Acc</th>
+                                <th class="px-2 py-2 text-center">Link</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-700">
+        `;
+
+        skirmish.games.forEach((game, gameIndex) => {
+            const whitePlayer = game.players.white.user.name;
+            const blackPlayer = game.players.black.user.name;
+            const isPlayer1White = whitePlayer === player1Name;
+
+            const whiteColor = isPlayer1White ? 'text-blue-400' : 'text-red-400';
+            const blackColor = isPlayer1White ? 'text-red-400' : 'text-blue-400';
+
+            const whiteAcc = game.players.white.analysis?.accuracy || '-';
+            const blackAcc = game.players.black.analysis?.accuracy || '-';
+
+            const moveCount = game.moves ? game.moves.split(' ').length : 0;
+            const openingName = game.opening?.name || 'Unknown';
+            const openingShort = openingName.length > 30 ? openingName.substring(0, 30) + '...' : openingName;
+
+            let resultText = '';
+            let resultClass = '';
+            if (game.winner === 'white') {
+                resultText = '1-0';
+                resultClass = whiteColor;
+            } else if (game.winner === 'black') {
+                resultText = '0-1';
+                resultClass = blackColor;
+            } else {
+                resultText = '½-½';
+                resultClass = 'text-gray-400';
+            }
+
+            tableHTML += `
+                <tr class="hover:bg-gray-800">
+                    <td class="px-2 py-2 text-gray-500">${gameIndex + 1}</td>
+                    <td class="px-2 py-2 text-center ${whiteColor}">${whitePlayer}</td>
+                    <td class="px-2 py-2 text-center ${blackColor}">${blackPlayer}</td>
+                    <td class="px-2 py-2" title="${openingName}">${openingShort}</td>
+                    <td class="px-2 py-2 text-center font-bold ${resultClass}">${resultText}</td>
+                    <td class="px-2 py-2 text-center text-gray-400">${moveCount}</td>
+                    <td class="px-2 py-2 text-center ${whiteAcc !== '-' && whiteAcc >= 80 ? 'text-green-400' : 'text-gray-400'}">${whiteAcc !== '-' ? whiteAcc + '%' : '-'}</td>
+                    <td class="px-2 py-2 text-center ${blackAcc !== '-' && blackAcc >= 80 ? 'text-green-400' : 'text-gray-400'}">${blackAcc !== '-' ? blackAcc + '%' : '-'}</td>
+                    <td class="px-2 py-2 text-center">
+                        <a href="https://lichess.org/${game.id}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">View</a>
+                    </td>
+                </tr>
+            `;
+        });
+
+        tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+        details.innerHTML = tableHTML;
+
+        // Add click event to toggle accordion
+        header.addEventListener('click', () => {
+            const arrow = header.querySelector('.accordion-arrow');
+            details.classList.toggle('expanded');
+            arrow.classList.toggle('expanded');
+        });
+
+        container.appendChild(header);
+        container.appendChild(details);
+        recentSkirmishesContainer.appendChild(container);
     });
 
     if (recentSkirmishes.length === 0) {
