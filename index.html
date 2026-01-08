@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess Duel Stats</title>
+    <title>Chess Duel Stats - Blitz</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
@@ -13,7 +13,7 @@
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-7xl mx-auto">
         <!-- Loading -->
         <div id="loading" class="text-center text-gray-400 text-xl py-20">
             <div class="inline-block animate-pulse">Loading game data...</div>
@@ -25,42 +25,84 @@
         <!-- Stats Container -->
         <div id="stats-container" class="hidden">
             <!-- Header -->
-            <div class="mb-8">
+            <div class="mb-6">
                 <div class="border-t-2 border-b-2 border-gray-700 py-4">
                     <h1 class="text-center text-2xl font-semibold" id="main-title">
-                        Lichess Stats: Player 1 vs Player 2 (2024-2026)
+                        Lichess Blitz Stats: Player 1 vs Player 2
                     </h1>
                 </div>
-                <div class="flex justify-center mt-4 gap-2">
-                    <button id="switch-player1" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold transition">
-                        Player 1
-                    </button>
-                    <button id="switch-player2" class="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded font-semibold transition">
-                        Player 2
-                    </button>
+
+                <!-- Date Range Selector -->
+                <div class="flex justify-center items-center gap-4 mt-4 flex-wrap">
+                    <div class="flex items-center gap-2">
+                        <label class="text-gray-400 text-sm">Period:</label>
+                        <select id="year-select" class="bg-gray-800 border border-gray-700 text-white px-4 py-2 rounded">
+                            <option value="all">All Time</option>
+                        </select>
+                        <select id="month-select" class="bg-gray-800 border border-gray-700 text-white px-4 py-2 rounded">
+                            <option value="all">All Months</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
             <!-- Overall Stats -->
-            <div class="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
-                    <div>
-                        <div class="text-gray-400 text-sm mb-1">Total Games</div>
-                        <div class="text-3xl font-bold text-blue-400" id="total-games">0</div>
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
+                <!-- Wins and Draws -->
+                <div class="grid grid-cols-3 gap-4 text-center mb-6">
+                    <!-- Player 1 Wins -->
+                    <div class="border-r border-gray-700">
+                        <h2 class="text-lg font-bold mb-3 text-blue-400" id="player1-name">Player 1</h2>
+                        <div class="text-5xl font-bold text-blue-400 mb-2" id="player1-wins">0</div>
+                        <div class="text-gray-400 text-sm">Wins</div>
                     </div>
-                    <div>
-                        <div class="text-gray-400 text-sm mb-1">W/L/D</div>
-                        <div class="text-xl font-semibold text-green-400" id="wld-total">0/0/0</div>
+
+                    <!-- Draws -->
+                    <div class="border-r border-gray-700">
+                        <div class="text-gray-400 text-sm mb-3">Draws</div>
+                        <div class="text-5xl font-bold text-gray-400 mb-2" id="draws">0</div>
+                        <div class="text-gray-400 text-xs">games</div>
                     </div>
+
+                    <!-- Player 2 Wins -->
                     <div>
-                        <div class="text-gray-400 text-sm mb-1">Win Rate</div>
-                        <div class="text-3xl font-bold text-yellow-400" id="overall-winrate">0%</div>
-                    </div>
-                    <div>
-                        <div class="text-gray-400 text-sm mb-1">Best Streak</div>
-                        <div class="text-xl font-semibold text-purple-400" id="best-streak">0</div>
+                        <h2 class="text-lg font-bold mb-3 text-red-400" id="player2-name">Player 2</h2>
+                        <div class="text-5xl font-bold text-red-400 mb-2" id="player2-wins">0</div>
+                        <div class="text-gray-400 text-sm">Wins</div>
                     </div>
                 </div>
+
+                <!-- Win Rates and Streaks -->
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-gray-700">
+                    <!-- Player 1 Stats -->
+                    <div class="text-center border-r border-gray-700">
+                        <div class="mb-3">
+                            <div class="text-gray-400 text-xs mb-1">Win Rate</div>
+                            <div class="text-2xl font-bold text-yellow-400" id="player1-winrate">0%</div>
+                        </div>
+                        <div>
+                            <div class="text-gray-400 text-xs mb-1">Best Streak</div>
+                            <div class="text-xl font-bold text-purple-400" id="player1-streak">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Player 2 Stats -->
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <div class="text-gray-400 text-xs mb-1">Win Rate</div>
+                            <div class="text-2xl font-bold text-yellow-400" id="player2-winrate">0%</div>
+                        </div>
+                        <div>
+                            <div class="text-gray-400 text-xs mb-1">Best Streak</div>
+                            <div class="text-xl font-bold text-purple-400" id="player2-streak">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Games -->
+            <div class="text-center mb-6 text-gray-400">
+                Total Games: <span class="text-white font-bold text-xl" id="total-games">0</span>
             </div>
 
             <!-- Monthly Breakdown -->
@@ -71,37 +113,22 @@
                             <tr class="border-b border-gray-700 bg-gray-900">
                                 <th class="px-4 py-3 text-left text-gray-400 font-semibold">Month</th>
                                 <th class="px-4 py-3 text-center text-gray-400 font-semibold">Games</th>
-                                <th class="px-4 py-3 text-center text-gray-400 font-semibold">W/L/D</th>
-                                <th class="px-4 py-3 text-center text-gray-400 font-semibold">Winrate</th>
+                                <th class="px-4 py-3 text-center text-blue-400 font-semibold" id="table-player1">P1</th>
+                                <th class="px-4 py-3 text-center text-gray-400 font-semibold">Draws</th>
+                                <th class="px-4 py-3 text-center text-red-400 font-semibold" id="table-player2">P2</th>
                                 <th class="px-4 py-3 text-left text-gray-400 font-semibold">Streaks</th>
                             </tr>
                         </thead>
                         <tbody id="monthly-breakdown" class="divide-y divide-gray-700">
                         </tbody>
-                        <tfoot>
-                            <tr class="border-t-2 border-gray-600 bg-gray-900 font-semibold">
-                                <td class="px-4 py-3 text-left">YEAR TOTAL</td>
-                                <td class="px-4 py-3 text-center" id="year-total-games">0</td>
-                                <td class="px-4 py-3 text-center" id="year-total-wld">0/0/0</td>
-                                <td class="px-4 py-3 text-center" id="year-total-winrate">0%</td>
-                                <td class="px-4 py-3 text-left" id="year-best-streak">-</td>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
 
-            <!-- Time Control Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
-                    <h2 class="text-lg font-semibold mb-4 text-gray-300 border-b border-gray-700 pb-2">By Time Control</h2>
-                    <div id="time-control-stats" class="space-y-2"></div>
-                </div>
-
-                <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
-                    <h2 class="text-lg font-semibold mb-4 text-gray-300 border-b border-gray-700 pb-2">Game Termination</h2>
-                    <div id="termination-stats" class="space-y-2"></div>
-                </div>
+            <!-- Game Termination -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <h2 class="text-lg font-semibold mb-4 text-gray-300 border-b border-gray-700 pb-2">Game Termination</h2>
+                <div id="termination-stats" class="space-y-2"></div>
             </div>
         </div>
     </div>

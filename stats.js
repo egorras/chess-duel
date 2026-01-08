@@ -1,8 +1,12 @@
-// Load all game data from monthly JSON files
+// Global state
+let globalGamesByMonth = {};
+let globalPlayerNames = [];
+
+// Load all game data from monthly JSON files (blitz only)
 async function loadAllGames() {
     const gamesByMonth = {};
     const startYear = 2024;
-    const startMonth = 7; // Start from July 2024
+    const startMonth = 7;
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth() + 1;
@@ -19,8 +23,10 @@ async function loadAllGames() {
             const response = await fetch(fileName);
             if (response.ok) {
                 const monthGames = await response.json();
-                if (monthGames.length > 0) {
-                    gamesByMonth[monthKey] = monthGames;
+                // Filter for blitz games only
+                const blitzGames = monthGames.filter(game => game.speed === 'blitz');
+                if (blitzGames.length > 0) {
+                    gamesByMonth[monthKey] = blitzGames;
                 }
             }
         } catch (error) {
@@ -47,6 +53,19 @@ function getPlayerNames(gamesByMonth) {
         }
     }
     return ['Player 1', 'Player 2'];
+}
+
+function filterGamesByDateRange(gamesByMonth, year, month) {
+    if (year === 'all') return gamesByMonth;
+
+    const filtered = {};
+    Object.keys(gamesByMonth).forEach(monthKey => {
+        const [gameYear, gameMonth] = monthKey.split('-');
+        if (gameYear === year && (month === 'all' || gameMonth === month)) {
+            filtered[monthKey] = gamesByMonth[monthKey];
+        }
+    });
+    return filtered;
 }
 
 function calculateStreaks(games, player1Name) {
@@ -93,75 +112,71 @@ function calculateStats(gamesByMonth) {
         return null;
     }
 
-    const [player1Name, player2Name] = getPlayerNames(gamesByMonth);
+    const [player1Name, player2Name] = getPlayerNames(globalGamesByMonth);
     const allGames = Object.values(gamesByMonth).flat();
 
     const stats = {
         player1Name,
         player2Name,
         totalGames: allGames.length,
-        wins: 0,
-        losses: 0,
-        draws: 0,
-        byTimeControl: {},
+        player1: { wins: 0, losses: 0, draws: 0, bestStreak: 0 },
+        player2: { wins: 0, losses: 0, draws: 0, bestStreak: 0 },
         byTermination: {},
-        monthlyStats: {},
-        years: new Set(),
-        bestStreak: 0
+        monthlyStats: {}
     };
+
+    // Calculate overall streaks
+    const overallStreaks = calculateStreaks(allGames, player1Name);
+    stats.player1.bestStreak = overallStreaks.player1;
+    stats.player2.bestStreak = overallStreaks.player2;
 
     // Sort months
     const sortedMonths = Object.keys(gamesByMonth).sort();
 
     sortedMonths.forEach(monthKey => {
         const games = gamesByMonth[monthKey];
-        const year = monthKey.split('-')[0];
-        stats.years.add(year);
 
         const monthStat = {
             games: games.length,
-            wins: 0,
-            losses: 0,
+            player1Wins: 0,
+            player2Wins: 0,
             draws: 0,
             streaks: { player1: 0, player2: 0 }
         };
 
         // Calculate streaks for this month
         monthStat.streaks = calculateStreaks(games, player1Name);
-        stats.bestStreak = Math.max(stats.bestStreak, monthStat.streaks.player1);
 
         games.forEach(game => {
             const whitePlayer = game.players.white.user.name;
             const winner = game.winner;
 
-            // Determine result from player1's perspective
-            let result;
+            // Determine result
             if (winner === 'white') {
-                result = whitePlayer === player1Name ? 'win' : 'loss';
+                if (whitePlayer === player1Name) {
+                    monthStat.player1Wins++;
+                    stats.player1.wins++;
+                    stats.player2.losses++;
+                } else {
+                    monthStat.player2Wins++;
+                    stats.player2.wins++;
+                    stats.player1.losses++;
+                }
             } else if (winner === 'black') {
-                result = whitePlayer === player1Name ? 'loss' : 'win';
-            } else {
-                result = 'draw';
-            }
-
-            if (result === 'win') {
-                monthStat.wins++;
-                stats.wins++;
-            } else if (result === 'loss') {
-                monthStat.losses++;
-                stats.losses++;
+                if (whitePlayer === player1Name) {
+                    monthStat.player2Wins++;
+                    stats.player2.wins++;
+                    stats.player1.losses++;
+                } else {
+                    monthStat.player1Wins++;
+                    stats.player1.wins++;
+                    stats.player2.losses++;
+                }
             } else {
                 monthStat.draws++;
-                stats.draws++;
+                stats.player1.draws++;
+                stats.player2.draws++;
             }
-
-            // Time control stats
-            const speed = game.speed || 'unknown';
-            if (!stats.byTimeControl[speed]) {
-                stats.byTimeControl[speed] = { count: 0, wins: 0, losses: 0, draws: 0 };
-            }
-            stats.byTimeControl[speed].count++;
-            stats.byTimeControl[speed][result === 'win' ? 'wins' : result === 'loss' ? 'losses' : 'draws']++;
 
             // Termination stats
             const status = game.status || 'unknown';
@@ -191,7 +206,7 @@ function displayStats(stats) {
 
     if (!stats) {
         if (errorEl) {
-            errorEl.textContent = 'No game data available.';
+            errorEl.textContent = 'No blitz game data available for selected period.';
             errorEl.classList.remove('hidden');
         }
         if (loadingEl) loadingEl.classList.add('hidden');
@@ -202,31 +217,56 @@ function displayStats(stats) {
     if (loadingEl) loadingEl.classList.add('hidden');
     if (statsContainer) statsContainer.classList.remove('hidden');
 
-    // Get year range
-    const years = Array.from(stats.years).sort();
-    const yearRange = years.length > 1 ? `${years[0]}-${years[years.length - 1]}` : years[0];
-
     // Update title
     const titleEl = document.getElementById('main-title');
     if (titleEl) {
-        titleEl.textContent = `Lichess Stats: ${stats.player1Name} vs ${stats.player2Name} (${yearRange})`;
+        titleEl.textContent = `Lichess Blitz Stats: ${stats.player1Name} vs ${stats.player2Name}`;
     }
 
-    // Overall stats
+    // Total games
     const totalGamesEl = document.getElementById('total-games');
-    const wldTotalEl = document.getElementById('wld-total');
-    const overallWinrateEl = document.getElementById('overall-winrate');
-    const bestStreakEl = document.getElementById('best-streak');
-
     if (totalGamesEl) totalGamesEl.textContent = stats.totalGames;
-    if (wldTotalEl) wldTotalEl.textContent = `${stats.wins}/${stats.losses}/${stats.draws}`;
-    const winRate = ((stats.wins / stats.totalGames) * 100).toFixed(1);
-    if (overallWinrateEl) overallWinrateEl.textContent = `${winRate}%`;
-    if (bestStreakEl) bestStreakEl.textContent = stats.bestStreak;
+
+    // Player names
+    const p1Name = document.querySelectorAll('#player1-name');
+    const p2Name = document.querySelectorAll('#player2-name');
+    p1Name.forEach(el => { if (el) el.textContent = stats.player1Name; });
+    p2Name.forEach(el => { if (el) el.textContent = stats.player2Name; });
+
+    // Wins
+    const p1Wins = document.getElementById('player1-wins');
+    const p2Wins = document.getElementById('player2-wins');
+    if (p1Wins) p1Wins.textContent = stats.player1.wins;
+    if (p2Wins) p2Wins.textContent = stats.player2.wins;
+
+    // Draws (single element, same for both players)
+    const draws = document.getElementById('draws');
+    if (draws) draws.textContent = stats.player1.draws;
+
+    // Win rates
+    const p1Winrate = document.getElementById('player1-winrate');
+    const p2Winrate = document.getElementById('player2-winrate');
+    const p1WinRate = stats.totalGames > 0 ? ((stats.player1.wins / stats.totalGames) * 100).toFixed(1) : '0.0';
+    const p2WinRate = stats.totalGames > 0 ? ((stats.player2.wins / stats.totalGames) * 100).toFixed(1) : '0.0';
+    if (p1Winrate) p1Winrate.textContent = `${p1WinRate}%`;
+    if (p2Winrate) p2Winrate.textContent = `${p2WinRate}%`;
+
+    // Best streaks
+    const p1Streak = document.getElementById('player1-streak');
+    const p2Streak = document.getElementById('player2-streak');
+    if (p1Streak) p1Streak.textContent = stats.player1.bestStreak;
+    if (p2Streak) p2Streak.textContent = stats.player2.bestStreak;
+
+    // Table headers
+    const tableP1 = document.getElementById('table-player1');
+    const tableP2 = document.getElementById('table-player2');
+    if (tableP1) tableP1.textContent = stats.player1Name;
+    if (tableP2) tableP2.textContent = stats.player2Name;
 
     // Monthly breakdown
     const monthlyBreakdownContainer = document.getElementById('monthly-breakdown');
     if (monthlyBreakdownContainer) {
+        monthlyBreakdownContainer.innerHTML = '';
         const sortedMonths = Object.keys(stats.monthlyStats).sort().reverse();
 
         sortedMonths.forEach(monthKey => {
@@ -234,7 +274,6 @@ function displayStats(stats) {
             const row = document.createElement('tr');
             row.className = 'hover:bg-gray-700';
 
-            const winrate = ((data.wins / data.games) * 100).toFixed(1);
             const streakText = data.streaks.player1 > 0 || data.streaks.player2 > 0
                 ? `${stats.player1Name}=${data.streaks.player1}, ${stats.player2Name}=${data.streaks.player2}`
                 : '-';
@@ -242,54 +281,19 @@ function displayStats(stats) {
             row.innerHTML = `
                 <td class="px-4 py-3">${formatMonthName(monthKey)}</td>
                 <td class="px-4 py-3 text-center">${data.games}</td>
-                <td class="px-4 py-3 text-center">${data.wins}/${data.losses}/${data.draws}</td>
-                <td class="px-4 py-3 text-center">${winrate}%</td>
+                <td class="px-4 py-3 text-center text-blue-400">${data.player1Wins}</td>
+                <td class="px-4 py-3 text-center">${data.draws}</td>
+                <td class="px-4 py-3 text-center text-red-400">${data.player2Wins}</td>
                 <td class="px-4 py-3">${streakText}</td>
             `;
             monthlyBreakdownContainer.appendChild(row);
         });
     }
 
-    // Year totals (for now, just overall stats)
-    const yearTotalGamesEl = document.getElementById('year-total-games');
-    const yearTotalWldEl = document.getElementById('year-total-wld');
-    const yearTotalWinrateEl = document.getElementById('year-total-winrate');
-    const yearBestStreakEl = document.getElementById('year-best-streak');
-
-    if (yearTotalGamesEl) yearTotalGamesEl.textContent = stats.totalGames;
-    if (yearTotalWldEl) yearTotalWldEl.textContent = `${stats.wins}/${stats.losses}/${stats.draws}`;
-    if (yearTotalWinrateEl) yearTotalWinrateEl.textContent = `${winRate}%`;
-    if (yearBestStreakEl) yearBestStreakEl.textContent = `${stats.player1Name}=${stats.bestStreak}`;
-
-    // Time control stats
-    const timeControlContainer = document.getElementById('time-control-stats');
-    if (timeControlContainer) {
-        const timeControlOrder = ['bullet', 'blitz', 'rapid', 'classical', 'correspondence'];
-        const sortedTimeControls = Object.keys(stats.byTimeControl).sort((a, b) => {
-            const aIndex = timeControlOrder.indexOf(a);
-            const bIndex = timeControlOrder.indexOf(b);
-            if (aIndex === -1 && bIndex === -1) return a.localeCompare(b);
-            if (aIndex === -1) return 1;
-            if (bIndex === -1) return -1;
-            return aIndex - bIndex;
-        });
-
-        sortedTimeControls.forEach(timeControl => {
-            const data = stats.byTimeControl[timeControl];
-            const winrate = ((data.wins / data.count) * 100).toFixed(1);
-            const div = document.createElement('div');
-            div.className = 'flex justify-between items-center text-sm py-1 border-b border-gray-700';
-            div.innerHTML = `
-                <span class="text-gray-300">${timeControl.charAt(0).toUpperCase() + timeControl.slice(1)}</span>
-                <span class="text-gray-400">${data.wins}/${data.losses}/${data.draws} (${winrate}%)</span>
-            `;
-            timeControlContainer.appendChild(div);
-        });
-    }
-
     // Termination stats
     const terminationContainer = document.getElementById('termination-stats');
     if (terminationContainer) {
+        terminationContainer.innerHTML = '';
         const terminationLabels = {
             'mate': 'Checkmate',
             'resign': 'Resignation',
@@ -316,64 +320,90 @@ function displayStats(stats) {
     }
 }
 
-// Global state
-let globalGamesByMonth = {};
-let globalPlayerNames = [];
-let currentPerspective = 0; // 0 for player1, 1 for player2
+function setupDateRangeSelectors() {
+    // Get all unique years and months from game data
+    const years = new Set();
+    const monthsByYear = {};
 
-function switchPerspective(perspectiveIndex) {
-    currentPerspective = perspectiveIndex;
+    Object.keys(globalGamesByMonth).forEach(monthKey => {
+        const [year, month] = monthKey.split('-');
+        years.add(year);
+        if (!monthsByYear[year]) {
+            monthsByYear[year] = new Set();
+        }
+        monthsByYear[year].add(month);
+    });
 
-    // Update button states
-    const btn1 = document.getElementById('switch-player1');
-    const btn2 = document.getElementById('switch-player2');
-
-    if (perspectiveIndex === 0) {
-        if (btn1) {
-            btn1.classList.remove('bg-gray-700', 'hover:bg-gray-600');
-            btn1.classList.add('bg-blue-600', 'hover:bg-blue-700');
-        }
-        if (btn2) {
-            btn2.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-            btn2.classList.add('bg-gray-700', 'hover:bg-gray-600');
-        }
-    } else {
-        if (btn1) {
-            btn1.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-            btn1.classList.add('bg-gray-700', 'hover:bg-gray-600');
-        }
-        if (btn2) {
-            btn2.classList.remove('bg-gray-700', 'hover:bg-gray-600');
-            btn2.classList.add('bg-blue-600', 'hover:bg-blue-700');
-        }
+    // Populate year selector
+    const yearSelect = document.getElementById('year-select');
+    if (yearSelect) {
+        Array.from(years).sort().forEach(year => {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearSelect.appendChild(option);
+        });
     }
 
-    // Recalculate and display stats from new perspective
-    const stats = calculateStats(globalGamesByMonth, perspectiveIndex);
+    // Update month selector when year changes
+    const monthSelect = document.getElementById('month-select');
+    const updateMonthSelector = (year) => {
+        if (!monthSelect) return;
+        monthSelect.innerHTML = '<option value="all">All Months</option>';
 
-    // Clear existing stats
-    const monthlyBreakdown = document.getElementById('monthly-breakdown');
-    const timeControl = document.getElementById('time-control-stats');
-    const termination = document.getElementById('termination-stats');
+        if (year !== 'all' && monthsByYear[year]) {
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            Array.from(monthsByYear[year]).sort().forEach(month => {
+                const option = document.createElement('option');
+                option.value = month;
+                option.textContent = monthNames[parseInt(month) - 1];
+                monthSelect.appendChild(option);
+            });
+        }
+    };
 
-    if (monthlyBreakdown) monthlyBreakdown.innerHTML = '';
-    if (timeControl) timeControl.innerHTML = '';
-    if (termination) termination.innerHTML = '';
+    // Handle URL hash routing
+    const updateFromHash = () => {
+        const hash = window.location.hash.substring(1);
+        const params = new URLSearchParams(hash);
+        const year = params.get('year') || 'all';
+        const month = params.get('month') || 'all';
 
-    displayStats(stats);
-}
+        if (yearSelect) yearSelect.value = year;
+        updateMonthSelector(year);
+        if (monthSelect) monthSelect.value = month;
 
-function setupPerspectiveSwitcher() {
-    const btn1 = document.getElementById('switch-player1');
-    const btn2 = document.getElementById('switch-player2');
+        // Recalculate stats
+        const filteredGames = filterGamesByDateRange(globalGamesByMonth, year, month);
+        const stats = calculateStats(filteredGames);
+        displayStats(stats);
+    };
 
-    if (btn1 && btn2 && globalPlayerNames.length === 2) {
-        btn1.textContent = globalPlayerNames[0];
-        btn2.textContent = globalPlayerNames[1];
-
-        btn1.addEventListener('click', () => switchPerspective(0));
-        btn2.addEventListener('click', () => switchPerspective(1));
+    // Event listeners
+    if (yearSelect) {
+        yearSelect.addEventListener('change', () => {
+            const year = yearSelect.value;
+            updateMonthSelector(year);
+            if (monthSelect) monthSelect.value = 'all';
+            const hash = year === 'all' ? '' : `year=${year}&month=all`;
+            window.location.hash = hash;
+        });
     }
+
+    if (monthSelect) {
+        monthSelect.addEventListener('change', () => {
+            const year = yearSelect ? yearSelect.value : 'all';
+            const month = monthSelect.value;
+            const hash = year === 'all' ? '' : `year=${year}&month=${month}`;
+            window.location.hash = hash;
+        });
+    }
+
+    // Handle hash changes
+    window.addEventListener('hashchange', updateFromHash);
+
+    // Initial load from hash
+    updateFromHash();
 }
 
 // Initialize
@@ -382,9 +412,7 @@ async function init() {
         globalGamesByMonth = await loadAllGames();
         globalPlayerNames = getPlayerNames(globalGamesByMonth);
 
-        const stats = calculateStats(globalGamesByMonth, currentPerspective);
-        displayStats(stats);
-        setupPerspectiveSwitcher();
+        setupDateRangeSelectors();
     } catch (error) {
         console.error('Error loading games:', error);
         const errorEl = document.getElementById('error');
