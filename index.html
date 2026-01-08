@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Duel Stats</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Chess Duel Statistics</h1>
+            <p class="subtitle">Head-to-Head Match History</p>
+        </header>
+
+        <div id="loading">Loading game data...</div>
+        <div id="error" class="error"></div>
+
+        <div id="stats-container" style="display: none;">
+            <!-- Overall Stats -->
+            <section class="stats-section">
+                <h2>Overall Record</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Games</div>
+                        <div class="stat-value" id="total-games">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Date Range</div>
+                        <div class="stat-value small" id="date-range">-</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Player Stats -->
+            <section class="stats-section">
+                <h2>Player Records</h2>
+                <div class="player-stats">
+                    <div class="player-card" id="player1-card">
+                        <h3 id="player1-name">Player 1</h3>
+                        <div class="record">
+                            <div class="record-item wins">
+                                <span class="record-label">Wins</span>
+                                <span class="record-value" id="player1-wins">0</span>
+                            </div>
+                            <div class="record-item draws">
+                                <span class="record-label">Draws</span>
+                                <span class="record-value" id="player1-draws">0</span>
+                            </div>
+                            <div class="record-item losses">
+                                <span class="record-label">Losses</span>
+                                <span class="record-value" id="player1-losses">0</span>
+                            </div>
+                        </div>
+                        <div class="win-rate">
+                            Win Rate: <strong id="player1-winrate">0%</strong>
+                        </div>
+                    </div>
+
+                    <div class="vs-divider">VS</div>
+
+                    <div class="player-card" id="player2-card">
+                        <h3 id="player2-name">Player 2</h3>
+                        <div class="record">
+                            <div class="record-item wins">
+                                <span class="record-label">Wins</span>
+                                <span class="record-value" id="player2-wins">0</span>
+                            </div>
+                            <div class="record-item draws">
+                                <span class="record-label">Draws</span>
+                                <span class="record-value" id="player2-draws">0</span>
+                            </div>
+                            <div class="record-item losses">
+                                <span class="record-label">Losses</span>
+                                <span class="record-value" id="player2-losses">0</span>
+                            </div>
+                        </div>
+                        <div class="win-rate">
+                            Win Rate: <strong id="player2-winrate">0%</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Time Control Stats -->
+            <section class="stats-section">
+                <h2>By Time Control</h2>
+                <div id="time-control-stats" class="breakdown-grid"></div>
+            </section>
+
+            <!-- Monthly Stats -->
+            <section class="stats-section">
+                <h2>Games by Month</h2>
+                <div id="monthly-stats" class="monthly-grid"></div>
+            </section>
+
+            <!-- Game Results -->
+            <section class="stats-section">
+                <h2>Game Termination</h2>
+                <div id="termination-stats" class="breakdown-grid"></div>
+            </section>
+        </div>
+    </div>
+
+    <script src="stats.js"></script>
+</body>
+</html>

@@ -15,7 +15,16 @@ You need to set up the following in your repository settings:
 - `PLAYER1_USERNAME`: First player's Lichess username
 - `PLAYER2_USERNAME`: Second player's Lichess username
 
-### 2. How It Works
+### 2. Enable GitHub Pages
+
+To view your statistics website:
+1. Go to Settings > Pages
+2. Under "Source", select "Deploy from a branch"
+3. Select branch: `main` and folder: `/ (root)`
+4. Click "Save"
+5. Your site will be available at `https://username.github.io/repository-name/`
+
+### 3. How It Works
 
 The GitHub Action `fetch-games.yml` runs daily at 2 AM UTC to:
 1. Fetch head-to-head games between the two players from Lichess API
@@ -31,23 +40,27 @@ The GitHub Action `fetch-games.yml` runs daily at 2 AM UTC to:
 - Rate limiting (1.5s delay between month requests)
 - Automatic retry with exponential backoff on rate limit errors (2s, 4s, 8s)
 
-### 3. Manual Trigger
+## Website Features
+
+The statistics page displays:
+- **Overall Record**: Total games and date range
+- **Player Records**: Wins, losses, draws, and win rate for each player
+- **Time Control Breakdown**: Statistics by bullet, blitz, rapid, classical
+- **Monthly Games**: Number of games played each month
+- **Game Termination**: How games ended (checkmate, resignation, timeout, etc.)
+
+The page automatically loads all game data and updates when new games are fetched.
+
+## Manual Operations
+
+### Manual Trigger
 
 You can manually trigger the game fetch:
 1. Go to Actions tab in GitHub
 2. Select "Fetch Chess Games" workflow
 3. Click "Run workflow"
 
-### 4. Data Structure
-
-Games are stored in `data/games/` with the following structure:
-- Filename: `YYYY-MM.json` (e.g., `2024-01.json`, `2025-12.json`)
-- Each file contains an array of games between the two players in that month
-- Games include full data: moves, clocks, accuracy, division points
-- Games are sorted by creation date
-- Duplicates are automatically handled by merging based on game ID
-
-### 5. Local Testing
+### Local Testing
 
 To test the fetch script locally:
 
@@ -56,7 +69,18 @@ export LICHESS_API_KEY="your_api_key_here"
 node scripts/fetch-games.js player1 player2
 ```
 
-### 6. API Parameters Used
+## Technical Details
+
+### Data Structure
+
+Games are stored in `data/games/` with the following structure:
+- Filename: `YYYY-MM.json` (e.g., `2024-01.json`, `2025-12.json`)
+- Each file contains an array of games between the two players in that month
+- Games include full data: moves, clocks, accuracy, division points
+- Games are sorted by creation date
+- Duplicates are automatically handled by merging based on game ID
+
+### API Parameters Used
 
 The script fetches games with these Lichess API parameters:
 - `rated=false` - Include both rated and unrated games
