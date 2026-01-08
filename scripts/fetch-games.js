@@ -12,7 +12,9 @@ if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-function fetchGamesForPeriod(username, apiKey, since, until, vsPlayer = null) {
+async function fetchGamesForPeriod(username, apiKey, since, until, vsPlayer = null, retryCount = 0) {
+  const maxRetries = 3;
+
   return new Promise((resolve, reject) => {
     const options = {
       headers: {
@@ -47,7 +49,25 @@ function fetchGamesForPeriod(username, apiKey, since, until, vsPlayer = null) {
         data += chunk;
       });
 
-      res.on('end', () => {
+      res.on('end', async () => {
+        if (res.statusCode === 429) {
+          // Rate limited
+          if (retryCount < maxRetries) {
+            const waitTime = Math.pow(2, retryCount) * 2000; // 2s, 4s, 8s
+            console.log(`  Rate limited. Waiting ${waitTime/1000}s before retry ${retryCount + 1}/${maxRetries}...`);
+            await new Promise(resolve => setTimeout(resolve, waitTime));
+            try {
+              const result = await fetchGamesForPeriod(username, apiKey, since, until, vsPlayer, retryCount + 1);
+              resolve(result);
+            } catch (err) {
+              reject(err);
+            }
+          } else {
+            reject(new Error(`Rate limited after ${maxRetries} retries`));
+          }
+          return;
+        }
+
         if (res.statusCode !== 200) {
           reject(new Error(`API returned ${res.statusCode}: ${data}`));
           return;
@@ -202,9 +222,9 @@ async function main() {
 
       totalSaved += mergedGames.length;
 
-      // Rate limiting: wait 100ms between requests
+      // Rate limiting: wait 1.5s between requests to avoid hitting API limits
       if (monthsToFetch.indexOf(month) < monthsToFetch.length - 1) {
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 1500));
       }
     }
 

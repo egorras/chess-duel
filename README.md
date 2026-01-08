@@ -28,7 +28,8 @@ The GitHub Action `fetch-games.yml` runs daily at 2 AM UTC to:
 - Only fetches games month-by-month using `since` and `until` parameters
 - On first run, fetches all games since January 2024
 - On subsequent runs, only updates from the last stored month to present
-- Rate limiting (100ms delay between month requests)
+- Rate limiting (1.5s delay between month requests)
+- Automatic retry with exponential backoff on rate limit errors (2s, 4s, 8s)
 
 ### 3. Manual Trigger
 
