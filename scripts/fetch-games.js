@@ -84,13 +84,12 @@ function getMonthTimestamps(yearMonth) {
   };
 }
 
-function getMonthsToFetch(username, vsPlayer = null) {
+function getMonthsToFetch() {
   const files = fs.readdirSync(DATA_DIR);
-  const prefix = vsPlayer ? `${username}-vs-${vsPlayer}-` : `${username}-`;
   const existingMonths = files
-    .filter(f => f.startsWith(prefix) && f.endsWith('.json'))
+    .filter(f => f.endsWith('.json') && f !== '.gitkeep')
     .map(f => {
-      const match = f.match(/-(\d{4}-\d{2})\.json$/);
+      const match = f.match(/^(\d{4}-\d{2})\.json$/);
       return match ? match[1] : null;
     })
     .filter(Boolean)
@@ -102,12 +101,8 @@ function getMonthsToFetch(username, vsPlayer = null) {
     // Start from the last existing month to update it
     startMonth = existingMonths[existingMonths.length - 1];
   } else {
-    // No existing data, start from 6 months ago
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-    const year = sixMonthsAgo.getFullYear();
-    const month = String(sixMonthsAgo.getMonth() + 1).padStart(2, '0');
-    startMonth = `${year}-${month}`;
+    // No existing data, start from January 2024
+    startMonth = '2024-01';
   }
 
   // Generate list of months from start to current
@@ -160,11 +155,11 @@ function mergeGames(existingGames, newGames) {
 
 async function main() {
   const username = process.argv[2];
-  const vsPlayer = process.argv[3] || null; // Optional: opponent username
+  const vsPlayer = process.argv[3];
   const apiKey = process.env.LICHESS_API_KEY;
 
-  if (!username) {
-    console.error('Usage: node fetch-games.js <username> [vs-player]');
+  if (!username || !vsPlayer) {
+    console.error('Usage: node fetch-games.js <username> <vs-player>');
     process.exit(1);
   }
 
@@ -173,11 +168,10 @@ async function main() {
     process.exit(1);
   }
 
-  const vsInfo = vsPlayer ? ` vs ${vsPlayer}` : '';
-  console.log(`Fetching games for user: ${username}${vsInfo}`);
+  console.log(`Fetching games: ${username} vs ${vsPlayer}`);
 
   try {
-    const monthsToFetch = getMonthsToFetch(username, vsPlayer);
+    const monthsToFetch = getMonthsToFetch();
     console.log(`Will fetch ${monthsToFetch.length} months: ${monthsToFetch[0]} to ${monthsToFetch[monthsToFetch.length - 1]}`);
 
     let totalSaved = 0;
@@ -189,8 +183,7 @@ async function main() {
       const games = await fetchGamesForPeriod(username, apiKey, since, until, vsPlayer);
       totalFetched += games.length;
 
-      const filePrefix = vsPlayer ? `${username}-vs-${vsPlayer}-` : `${username}-`;
-      const monthFile = path.join(DATA_DIR, `${filePrefix}${month}.json`);
+      const monthFile = path.join(DATA_DIR, `${month}.json`);
       const existingGames = loadExistingGames(monthFile);
       const mergedGames = mergeGames(existingGames, games);
 

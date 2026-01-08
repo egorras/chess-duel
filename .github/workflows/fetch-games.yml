@@ -9,25 +9,24 @@ on:
 jobs:
   fetch-games:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Fetch head-to-head games (player 1 vs player 2)
+      - name: Fetch head-to-head games
         env:
           LICHESS_API_KEY: ${{ secrets.LICHESS_API_KEY }}
         run: node scripts/fetch-games.js ${{ vars.PLAYER1_USERNAME }} ${{ vars.PLAYER2_USERNAME }}
-
-      - name: Fetch head-to-head games (player 2 vs player 1)
-        env:
-          LICHESS_API_KEY: ${{ secrets.LICHESS_API_KEY }}
-        run: node scripts/fetch-games.js ${{ vars.PLAYER2_USERNAME }} ${{ vars.PLAYER1_USERNAME }}
 
       - name: Commit and push if changes
         run: |

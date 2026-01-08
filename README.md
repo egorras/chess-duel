@@ -20,13 +20,13 @@ You need to set up the following in your repository settings:
 The GitHub Action `fetch-games.yml` runs daily at 2 AM UTC to:
 1. Fetch head-to-head games between the two players from Lichess API
 2. Use the `since` parameter to only fetch games for specific months (efficient incremental updates)
-3. Organize games by month (format: `username-vs-opponent-YYYY-MM.json`)
+3. Organize games by month (format: `YYYY-MM.json`)
 4. Merge with existing data to avoid duplicates
 5. Commit changes to the `data/games/` directory
 
 **Optimization features:**
 - Only fetches games month-by-month using `since` and `until` parameters
-- On first run, fetches last 6 months of games
+- On first run, fetches all games since January 2024
 - On subsequent runs, only updates from the last stored month to present
 - Rate limiting (100ms delay between month requests)
 
@@ -40,7 +40,7 @@ You can manually trigger the game fetch:
 ### 4. Data Structure
 
 Games are stored in `data/games/` with the following structure:
-- Filename: `{username}-vs-{opponent}-{YYYY-MM}.json`
+- Filename: `YYYY-MM.json` (e.g., `2024-01.json`, `2025-12.json`)
 - Each file contains an array of games between the two players in that month
 - Games include full data: moves, clocks, accuracy, division points
 - Games are sorted by creation date
@@ -51,12 +51,8 @@ Games are stored in `data/games/` with the following structure:
 To test the fetch script locally:
 
 ```bash
-# Fetch head-to-head games between two players
 export LICHESS_API_KEY="your_api_key_here"
 node scripts/fetch-games.js player1 player2
-
-# Fetch all games for a single player
-node scripts/fetch-games.js player1
 ```
 
 ### 6. API Parameters Used
