@@ -54,7 +54,11 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
         byTermination: {},
         monthlyStats: {},
         gameLengths: [],
-        openingCounts: {}
+        openingCounts: {},
+        longestGameId: null,
+        shortestGameId: null,
+        longestGameLength: 0,
+        shortestGameLength: Infinity
     };
 
     // Calculate overall streaks
@@ -141,6 +145,16 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
             if (game.moves) {
                 const moveCount = game.moves.split(' ').length;
                 stats.gameLengths.push(moveCount);
+
+                // Track longest and shortest games
+                if (moveCount > stats.longestGameLength) {
+                    stats.longestGameLength = moveCount;
+                    stats.longestGameId = game.id;
+                }
+                if (moveCount < stats.shortestGameLength) {
+                    stats.shortestGameLength = moveCount;
+                    stats.shortestGameId = game.id;
+                }
             }
 
             // Opening counts

@@ -91,9 +91,20 @@ function displayStats(stats) {
     const avgGameLength = document.getElementById('avg-game-length');
     const longestGame = document.getElementById('longest-game');
     const shortestGame = document.getElementById('shortest-game');
+    const longestGameLink = document.getElementById('longest-game-link');
+    const shortestGameLink = document.getElementById('shortest-game-link');
+
     if (avgGameLength) avgGameLength.textContent = stats.avgGameLength;
     if (longestGame) longestGame.textContent = stats.longestGame;
     if (shortestGame) shortestGame.textContent = stats.shortestGame;
+
+    // Set links to Lichess games
+    if (longestGameLink && stats.longestGameId) {
+        longestGameLink.href = `https://lichess.org/${stats.longestGameId}`;
+    }
+    if (shortestGameLink && stats.shortestGameId) {
+        shortestGameLink.href = `https://lichess.org/${stats.shortestGameId}`;
+    }
 
     // Most common stats
     const mostCommonTermination = document.getElementById('most-common-termination');
@@ -220,6 +231,9 @@ function displaySkirmishStats(gamesByMonth, player1Name, player2Name) {
         const winnerText = skirmish.winner === 'player1' ? player1Name :
                           skirmish.winner === 'player2' ? player2Name : 'Draw';
 
+        // Get game IDs for this skirmish
+        const gameLinks = skirmish.games.map(g => `<a href="https://lichess.org/${g.id}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">G${skirmish.games.indexOf(g) + 1}</a>`).join(' ');
+
         div.innerHTML = `
             <div class="flex items-center gap-3">
                 <div class="text-gray-500 text-xs">${skirmish.date}</div>
@@ -231,6 +245,7 @@ function displaySkirmishStats(gamesByMonth, player1Name, player2Name) {
                 <div class="text-red-400 font-bold">${skirmish.player2Score}</div>
                 <div class="text-gray-500 text-xs">${skirmish.totalGames} games</div>
                 <div class="text-gray-500 text-xs">${skirmish.duration}m</div>
+                <div class="text-xs">${gameLinks}</div>
             </div>
         `;
 
