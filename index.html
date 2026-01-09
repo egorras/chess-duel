@@ -11,9 +11,53 @@
         body {
             font-family: 'Fira Code', monospace;
         }
+        
+        /* Hide scrollbar for tabs */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            /* Larger touch targets */
+            button, a, .sortable {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            /* Better table scrolling on mobile */
+            .overflow-x-auto {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        /* Accordion styles */
+        .opening-details {
+            display: none;
+        }
+
+        .opening-details.expanded {
+            display: table-row;
+        }
+
+        .accordion-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-arrow.expanded {
+            transform: rotate(180deg);
+        }
+
+        .session-details {
+            display: none;
+        }
+
+        .session-details.expanded {
+            display: table-row;
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
+<body class="bg-gray-900 text-gray-100 min-h-screen p-2 sm:p-4 md:p-8">
     <div class="max-w-7xl mx-auto">
         <!-- Loading -->
         <div id="loading" class="text-center text-gray-400 text-xl py-20">
@@ -27,70 +71,300 @@
         <div id="stats-container" class="hidden">
             <!-- Header -->
             <div class="mb-6">
-                <div class="border-t-2 border-b-2 border-gray-700 py-4">
-                    <h1 class="text-center text-2xl font-semibold" id="main-title">
-                        Lichess Blitz Stats: Player 1 vs Player 2
-                    </h1>
+                <!-- GitHub Link -->
+                <div class="flex justify-end mb-3">
+                    <a href="https://github.com/egorras/chess-duel" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center gap-2 text-gray-400 hover:text-gray-300 transition-colors text-sm">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="hidden sm:inline">View on GitHub</span>
+                    </a>
                 </div>
+                <!-- Activity Calendar and Date Selector Container -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-3">
+                    <!-- Activity Calendar -->
+                    <div class="lg:col-span-3 bg-gray-800 rounded-lg p-3 border border-gray-700">
+                        <div class="mb-2">
+                            <div class="flex items-center gap-2 mb-2">
+                                <select id="calendar-year-select" class="bg-gray-700 border border-gray-600 text-white px-2 py-1 rounded text-xs">
+                                </select>
+                                <div class="flex items-center gap-1 text-xs text-gray-400">
+                                    <span>Less</span>
+                                    <div class="flex gap-0.5">
+                                        <div class="w-2.5 h-2.5 bg-gray-700 border border-gray-600"></div>
+                                        <div class="w-2.5 h-2.5 bg-green-900 border border-gray-600"></div>
+                                        <div class="w-2.5 h-2.5 bg-green-700 border border-gray-600"></div>
+                                        <div class="w-2.5 h-2.5 bg-green-500 border border-gray-600"></div>
+                                        <div class="w-2.5 h-2.5 bg-green-400 border border-gray-600"></div>
+                                    </div>
+                                    <span>More</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="calendar-container" class="overflow-x-auto">
+                            <!-- Calendar will be generated here -->
+                        </div>
+                    </div>
 
-                <!-- Date Range Selector -->
-                <div class="flex justify-center items-center gap-4 mt-4 flex-wrap">
-                    <div class="flex items-center gap-2">
-                        <label class="text-gray-400 text-sm">Period:</label>
-                        <select id="year-select" class="bg-gray-800 border border-gray-700 text-white px-4 py-2 rounded">
-                            <option value="all">All Time</option>
-                        </select>
-                        <select id="month-select" class="bg-gray-800 border border-gray-700 text-white px-4 py-2 rounded">
-                            <option value="all">All Months</option>
-                        </select>
+                    <!-- Date Range Selector -->
+                    <div class="bg-gray-800 rounded-lg p-2 sm:p-3 border border-gray-700 space-y-2">
+                        <!-- Quick Filters -->
+                        <div class="space-y-1.5">
+                            <button class="quick-filter-btn w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-300 hover:text-white px-2 py-1.5 rounded text-xs font-medium transition-colors" data-filter="this-year">
+                                This Year
+                            </button>
+                            <button class="quick-filter-btn w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-300 hover:text-white px-2 py-1.5 rounded text-xs font-medium transition-colors" data-filter="this-month">
+                                This Month
+                            </button>
+                        </div>
+                        
+                        <!-- Custom Period Selector -->
+                        <div class="pt-1.5 border-t border-gray-700">
+                            <div class="flex flex-col gap-1.5">
+                                <select id="year-select" class="w-full bg-gray-700 border border-gray-600 text-white px-2 py-1.5 rounded text-xs font-medium cursor-pointer hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                    <option value="all">All Time</option>
+                                </select>
+                                <div class="flex gap-1.5">
+                                    <select id="month-select" class="flex-1 bg-gray-700 border border-gray-600 text-white px-2 py-1.5 rounded text-xs font-medium cursor-pointer hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                        <option value="all">All Months</option>
+                                    </select>
+                                    <select id="day-select" class="flex-1 bg-gray-700 border border-gray-600 text-white px-2 py-1.5 rounded text-xs font-medium cursor-pointer hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                        <option value="all">All Days</option>
+                                    </select>
+                                </div>
+                                <div class="flex gap-1.5 mt-1.5">
+                                    <button id="date-nav-prev" class="flex-1 bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white px-2 py-1.5 rounded text-xs font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                        ←
+                                    </button>
+                                    <button id="date-nav-next" class="flex-1 bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white px-2 py-1.5 rounded text-xs font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                        →
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Tabs Navigation -->
+            <div class="mb-4 md:mb-6 border-b border-gray-700">
+                <nav class="flex gap-1 md:gap-2 overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide" id="tabs-nav" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <button class="tab-button active px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-gray-400 text-gray-300 whitespace-nowrap flex-shrink-0" data-tab="overview">
+                        Overview
+                    </button>
+                    <button class="tab-button px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-tab="sessions">
+                        Sessions
+                    </button>
+                    <button class="tab-button px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-tab="games">
+                        Games
+                    </button>
+                    <button class="tab-button px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-tab="openings">
+                        Openings
+                    </button>
+                    <button class="tab-button px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-tab="monthly">
+                        Monthly
+                    </button>
+                    <button class="tab-button px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-tab="stats">
+                        Stats
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="tab-content">
+
+            <!-- Overview Tab -->
+            <div class="tab-pane active" data-tab-content="overview">
+
             <!-- Overall Stats -->
-            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
-                <div class="grid grid-cols-3 gap-4 text-center">
+            <div class="bg-gray-800 rounded-lg p-2 sm:p-3 border border-gray-700 mb-3">
+                <div class="grid grid-cols-3 gap-1 sm:gap-2 text-center">
                     <!-- Player 1 -->
                     <div>
-                        <h2 class="text-md font-bold mb-2 text-blue-400" id="player1-name">Player 1</h2>
-                        <div class="text-3xl font-bold text-blue-400">
+                        <h2 class="text-xs font-bold mb-1 text-red-400" id="player1-name">Player 1</h2>
+                        <div class="text-xl font-bold text-red-400">
                             <span id="player1-wins">0</span>
-                            <span class="text-sm text-purple-400 ml-1">(<span id="player1-streak">0</span>)</span>
+                            <span class="text-xs text-purple-400 ml-1">(<span id="player1-streak">0</span>)</span>
                         </div>
-                        <div class="text-xl font-bold text-yellow-400 mt-1" id="player1-winrate">0%</div>
+                        <div class="text-sm font-bold text-yellow-400 mt-1" id="player1-winrate">0%</div>
                     </div>
 
                     <!-- Draws -->
                     <div class="border-x border-gray-700">
-                        <div class="text-gray-400 text-sm mb-2">Draws</div>
-                        <div class="text-3xl font-bold text-gray-400" id="draws">0</div>
+                        <div class="text-gray-400 text-xs mb-1">Total Games</div>
+                        <div class="text-xl font-bold text-gray-400" id="total-games">0</div>
+                        <div class="text-gray-400 text-xs mb-1 mt-1">Draws</div>
+                        <div class="text-xl font-bold text-gray-400" id="draws">0</div>
                     </div>
 
                     <!-- Player 2 -->
                     <div>
-                        <h2 class="text-md font-bold mb-2 text-red-400" id="player2-name">Player 2</h2>
-                        <div class="text-3xl font-bold text-red-400">
+                        <h2 class="text-xs font-bold mb-1 text-blue-400" id="player2-name">Player 2</h2>
+                        <div class="text-xl font-bold text-blue-400">
                             <span id="player2-wins">0</span>
-                            <span class="text-sm text-purple-400 ml-1">(<span id="player2-streak">0</span>)</span>
+                            <span class="text-xs text-purple-400 ml-1">(<span id="player2-streak">0</span>)</span>
                         </div>
-                        <div class="text-xl font-bold text-yellow-400 mt-1" id="player2-winrate">0%</div>
+                        <div class="text-sm font-bold text-yellow-400 mt-1" id="player2-winrate">0%</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Openings -->
-            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
-                <h2 class="text-lg font-semibold mb-4 text-gray-300 border-b border-gray-700 pb-2">Openings</h2>
+            <!-- Points Graph -->
+            <div class="bg-gray-800 rounded-lg p-2 sm:p-3 border border-gray-700 mb-3">
+                <h2 class="text-xs sm:text-sm font-semibold mb-2 text-gray-300">Points</h2>
+                <div class="relative" style="height: 200px; min-height: 200px;">
+                    <canvas id="points-chart"></canvas>
+                </div>
+            </div>
 
+            </div>
+            <!-- End Overview Tab -->
+
+            <!-- Sessions Tab -->
+            <div class="tab-pane" data-tab-content="sessions">
+
+            <!-- Sessions -->
+            <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-4 md:mb-6">
+                <!-- Session Stats Summary (Condensed) -->
+                <div class="grid grid-cols-3 sm:grid-cols-5 gap-1 sm:gap-2 text-center px-2 sm:px-4 py-2 border-b border-gray-700 bg-gray-900">
+                    <div>
+                        <div class="text-xs text-gray-400">Total Sessions</div>
+                        <div class="text-base sm:text-lg font-bold text-white" id="total-sessions">0</div>
+                    </div>
+                    <div class="border-x border-gray-700 hidden sm:block">
+                        <div class="text-xs text-gray-400">Avg Games</div>
+                        <div class="text-base sm:text-lg font-bold text-gray-300" id="avg-games-per-session">0</div>
+                    </div>
+                    <div class="border-x border-gray-700 hidden sm:block">
+                        <div class="text-xs text-gray-400">Avg Time</div>
+                        <div class="text-base sm:text-lg font-bold text-gray-300" id="avg-session-time">0m</div>
+                    </div>
+                    <div class="border-x border-gray-700 sm:border-x">
+                        <div class="text-xs text-gray-400"><span id="session-player1">P1</span> Wins</div>
+                        <div class="text-base sm:text-lg font-bold text-red-400" id="session-player1-wins">0</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-gray-400"><span id="session-player2">P2</span> Wins</div>
+                        <div class="text-base sm:text-lg font-bold text-blue-400" id="session-player2-wins">0</div>
+                    </div>
+                </div>
+
+                <!-- Sessions Table -->
                 <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
+                    <table class="w-full text-xs">
                         <thead>
-                            <tr class="border-b border-gray-700 bg-gray-900">
-                                <th class="px-4 py-3 text-left text-gray-400 font-semibold">Opening</th>
-                                <th class="px-4 py-3 text-center text-blue-400 font-semibold" id="openings-player1">P1</th>
-                                <th class="px-4 py-3 text-center text-gray-400 font-semibold">Draws</th>
-                                <th class="px-4 py-3 text-center text-red-400 font-semibold" id="openings-player2">P2</th>
-                                <th class="px-4 py-3 text-center text-gray-400 font-semibold">Games</th>
+                            <tr class="border-b border-gray-700 bg-gray-900 text-gray-400">
+                                <th class="px-2 py-2 text-left font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="date">
+                                    Date <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="winner">
+                                    Winner <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable hidden sm:table-cell" data-sort="player1Score">
+                                    <span id="sessions-table-player1">P1</span> <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable hidden sm:table-cell" data-sort="draws">
+                                    Draws <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable hidden sm:table-cell" data-sort="player2Score">
+                                    <span id="sessions-table-player2">P2</span> <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="games">
+                                    Games <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable hidden sm:table-cell" data-sort="duration">
+                                    Duration <span class="sort-indicator"></span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="sessions-table" class="divide-y divide-gray-700">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            </div>
+            <!-- End Sessions Tab -->
+
+            <!-- Games Tab -->
+            <div class="tab-pane" data-tab-content="games">
+
+            <!-- Games Table -->
+            <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-6">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs">
+                        <thead>
+                            <tr class="border-b border-gray-700 bg-gray-900 text-gray-400">
+                                <th class="px-2 py-2 text-left font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="date">
+                                    Date <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="white">
+                                    White <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="result">
+                                    Result <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="black">
+                                    Black <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-left font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="opening">
+                                    Opening <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="status">
+                                    Type <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="moves">
+                                    Moves <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="whiteAcc">
+                                    W Acc <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="blackAcc">
+                                    B Acc <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="whiteKing" title="King Walks - Number of times White moved their king">
+                                    W K <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="blackKing" title="King Walks - Number of times Black moved their king">
+                                    B K <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold">Link</th>
+                            </tr>
+                        </thead>
+                        <tbody id="games-table" class="divide-y divide-gray-700">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            </div>
+            <!-- End Games Tab -->
+
+            <!-- Openings Tab -->
+            <div class="tab-pane" data-tab-content="openings">
+
+            <!-- Openings -->
+            <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-6">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs">
+                        <thead>
+                            <tr class="border-b border-gray-700 bg-gray-900 text-gray-400">
+                                <th class="px-2 py-2 text-left font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="opening">
+                                    Opening <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="player1Wins">
+                                    <span id="openings-player1">P1</span> <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="draws">
+                                    Draws <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="player2Wins">
+                                    <span id="openings-player2">P2</span> <span class="sort-indicator"></span>
+                                </th>
+                                <th class="px-2 py-2 text-center font-semibold cursor-pointer hover:bg-gray-700 select-none sortable" data-sort="games">
+                                    Games <span class="sort-indicator"></span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody id="openings-table" class="divide-y divide-gray-700">
@@ -99,42 +373,75 @@
                 </div>
             </div>
 
-            <!-- Skirmishes -->
-            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
-                <h2 class="text-lg font-semibold mb-4 text-gray-300 border-b border-gray-700 pb-2">Skirmishes</h2>
+            </div>
+            <!-- End Openings Tab -->
 
-                <!-- Skirmish Stats Summary -->
-                <div class="grid grid-cols-3 gap-4 text-center mb-4">
-                    <div>
-                        <div class="text-sm text-gray-400 mb-1">Total Sessions</div>
-                        <div class="text-2xl font-bold text-white" id="total-skirmishes">0</div>
-                        <div class="text-xs text-gray-500" id="avg-games-per-skirmish">0 games avg</div>
-                    </div>
-                    <div class="border-x border-gray-700">
-                        <div class="text-sm text-gray-400 mb-1"><span id="skirmish-player1">P1</span> Wins</div>
-                        <div class="text-2xl font-bold text-blue-400" id="skirmish-player1-wins">0</div>
-                    </div>
-                    <div>
-                        <div class="text-sm text-gray-400 mb-1"><span id="skirmish-player2">P2</span> Wins</div>
-                        <div class="text-2xl font-bold text-red-400" id="skirmish-player2-wins">0</div>
-                    </div>
+            <!-- Monthly Tab -->
+            <div class="tab-pane" data-tab-content="monthly">
+
+            <!-- Monthly Chart with Metric Selector -->
+            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 mb-3">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-sm font-semibold text-gray-300">Monthly Statistics</h2>
+                    <select id="monthly-metric-selector" class="bg-gray-700 border border-gray-600 text-white px-2 py-1 rounded text-xs font-medium cursor-pointer hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                        <option value="winrate">Win Rate %</option>
+                        <option value="wins">Wins</option>
+                        <option value="kingmoves">Avg King Moves</option>
+                        <option value="accuracy">Avg Accuracy</option>
+                        <option value="streaks">Best Streak</option>
+                    </select>
                 </div>
-
-                <!-- Recent Skirmishes -->
-                <div class="mt-4">
-                    <h3 class="text-sm font-semibold text-gray-400 mb-2">Recent Sessions (Last 10)</h3>
-                    <div class="space-y-2" id="recent-skirmishes">
-                    </div>
+                <div class="relative" style="height: 200px; min-height: 200px;">
+                    <canvas id="monthly-winrate-chart"></canvas>
                 </div>
             </div>
 
+            <!-- Monthly Breakdown -->
+            <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-3">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs">
+                        <thead>
+                            <tr class="border-b border-gray-700 bg-gray-900">
+                                <th class="px-2 py-2 text-left text-gray-400 font-semibold">Month</th>
+                                <th class="px-2 py-2 text-center text-gray-400 font-semibold">Games</th>
+                                <th class="px-2 py-2 text-center text-red-400 font-semibold" id="table-player1">P1</th>
+                                <th class="px-2 py-2 text-center text-gray-400 font-semibold">Draws</th>
+                                <th class="px-2 py-2 text-center text-blue-400 font-semibold" id="table-player2">P2</th>
+                                <th class="px-2 py-2 text-left text-gray-400 font-semibold">Streaks</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthly-breakdown" class="divide-y divide-gray-700">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            </div>
+            <!-- End Monthly Tab -->
+
+            <!-- Stats Tab -->
+            <div class="tab-pane" data-tab-content="stats">
+
+            <!-- Player Comparison & Stats -->
+            <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-6">
+                <div id="player-comparison-stats">
+                    <!-- Stats will be generated here -->
+                </div>
+            </div>
+
+            </div>
+            <!-- End Stats Tab -->
+
+            </div>
+            <!-- End Tab Content -->
+
             <style>
-                .skirmish-details {
+                .session-details {
                     max-height: 0;
                     overflow: hidden;
                     transition: max-height 0.3s ease-out;
                 }
-                .skirmish-details.expanded {
+                .session-details.expanded {
                     max-height: 1000px;
                     transition: max-height 0.5s ease-in;
                 }
@@ -144,99 +451,63 @@
                 .accordion-arrow.expanded {
                     transform: rotate(180deg);
                 }
+                .tab-pane {
+                    display: none;
+                }
+                .tab-pane.active {
+                    display: block;
+                }
+                .tab-button {
+                    transition: all 0.2s ease;
+                }
+                .tab-button.active {
+                    border-color: rgb(156, 163, 175);
+                    color: rgb(209, 213, 219);
+                }
+                .quick-filter-btn.active {
+                    background-color: rgb(75, 85, 99);
+                    border-color: rgb(156, 163, 175);
+                    color: white;
+                }
+                .nav-btn:disabled {
+                    opacity: 0.4;
+                    cursor: not-allowed;
+                }
+                .sort-indicator {
+                    display: inline-block;
+                    margin-left: 4px;
+                    width: 0;
+                    height: 0;
+                    opacity: 0.3;
+                }
+                .sort-indicator.asc::after {
+                    content: '▲';
+                    color: rgb(209, 213, 219);
+                    opacity: 1;
+                }
+                .sort-indicator.desc::after {
+                    content: '▼';
+                    color: rgb(209, 213, 219);
+                    opacity: 1;
+                }
+                .sort-indicator::after {
+                    content: '⇅';
+                }
             </style>
 
-            <!-- Points Graph -->
-            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
-                <h2 class="text-lg font-semibold mb-4 text-gray-300">Cumulative Points Over Time</h2>
-                <div class="relative" style="height: 300px;">
-                    <canvas id="points-chart"></canvas>
-                </div>
-            </div>
-
-            <!-- Total Games and Period -->
-            <div class="text-center mb-6 text-gray-400">
-                Total Games: <span class="text-white font-bold text-xl" id="total-games">0</span>
-                <span class="text-sm ml-2" id="date-range"></span>
-            </div>
-
-            <!-- Additional Stats -->
-            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
-                    <!-- Player 1 Stats -->
-                    <div class="border-r border-gray-700">
-                        <div class="text-blue-400 font-semibold mb-2" id="stats-player1">Player 1</div>
-                        <div class="space-y-1">
-                            <div><span class="text-gray-400">Avg Accuracy:</span> <span class="text-yellow-400 font-bold" id="player1-accuracy">0%</span></div>
-                            <div><span class="text-gray-400">Blunders:</span> <span class="text-red-300" id="player1-blunders">0</span></div>
-                            <div><span class="text-gray-400">Mistakes:</span> <span class="text-orange-300" id="player1-mistakes">0</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Player 2 Stats -->
-                    <div class="border-r border-gray-700">
-                        <div class="text-red-400 font-semibold mb-2" id="stats-player2">Player 2</div>
-                        <div class="space-y-1">
-                            <div><span class="text-gray-400">Avg Accuracy:</span> <span class="text-yellow-400 font-bold" id="player2-accuracy">0%</span></div>
-                            <div><span class="text-gray-400">Blunders:</span> <span class="text-red-300" id="player2-blunders">0</span></div>
-                            <div><span class="text-gray-400">Mistakes:</span> <span class="text-orange-300" id="player2-mistakes">0</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Game Stats -->
-                    <div class="border-r border-gray-700">
-                        <div class="text-gray-400 font-semibold mb-2">Games</div>
-                        <div class="space-y-1">
-                            <div><span class="text-gray-400">Avg Length:</span> <span class="text-white" id="avg-game-length">0</span> moves</div>
-                            <div><span class="text-gray-400">Longest:</span> <a href="#" id="longest-game-link" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline"><span id="longest-game">0</span> moves</a></div>
-                            <div><span class="text-gray-400">Shortest:</span> <a href="#" id="shortest-game-link" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline"><span id="shortest-game">0</span> moves</a></div>
-                        </div>
-                    </div>
-
-                    <!-- Termination -->
-                    <div>
-                        <div class="text-gray-400 font-semibold mb-2">Most Common</div>
-                        <div class="space-y-1">
-                            <div><span class="text-gray-400">Finish:</span> <span class="text-white" id="most-common-termination">-</span></div>
-                            <div><span class="text-gray-400">Opening:</span> <span class="text-white text-xs" id="most-common-opening">-</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Monthly Breakdown -->
-            <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-6">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr class="border-b border-gray-700 bg-gray-900">
-                                <th class="px-4 py-3 text-left text-gray-400 font-semibold">Month</th>
-                                <th class="px-4 py-3 text-center text-gray-400 font-semibold">Games</th>
-                                <th class="px-4 py-3 text-center text-blue-400 font-semibold" id="table-player1">P1</th>
-                                <th class="px-4 py-3 text-center text-gray-400 font-semibold">Draws</th>
-                                <th class="px-4 py-3 text-center text-red-400 font-semibold" id="table-player2">P2</th>
-                                <th class="px-4 py-3 text-left text-gray-400 font-semibold">Streaks</th>
-                            </tr>
-                        </thead>
-                        <tbody id="monthly-breakdown" class="divide-y divide-gray-700">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Game Termination -->
-            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
-                <h2 class="text-lg font-semibold mb-4 text-gray-300 border-b border-gray-700 pb-2">Game Termination</h2>
-                <div id="termination-stats" class="space-y-2"></div>
-            </div>
         </div>
     </div>
 
+    <script src="js/utils.js"></script>
+    <script src="js/optimizations.js"></script>
     <script src="js/data-loader.js"></script>
     <script src="js/stats-calculator.js"></script>
-    <script src="js/skirmish-analyzer.js"></script>
+    <script src="js/session-analyzer.js"></script>
     <script src="js/chart.js"></script>
     <script src="js/ui-display.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/calendar.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/tabs.js"></script>
 </body>
 </html>

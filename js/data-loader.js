@@ -51,14 +51,27 @@ function getPlayerNames(gamesByMonth) {
     return ['Player 1', 'Player 2'];
 }
 
-function filterGamesByDateRange(gamesByMonth, year, month) {
+function filterGamesByDateRange(gamesByMonth, year, month, day) {
     if (year === 'all') return gamesByMonth;
 
     const filtered = {};
     Object.keys(gamesByMonth).forEach(monthKey => {
         const [gameYear, gameMonth] = monthKey.split('-');
         if (gameYear === year && (month === 'all' || gameMonth === month)) {
-            filtered[monthKey] = gamesByMonth[monthKey];
+            let monthGames = gamesByMonth[monthKey];
+            
+            // Filter by day if specified
+            if (day !== 'all' && day !== undefined) {
+                monthGames = monthGames.filter(game => {
+                    const date = new Date(game.createdAt);
+                    const gameDay = String(date.getDate()).padStart(2, '0');
+                    return gameDay === day;
+                });
+            }
+            
+            if (monthGames.length > 0) {
+                filtered[monthKey] = monthGames;
+            }
         }
     });
     return filtered;
