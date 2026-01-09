@@ -710,8 +710,12 @@ function displayOpeningStats(gamesByMonth, player1Name, player2Name) {
     // Update table headers with player names
     const p1Header = document.getElementById('openings-player1');
     const p2Header = document.getElementById('openings-player2');
+    const p1WinRateHeader = document.getElementById('openings-player1-winrate');
+    const p2WinRateHeader = document.getElementById('openings-player2-winrate');
     if (p1Header) p1Header.textContent = player1Name;
     if (p2Header) p2Header.textContent = player2Name;
+    if (p1WinRateHeader) p1WinRateHeader.textContent = player1Name;
+    if (p2WinRateHeader) p2WinRateHeader.textContent = player2Name;
 
     const tableBody = document.getElementById('openings-table');
     if (!tableBody) return;
@@ -759,8 +763,14 @@ function renderOpeningsTable(openingList, player1Name, player2Name) {
             case 'player1Wins':
                 comparison = a.player1Wins - b.player1Wins;
                 break;
+            case 'player1WinRate':
+                comparison = (a.p1WinRate || 0) - (b.p1WinRate || 0);
+                break;
             case 'player2Wins':
                 comparison = a.player2Wins - b.player2Wins;
+                break;
+            case 'player2WinRate':
+                comparison = (a.p2WinRate || 0) - (b.p2WinRate || 0);
                 break;
             case 'draws':
                 comparison = a.draws - b.draws;
@@ -777,7 +787,7 @@ function renderOpeningsTable(openingList, player1Name, player2Name) {
 
     if (sortedOpenings.length === 0) {
         const row = document.createElement('tr');
-        row.innerHTML = '<td colspan="5" class="px-2 py-2 text-center text-gray-500">No opening data available</td>';
+        row.innerHTML = '<td colspan="7" class="px-2 py-2 text-center text-gray-500">No opening data available</td>';
         tableBody.appendChild(row);
         return;
     }
@@ -837,11 +847,17 @@ function renderOpeningsTable(openingList, player1Name, player2Name) {
                 </div>
             </td>
             <td class="px-2 py-2 text-center text-red-400" style="font-family: 'Fira Code', monospace;">
-                <span class="font-bold">${p1WinsStr}</span><span class="text-gray-400 text-xs"> (${p1RateStr}%)</span>
+                <span class="font-bold">${p1WinsStr}</span>
+            </td>
+            <td class="px-2 py-2 text-center text-red-400" style="font-family: 'Fira Code', monospace;">
+                <span class="text-xs">${p1RateStr}%</span>
             </td>
             <td class="px-2 py-2 text-center text-gray-400">${opening.draws}</td>
             <td class="px-2 py-2 text-center text-blue-400" style="font-family: 'Fira Code', monospace;">
-                <span class="font-bold">${p2WinsStr}</span><span class="text-gray-400 text-xs"> (${p2RateStr}%)</span>
+                <span class="font-bold">${p2WinsStr}</span>
+            </td>
+            <td class="px-2 py-2 text-center text-blue-400" style="font-family: 'Fira Code', monospace;">
+                <span class="text-xs">${p2RateStr}%</span>
             </td>
             <td class="px-2 py-2 text-center text-gray-400">${opening.games}</td>
         `;
@@ -851,7 +867,7 @@ function renderOpeningsTable(openingList, player1Name, player2Name) {
         const detailsRow = document.createElement('tr');
         detailsRow.className = 'opening-details';
         const detailsCell = document.createElement('td');
-        detailsCell.colSpan = 5;
+        detailsCell.colSpan = 7;
         detailsCell.className = 'p-0';
 
         let games = gamesByOpening[opening.name] || [];
