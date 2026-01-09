@@ -5,7 +5,7 @@ const path = require('path');
 const https = require('https');
 
 const LICHESS_API = 'https://lichess.org/api';
-const DATA_DIR = path.join(__dirname, '..', 'web', 'data', 'games');
+const DATA_DIR = path.join(__dirname, '..', 'docs', 'data', 'games');
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) {

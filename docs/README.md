@@ -26,7 +26,7 @@ A GitHub Pages website displaying chess game statistics from Lichess for two pla
 
 1. Go to Settings > Pages
 2. Select "Deploy from a branch"
-3. Choose branch: `main` and folder: `/web`
+3. Choose branch: `main` and folder: `/docs`
 4. Site available at `https://username.github.io/repository-name/`
 
 ## How It Works
@@ -38,9 +38,9 @@ A GitHub Action runs every hour to:
 
 ## Running Locally
 
-1. Navigate to the web folder:
+1. Navigate to the docs folder:
    ```bash
-   cd web
+   cd docs
    ```
 
 2. Start a local web server:
@@ -55,17 +55,3 @@ A GitHub Action runs every hour to:
    export LICHESS_API_KEY="your_api_key_here"
    node scripts/fetch-games.js player1 player2
    ```
-
-## Project Structure
-
-```
-web/
-├── index.html          # Main HTML file
-├── js/                 # JavaScript files
-│   ├── main.js
-│   ├── data-loader.js
-│   ├── stats-calculator.js
-│   └── ...
-└── data/
-    └── games/          # Game data files (YYYY-MM.json)
-```

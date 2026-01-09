@@ -4,7 +4,7 @@ A repository containing chess-related tools and dashboards.
 
 ## Projects
 
-### 📊 [Chess Duel Dashboard](web/)
+### 📊 [Chess Duel Dashboard](docs/)
 A GitHub Pages website displaying chess game statistics from Lichess for two players.
 
 ### 🤖 [Lichellange Bot](lichellange-bot/)
@@ -14,7 +14,7 @@ A Telegram bot for creating Lichess chess challenges directly from Telegram chat
 
 ### Dashboard Setup
 
-See [web/README.md](web/README.md) for dashboard setup instructions.
+See [docs/README.md](docs/README.md) for dashboard setup instructions.
 
 ### Bot Setup
 
