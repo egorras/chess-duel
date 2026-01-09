@@ -33,29 +33,89 @@ A Telegram bot for creating Lichess chess challenges directly from Telegram chat
    npm install
    ```
 
-2. **Configure environment variables:**
+2. **Create `.env` file:**
    ```bash
-   export TELEGRAM_BOT_TOKEN="your_telegram_bot_token"
-   export LICHESS_API_KEY="your_lichess_api_key"
-   export LICHESS_USERNAME="your_lichess_username"
-   export OPPONENT_USERNAME="your_friend_lichess_username"  # Optional
+   # Copy the example file
+   cp env.example .env
+   
+   # Edit .env and add your credentials
+   # On Windows, you can use: notepad .env
+   # On Mac/Linux, you can use: nano .env
    ```
 
-3. **Run the bot:**
+3. **Edit `.env` file with your credentials:**
+   ```env
+   TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
+   LICHESS_API_KEY=your_lichess_api_key_here
+   LICHESS_USERNAME=your_lichess_username
+   OPPONENT_USERNAME=your_friend_lichess_username  # Optional
+   PORT=3000  # Optional, defaults to 3000
+   ```
+
+4. **Run the bot:**
    ```bash
    npm start
    ```
 
+**Alternative: Set environment variables directly**
+
+If you prefer not to use a `.env` file, you can set environment variables directly:
+
+**Windows (PowerShell):**
+```powershell
+$env:TELEGRAM_BOT_TOKEN="your_token"
+$env:LICHESS_API_KEY="your_key"
+$env:LICHESS_USERNAME="your_username"
+$env:OPPONENT_USERNAME="friend_username"  # Optional
+npm start
+```
+
+**Windows (Command Prompt):**
+```cmd
+set TELEGRAM_BOT_TOKEN=your_token
+set LICHESS_API_KEY=your_key
+set LICHESS_USERNAME=your_username
+set OPPONENT_USERNAME=friend_username
+npm start
+```
+
+**Mac/Linux:**
+```bash
+export TELEGRAM_BOT_TOKEN="your_token"
+export LICHESS_API_KEY="your_key"
+export LICHESS_USERNAME="your_username"
+export OPPONENT_USERNAME="friend_username"  # Optional
+npm start
+```
+
 ## Usage
 
-Once the bot is running, use these commands in any Telegram chat:
+Once the bot is running, use these commands in any Telegram chat (works in both private chats and group chats):
 
+- `/q` - **Quick 5+0 blitz challenge** (fastest way!)
 - `/start` - Show help and available commands
 - `/challenge 3+0` - Create a 3+0 blitz challenge
 - `/challenge 5+3` - Create a 5+3 blitz challenge
 - `/quick 1+0` - Quick 1+0 bullet challenge
 - `/3+0` - Direct command for 3+0 challenge
 - `/list` - Show all available time controls
+
+The bot will respond with a clickable link to join the challenge on Lichess.
+
+**Using in a private chat:**
+1. Start a conversation with the bot (search for your bot's username in Telegram)
+2. Type `/start` to begin, or just type `/q` for a quick challenge
+3. The bot will create a challenge and send you a link
+4. **Copy and share the link with your friend** - they won't see the message automatically
+5. Alternatively, your friend can also message the bot separately to get their own link
+
+**Note:** If you set `OPPONENT_USERNAME` in your `.env` file, the bot will create a direct challenge and your friend will get a notification on Lichess (but they still won't see the Telegram message).
+
+**Using in a group chat with a friend:**
+1. Add the bot to your Telegram group chat
+2. Type `/q` in the chat
+3. The bot will create a 5+0 blitz challenge and post a link
+4. Both you and your friend can click the link to join the game on Lichess
 
 ## Docker Deployment
 

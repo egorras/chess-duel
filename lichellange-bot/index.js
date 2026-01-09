@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// Load environment variables from .env file if it exists
+require('dotenv').config();
+
 const TelegramBot = require('node-telegram-bot-api');
 const https = require('https');
 const http = require('http');
@@ -10,7 +13,7 @@ const LICHESS_API_KEY = process.env.LICHESS_API_KEY;
 const LICHESS_USERNAME = process.env.LICHESS_USERNAME; // Your Lichess username
 const OPPONENT_USERNAME = process.env.OPPONENT_USERNAME; // Your friend's Lichess username (optional)
 
-const LICHESS_API = 'https://lichess.org/api';
+const LICHESS_API = 'https://lichess.org';
 
 if (!TELEGRAM_BOT_TOKEN) {
   console.error('Error: TELEGRAM_BOT_TOKEN environment variable is required');
@@ -53,35 +56,28 @@ function createLichessChallenge(timeControl, opponent = null) {
       return;
     }
     
-    const challengeData = {
-      rated: false, // Unrated games (you can change to true for rated)
-      clock: {
-        limit: timeControlConfig.time, // Time in seconds
-        increment: timeControlConfig.increment // Increment in seconds
-      },
-      color: 'random', // 'white', 'black', or 'random'
-      variant: 'standard' // 'standard', 'chess960', etc.
-    };
+    // Build form data for Lichess API (application/x-www-form-urlencoded)
+    const formData = new URLSearchParams();
+    formData.append('rated', 'false');
+    formData.append('clock.limit', timeControlConfig.time.toString());
+    formData.append('clock.increment', timeControlConfig.increment.toString());
+    formData.append('color', 'random');
+    formData.append('variant', 'standard');
 
-    // If opponent is specified, create a direct challenge
-    if (opponent) {
-      challengeData.users = [opponent];
-    }
-
-    const postData = JSON.stringify(challengeData);
+    const postData = formData.toString();
     const options = {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${LICHESS_API_KEY}`,
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': Buffer.byteLength(postData)
       }
     };
 
-    // Use /api/challenge/open for open challenge or /api/challenge/{username} for direct challenge
+    // Use /api/challenge/{username} for direct challenge or /api/challenge for open challenge
     const endpoint = opponent 
       ? `/api/challenge/${opponent}`
-      : '/api/challenge/open';
+      : '/api/challenge';
 
     const req = https.request(`${LICHESS_API}${endpoint}`, options, (res) => {
       let data = '';
@@ -91,25 +87,37 @@ function createLichessChallenge(timeControl, opponent = null) {
       });
 
       res.on('end', () => {
+        console.log(`Lichess API response: ${res.statusCode}`, data.substring(0, 200));
         if (res.statusCode === 200 || res.statusCode === 201) {
           try {
             const response = JSON.parse(data);
+            console.log('Parsed response:', JSON.stringify(response).substring(0, 200));
             resolve(response);
           } catch (e) {
+            console.log('Response is not JSON, treating as challenge ID:', data.trim());
             resolve({ challengeUrl: data.trim() });
           }
         } else if (res.statusCode === 401) {
           reject(new Error('Invalid Lichess API key'));
         } else if (res.statusCode === 400) {
-          reject(new Error(`Invalid request: ${data}`));
+          const errorData = data.length > 200 ? data.substring(0, 200) + '...' : data;
+          reject(new Error(`Invalid request: ${errorData}`));
         } else {
-          reject(new Error(`Lichess API error: ${res.statusCode} - ${data}`));
+          const errorData = data.length > 200 ? data.substring(0, 200) + '...' : data;
+          reject(new Error(`Lichess API error ${res.statusCode}: ${errorData}`));
         }
       });
     });
 
     req.on('error', (error) => {
+      console.error('Request error:', error);
       reject(error);
+    });
+
+    // Set timeout
+    req.setTimeout(10000, () => {
+      req.destroy();
+      reject(new Error('Request timeout'));
     });
 
     req.write(postData);
@@ -154,24 +162,18 @@ function getChallengeUrl(challengeResponse) {
 // Handle /start command
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  const welcomeMessage = `
-🎮 *Chess Challenge Bot*
+  const opponentInfo = OPPONENT_USERNAME ? `\n*Opponent:* ${OPPONENT_USERNAME}` : '';
+  const welcomeMessage = `🎮 *Chess Challenge Bot*
 
-I can help you create Lichess challenges quickly!
-
-*Available commands:*
-/challenge <time> - Create a challenge (e.g., /challenge 3+0)
-/quick <time> - Quick challenge (e.g., /quick 5+3)
-/list - Show available time controls
-/help - Show this help message
+*Commands:*
+/q - Quick 5+0 blitz
+/challenge <time> - Create challenge (e.g., /challenge 3+0)
+/list - Show time controls
+/help - Help
 
 *Examples:*
-\`/challenge 3+0\` - Create a 3+0 blitz challenge
-\`/challenge 5+3\` - Create a 5+3 blitz challenge
-\`/quick 1+0\` - Quick 1+0 bullet challenge
-
-${OPPONENT_USERNAME ? `*Opponent:* ${OPPONENT_USERNAME} (configured)` : '*Note:* Add OPPONENT_USERNAME env var to create direct challenges'}
-  `;
+\`/q\` - 5+0 blitz
+\`/challenge 3+0\` - 3+0 blitz${opponentInfo}`;
   
   bot.sendMessage(chatId, welcomeMessage, { parse_mode: 'Markdown' });
 });
@@ -185,11 +187,72 @@ bot.onText(/\/help/, (msg) => {
 // Handle /list command - show available time controls
 bot.onText(/\/list/, (msg) => {
   const chatId = msg.chat.id;
-  let message = '*Available Time Controls:*\n\n';
+  let message = '*Time Controls:*\n';
   Object.entries(TIME_CONTROLS).forEach(([key, value]) => {
-    message += `\`${key}\` - ${value.name}\n`;
+    message += `\`${key}\` ${value.name}\n`;
   });
-  bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+  // Split message if too long (Telegram limit is 4096 chars)
+  if (message.length > 4000) {
+    const lines = message.split('\n');
+    const firstPart = lines.slice(0, Math.floor(lines.length / 2)).join('\n');
+    const secondPart = lines.slice(Math.floor(lines.length / 2)).join('\n');
+    bot.sendMessage(chatId, firstPart, { parse_mode: 'Markdown' });
+    bot.sendMessage(chatId, secondPart, { parse_mode: 'Markdown' });
+  } else {
+    bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+  }
+});
+
+// Handle /q command - quick 5+0 blitz challenge
+bot.onText(/^\/q$/, async (msg) => {
+  const chatId = msg.chat.id;
+  const statusMsg = await bot.sendMessage(chatId, '⏳ Creating 5+0 blitz challenge...');
+
+  try {
+    const challengeResponse = await createLichessChallenge(
+      '5+0',
+      OPPONENT_USERNAME || null
+    );
+
+    const challengeUrl = getChallengeUrl(challengeResponse);
+
+    if (challengeUrl) {
+      const message = `✅ *5+0 Blitz Challenge Created!*\n\n` +
+        `*Type:* ${OPPONENT_USERNAME ? 'Direct Challenge' : 'Open Challenge'}\n\n` +
+        `[🎯 Click here to join the game](${challengeUrl})`;
+
+      bot.editMessageText(message, {
+        chat_id: chatId,
+        message_id: statusMsg.message_id,
+        parse_mode: 'Markdown',
+        disable_web_page_preview: false
+      });
+    } else {
+      bot.editMessageText(
+        `✅ Challenge created, but couldn't get the URL.\n\nResponse: ${JSON.stringify(challengeResponse).substring(0, 500)}`,
+        {
+          chat_id: chatId,
+          message_id: statusMsg.message_id
+        }
+      );
+    }
+  } catch (error) {
+    console.error('Error creating challenge:', error);
+    const errorMsg = error.message.length > 200 ? error.message.substring(0, 200) + '...' : error.message;
+    try {
+      bot.editMessageText(
+        `❌ *Error creating challenge:*\n\`${errorMsg}\`\n\nCheck your Lichess API key and permissions.`,
+        {
+          chat_id: chatId,
+          message_id: statusMsg.message_id,
+          parse_mode: 'Markdown'
+        }
+      );
+    } catch (editError) {
+      // If edit fails, send a new message
+      bot.sendMessage(chatId, `❌ Error: ${errorMsg}`, { parse_mode: 'Markdown' });
+    }
+  }
 });
 
 // Handle /challenge and /quick commands
@@ -234,7 +297,7 @@ bot.onText(/\/(challenge|quick)\s+(.+)/, async (msg, match) => {
       });
     } else {
       bot.editMessageText(
-        `✅ Challenge created, but couldn't get the URL.\n\nResponse: ${JSON.stringify(challengeResponse)}`,
+        `✅ Challenge created, but couldn't get the URL.\n\nResponse: ${JSON.stringify(challengeResponse).substring(0, 500)}`,
         {
           chat_id: chatId,
           message_id: statusMsg.message_id
@@ -243,14 +306,20 @@ bot.onText(/\/(challenge|quick)\s+(.+)/, async (msg, match) => {
     }
   } catch (error) {
     console.error('Error creating challenge:', error);
-    bot.editMessageText(
-      `❌ *Error creating challenge:*\n\`${error.message}\`\n\nMake sure your Lichess API key is valid and has challenge creation permissions.`,
-      {
-        chat_id: chatId,
-        message_id: statusMsg.message_id,
-        parse_mode: 'Markdown'
-      }
-    );
+    const errorMsg = error.message.length > 200 ? error.message.substring(0, 200) + '...' : error.message;
+    try {
+      bot.editMessageText(
+        `❌ *Error creating challenge:*\n\`${errorMsg}\`\n\nCheck your Lichess API key and permissions.`,
+        {
+          chat_id: chatId,
+          message_id: statusMsg.message_id,
+          parse_mode: 'Markdown'
+        }
+      );
+    } catch (editError) {
+      // If edit fails, send a new message
+      bot.sendMessage(chatId, `❌ Error: ${errorMsg}`, { parse_mode: 'Markdown' });
+    }
   }
 });
 
@@ -283,7 +352,7 @@ Object.keys(TIME_CONTROLS).forEach((timeControl) => {
         });
       } else {
         bot.editMessageText(
-          `✅ Challenge created, but couldn't get the URL.\n\nResponse: ${JSON.stringify(challengeResponse)}`,
+          `✅ Challenge created, but couldn't get the URL.\n\nResponse: ${JSON.stringify(challengeResponse).substring(0, 500)}`,
           {
             chat_id: chatId,
             message_id: statusMsg.message_id
