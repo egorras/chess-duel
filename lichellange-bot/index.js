@@ -32,8 +32,21 @@ if (!LICHESS_USERNAME) {
   process.exit(1);
 }
 
-// Create a bot instance
+// Create a bot instance with inline mode support
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
+
+// Get bot info to handle mentions
+let botUsername = null;
+bot.getMe().then((me) => {
+  botUsername = me.username;
+  console.log(`Bot @${botUsername} is ready!`);
+  // Enable inline mode
+  bot.setMyCommands([
+    { command: 'q', description: 'Quick 5+0 blitz challenge' },
+    { command: 'start', description: 'Show help' },
+    { command: 'list', description: 'Show time controls' }
+  ]);
+});
 
 // Common time controls for blitz (you can customize these)
 const TIME_CONTROLS = {
@@ -159,8 +172,8 @@ function getChallengeUrl(challengeResponse) {
   return null;
 }
 
-// Handle /start command
-bot.onText(/\/start/, (msg) => {
+// Handle /start command (works with or without @mention)
+bot.onText(/\/start(@\w+)?/, (msg) => {
   const chatId = msg.chat.id;
   const opponentInfo = OPPONENT_USERNAME ? `\n*Opponent:* ${OPPONENT_USERNAME}` : '';
   const welcomeMessage = `🎮 *Chess Challenge Bot*
@@ -178,14 +191,14 @@ bot.onText(/\/start/, (msg) => {
   bot.sendMessage(chatId, welcomeMessage, { parse_mode: 'Markdown' });
 });
 
-// Handle /help command
-bot.onText(/\/help/, (msg) => {
+// Handle /help command (works with or without @mention)
+bot.onText(/\/help(@\w+)?/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, 'Use /start to see available commands and examples.');
 });
 
-// Handle /list command - show available time controls
-bot.onText(/\/list/, (msg) => {
+// Handle /list command - show available time controls (works with or without @mention)
+bot.onText(/\/list(@\w+)?/, (msg) => {
   const chatId = msg.chat.id;
   let message = '*Time Controls:*\n';
   Object.entries(TIME_CONTROLS).forEach(([key, value]) => {
@@ -203,8 +216,115 @@ bot.onText(/\/list/, (msg) => {
   }
 });
 
-// Handle /q command - quick 5+0 blitz challenge
-bot.onText(/^\/q$/, async (msg) => {
+// Handle inline queries (when user types @botname in any chat)
+bot.on('inline_query', async (query) => {
+  const queryLower = query.query.toLowerCase().trim();
+  
+  // Create challenges immediately for common queries
+  const results = [];
+  
+  // Quick 5+0 challenge
+  if (!queryLower || queryLower === 'q' || queryLower === '5+0' || queryLower === '5') {
+    try {
+      const challengeResponse = await createLichessChallenge('5+0', OPPONENT_USERNAME || null);
+      const challengeUrl = getChallengeUrl(challengeResponse);
+      
+      if (challengeUrl) {
+        results.push({
+          type: 'article',
+          id: 'quick_5_0',
+          title: '🎯 Quick 5+0 Blitz Challenge',
+          description: 'Click to send challenge link',
+          input_message_content: {
+            message_text: `✅ *5+0 Blitz Challenge Created!*\n\n[🎯 Click here to join the game](${challengeUrl})`,
+            parse_mode: 'Markdown',
+            disable_web_page_preview: false
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error creating challenge in inline query:', error);
+      results.push({
+        type: 'article',
+        id: 'quick_5_0',
+        title: '🎯 Quick 5+0 Blitz Challenge',
+        description: 'Error creating challenge',
+        input_message_content: {
+          message_text: `❌ Error creating challenge: ${error.message.substring(0, 100)}`
+        }
+      });
+    }
+  }
+  
+  // 3+0 challenge
+  if (!queryLower || queryLower === '3+0' || queryLower === '3') {
+    try {
+      const challengeResponse = await createLichessChallenge('3+0', OPPONENT_USERNAME || null);
+      const challengeUrl = getChallengeUrl(challengeResponse);
+      
+      if (challengeUrl) {
+        results.push({
+          type: 'article',
+          id: 'challenge_3_0',
+          title: '⚡ 3+0 Blitz Challenge',
+          description: 'Click to send challenge link',
+          input_message_content: {
+            message_text: `✅ *3+0 Blitz Challenge Created!*\n\n[🎯 Click here to join the game](${challengeUrl})`,
+            parse_mode: 'Markdown',
+            disable_web_page_preview: false
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error creating 3+0 challenge:', error);
+    }
+  }
+  
+  // 5+3 challenge
+  if (!queryLower || queryLower === '5+3' || queryLower === '53') {
+    try {
+      const challengeResponse = await createLichessChallenge('5+3', OPPONENT_USERNAME || null);
+      const challengeUrl = getChallengeUrl(challengeResponse);
+      
+      if (challengeUrl) {
+        results.push({
+          type: 'article',
+          id: 'challenge_5_3',
+          title: '🔥 5+3 Blitz Challenge',
+          description: 'Click to send challenge link',
+          input_message_content: {
+            message_text: `✅ *5+3 Blitz Challenge Created!*\n\n[🎯 Click here to join the game](${challengeUrl})`,
+            parse_mode: 'Markdown',
+            disable_web_page_preview: false
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error creating 5+3 challenge:', error);
+    }
+  }
+  
+  // If no results (or for other queries), show default options
+  if (results.length === 0) {
+    results.push({
+      type: 'article',
+      id: 'help',
+      title: '💡 How to use',
+      description: 'Type: q, 5+0, 3+0, or 5+3',
+      input_message_content: {
+        message_text: 'Type `@botname q` for quick 5+0 challenge, or `@botname 3+0` for other time controls.',
+        parse_mode: 'Markdown'
+      }
+    });
+  }
+
+  await bot.answerInlineQuery(query.id, results, {
+    cache_time: 1 // Cache for 1 second to avoid creating duplicates
+  });
+});
+
+// Handle /q command - quick 5+0 blitz challenge (works with or without @mention)
+bot.onText(/^\/q(@\w+)?$/, async (msg) => {
   const chatId = msg.chat.id;
   const statusMsg = await bot.sendMessage(chatId, '⏳ Creating 5+0 blitz challenge...');
 
@@ -255,10 +375,10 @@ bot.onText(/^\/q$/, async (msg) => {
   }
 });
 
-// Handle /challenge and /quick commands
-bot.onText(/\/(challenge|quick)\s+(.+)/, async (msg, match) => {
+// Handle /challenge and /quick commands (works with or without @mention)
+bot.onText(/\/(challenge|quick)(@\w+)?\s+(.+)/, async (msg, match) => {
   const chatId = msg.chat.id;
-  const timeControl = match[2].trim().toUpperCase();
+  const timeControl = match[3].trim().toUpperCase();
 
   // Validate time control format
   if (!TIME_CONTROLS[timeControl]) {
@@ -323,9 +443,9 @@ bot.onText(/\/(challenge|quick)\s+(.+)/, async (msg, match) => {
   }
 });
 
-// Handle direct time control commands (e.g., /3+0, /5+3)
+// Handle direct time control commands (e.g., /3+0, /5+3) (works with or without @mention)
 Object.keys(TIME_CONTROLS).forEach((timeControl) => {
-  bot.onText(new RegExp(`^\\/${timeControl.replace('+', '\\+')}$`), async (msg) => {
+  bot.onText(new RegExp(`^\\/${timeControl.replace('+', '\\+')}(@\\w+)?$`), async (msg) => {
     const chatId = msg.chat.id;
     const statusMsg = await bot.sendMessage(chatId, '⏳ Creating challenge...');
 
