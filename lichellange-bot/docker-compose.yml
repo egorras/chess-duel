@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  lichellange-bot:
+    build: .
+    container_name: lichellange-bot
+    restart: unless-stopped
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - LICHESS_API_KEY=${LICHESS_API_KEY}
+      - LICHESS_USERNAME=${LICHESS_USERNAME}
+      - OPPONENT_USERNAME=${OPPONENT_USERNAME}
+      - PORT=${PORT:-3000}
+    ports:
+      - "${PORT:-3000}:3000"
+    # Uncomment to use .env file instead:
+    # env_file:
+    #   - .env

@@ -1,0 +1,15 @@
+{
+  "name": "chess-duel",
+  "version": "1.0.0",
+  "description": "Chess duel statistics dashboard from Lichess",
+  "scripts": {
+    "fetch-games": "node scripts/fetch-games.js"
+  },
+  "keywords": [
+    "chess",
+    "lichess",
+    "statistics"
+  ],
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "lichellange-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for creating Lichess chess challenges",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "chess",
+    "lichess",
+    "telegram",
+    "bot"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.64.0"
+  }
+}
