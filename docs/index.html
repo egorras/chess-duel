@@ -177,6 +177,9 @@
                     <button class="tab-button px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-tab="stats">
                         Stats
                     </button>
+                    <button class="tab-button px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-tab="fun">
+                        Fun
+                    </button>
                 </nav>
             </div>
 
@@ -447,6 +450,57 @@
             </div>
             <!-- End Stats Tab -->
 
+            <!-- Fun Games Tab -->
+            <div class="tab-pane" data-tab-content="fun">
+            
+            <div class="mb-4">
+                <h2 class="text-lg font-semibold mb-2 text-gray-300">Fun Games</h2>
+                <p class="text-xs text-gray-500 mb-4">Games with notable characteristics like big swings, high blunders, missed mates, or exceptional accuracy. Only games with analysis data are shown.</p>
+            </div>
+
+            <!-- Fun Category Tabs -->
+            <div class="mb-4 border-b border-gray-700">
+                <nav class="flex gap-1 md:gap-2 overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <button class="fun-category-tab active px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-gray-400 text-gray-300 whitespace-nowrap flex-shrink-0" data-fun-category="missed-mates">
+                        Missed Mates
+                    </button>
+                    <button class="fun-category-tab px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-fun-category="big-swings">
+                        Big Swings
+                    </button>
+                    <button class="fun-category-tab px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-fun-category="high-blunders">
+                        High Blunders
+                    </button>
+                    <button class="fun-category-tab px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-fun-category="great-games">
+                        Great Games
+                    </button>
+                    <button class="fun-category-tab px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-fun-category="chaotic-games">
+                        Chaotic Games
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Fun Category Content -->
+            <div id="fun-category-content">
+                <div class="fun-category-pane active" data-fun-category-content="missed-mates">
+                    <div id="missed-mates"></div>
+                </div>
+                <div class="fun-category-pane" data-fun-category-content="big-swings">
+                    <div id="big-swings"></div>
+                </div>
+                <div class="fun-category-pane" data-fun-category-content="high-blunders">
+                    <div id="high-blunders"></div>
+                </div>
+                <div class="fun-category-pane" data-fun-category-content="great-games">
+                    <div id="great-games"></div>
+                </div>
+                <div class="fun-category-pane" data-fun-category-content="chaotic-games">
+                    <div id="chaotic-games"></div>
+                </div>
+            </div>
+
+            </div>
+            <!-- End Fun Games Tab -->
+
             </div>
             <!-- End Tab Content -->
 
@@ -478,6 +532,19 @@
                 .tab-button.active {
                     border-color: rgb(156, 163, 175);
                     color: rgb(209, 213, 219);
+                }
+                .fun-category-tab {
+                    transition: all 0.2s ease;
+                }
+                .fun-category-tab.active {
+                    border-color: rgb(156, 163, 175);
+                    color: rgb(209, 213, 219);
+                }
+                .fun-category-pane {
+                    display: none;
+                }
+                .fun-category-pane.active {
+                    display: block;
                 }
                 .quick-filter-btn.active {
                     background-color: rgb(75, 85, 99);
@@ -523,6 +590,7 @@
     <script src="js/ui-display.js"></script>
     <script src="js/router.js"></script>
     <script src="js/calendar.js"></script>
+    <script src="js/interesting-games.js"></script>
     <script src="js/main.js"></script>
     <script src="js/tabs.js"></script>
 </body>

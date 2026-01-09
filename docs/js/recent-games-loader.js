@@ -40,6 +40,7 @@ async function fetchGamesFromLichess(username, apiKey, since, until, vsPlayer = 
         division: 'true',
         moves: 'true',
         opening: 'true',
+        evals: 'true',
         sort: 'dateAsc'
     });
 

@@ -32,6 +32,9 @@ function displayStatsWithChart(gamesByMonth) {
         displayOpeningStats(gamesByMonth, player1Name, player2Name);
         displaySessionStats(gamesByMonth, player1Name, player2Name);
         displayGames(gamesByMonth, player1Name, player2Name);
+        if (typeof displayInterestingGames === 'function') {
+            displayInterestingGames(gamesByMonth, player1Name, player2Name);
+        }
     }
     
     // Calendar is initialized separately and always visible

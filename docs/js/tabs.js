@@ -80,6 +80,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             }
+            
+            if (targetTab === 'fun' && typeof displayInterestingGames === 'function') {
+                // Get current filtered games
+                const route = typeof Router !== 'undefined' ? Router.getCurrentRoute() : {};
+                const { year = 'all', month = 'all', day = 'all' } = route;
+                const cacheKey = `${year}-${month}-${day || 'all'}`;
+                let filteredGames = typeof window !== 'undefined' && window.filteredGamesCache 
+                    ? window.filteredGamesCache.get(cacheKey) 
+                    : null;
+                
+                if (!filteredGames && typeof window !== 'undefined' && window.globalGamesByMonth) {
+                    if (typeof filterGamesByDateRange === 'function') {
+                        filteredGames = filterGamesByDateRange(window.globalGamesByMonth, year, month, day);
+                    }
+                }
+                
+                if (filteredGames && typeof getPlayerNames === 'function') {
+                    const [player1Name, player2Name] = getPlayerNames(window.globalGamesByMonth || {});
+                    // Use requestAnimationFrame to ensure DOM is ready
+                    requestAnimationFrame(() => {
+                        displayInterestingGames(filteredGames, player1Name, player2Name);
+                    });
+                }
+            }
         } else {
             console.warn(`Tab pane not found for tab: ${targetTab}`);
         }
