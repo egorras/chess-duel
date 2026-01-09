@@ -65,30 +65,96 @@ function findInterestingGames(gamesByMonth, player1Name, player2Name) {
         };
     });
     
-    // Find missed mates: games where the losing player had 2+ blunders
+    // Find missed mates: games where one player had a forced mate on the board but the other player won
+    // Only include games that actually have mate evaluations in the analysis
     const missedMatesGames = gamesWithMetrics
         .filter(g => {
             const game = g.game;
-            const whitePlayer = game.players.white.user.name;
-            const isPlayer1White = whitePlayer === player1Name;
+            const analysis = game.analysis || [];
             
-            // Check if white lost and had blunders
-            if (game.winner === 'black' && g.whiteBlunders >= 2) {
-                return true;
+            if (analysis.length === 0) {
+                return false; // Need analysis data to detect missed mates
             }
-            // Check if black lost and had blunders
-            if (game.winner === 'white' && g.blackBlunders >= 2) {
-                return true;
+            
+            // Check if losing player had a forced mate
+            const whiteLost = game.winner === 'black';
+            const blackLost = game.winner === 'white';
+            
+            // Look through analysis for forced mates
+            // Analysis array: index 0 = after white's 1st move, index 1 = after black's 1st move, etc.
+            // So even indices = white's position, odd indices = black's position
+            let whiteHadMate = false;
+            let blackHadMate = false;
+            
+            for (let i = 0; i < analysis.length; i++) {
+                const evalData = analysis[i];
+                const isWhitePosition = i % 2 === 0; // Even indices are after white moves (white's position)
+                
+                // Only check for actual mate evaluations (mate field must exist)
+                if (evalData.mate !== undefined && typeof evalData.mate === 'number') {
+                    if (evalData.mate > 0 && isWhitePosition) {
+                        // White has forced mate
+                        whiteHadMate = true;
+                    } else if (evalData.mate < 0 && !isWhitePosition) {
+                        // Black has forced mate
+                        blackHadMate = true;
+                    }
+                }
             }
+            
+            // Only return true if we found an actual mate evaluation and the player who had it lost
+            if (whiteLost && whiteHadMate) {
+                return true; // White had mate but lost
+            }
+            if (blackLost && blackHadMate) {
+                return true; // Black had mate but lost
+            }
+            
             return false;
         })
-        .map(g => ({
-            ...g,
-            // Calculate a "missed mate score" - blunders of losing player
-            missedMateScore: g.game.winner === 'white' 
-                ? g.blackBlunders 
-                : g.whiteBlunders
-        }))
+        .map(g => {
+            const game = g.game;
+            const analysis = game.analysis || [];
+            
+            // Calculate missed mate score - find the best (lowest) mate count the losing player had
+            let missedMateScore = 0;
+            const whiteLost = game.winner === 'black';
+            const blackLost = game.winner === 'white';
+            
+            let bestMateForLoser = Infinity;
+            
+            for (let i = 0; i < analysis.length; i++) {
+                const evalData = analysis[i];
+                const isWhitePosition = i % 2 === 0;
+                
+                if (evalData.mate !== undefined) {
+                    if (whiteLost && isWhitePosition && evalData.mate > 0) {
+                        // White had mate but lost - track the best mate they had
+                        if (evalData.mate < bestMateForLoser) {
+                            bestMateForLoser = evalData.mate;
+                        }
+                    } else if (blackLost && !isWhitePosition && evalData.mate < 0) {
+                        // Black had mate but lost - track the best mate they had
+                        const mateCount = Math.abs(evalData.mate);
+                        if (mateCount < bestMateForLoser) {
+                            bestMateForLoser = mateCount;
+                        }
+                    }
+                }
+            }
+            
+            // Score: lower mate count = worse miss (mate in 1 is worse than mate in 5)
+            // So we use 1000 - mateCount to make lower numbers score higher
+            if (bestMateForLoser !== Infinity) {
+                missedMateScore = 1000 - bestMateForLoser;
+            }
+            
+            return {
+                ...g,
+                missedMateScore,
+                bestMateMissed: bestMateForLoser !== Infinity ? bestMateForLoser : null
+            };
+        })
         .sort((a, b) => b.missedMateScore - a.missedMateScore)
         .slice(0, 10)
         .map(g => g.game);
@@ -125,8 +191,8 @@ function displayInterestingGames(gamesByMonth, player1Name, player2Name) {
     currentShowYear = showYear;
     
     // Display all categories (they'll be shown/hidden by tabs)
-    displayInterestingCategory('missed-mates', interesting.missedMates, 'Missed Mates (Lost with 2+ Blunders)', 
-        'Games where the losing player had 2+ blunders - potential missed mates that cost the game', 
+    displayInterestingCategory('missed-mates', interesting.missedMates, 'Missed Mates', 
+        'Games where one player had a forced mate on the board but the other player won', 
         player1Name, player2Name, showYear);
     displayInterestingCategory('big-swings', interesting.bigSwings, 'Big Swings', 
         'Games with the highest combined ACPL (biggest mistakes/swings)', 
@@ -222,6 +288,7 @@ function displayInterestingCategory(containerId, games, title, description, play
                             <th class="px-2 py-2 text-center">B ACPL</th>
                             <th class="px-2 py-2 text-center">W Bl</th>
                             <th class="px-2 py-2 text-center">B Bl</th>
+                            ${containerId === 'missed-mates' ? '<th class="px-2 py-2 text-center">Missed Mate</th>' : ''}
                             <th class="px-2 py-2 text-center">Link</th>
                         </tr>
                     </thead>
@@ -254,20 +321,55 @@ function displayInterestingCategory(containerId, games, title, description, play
         const whiteBlunders = whiteAnalysis.blunder || 0;
         const blackBlunders = blackAnalysis.blunder || 0;
         
-        // Highlight the losing player's blunders for missed mates section
+        // For missed mates section, find and display the mate that was missed
         const isMissedMates = containerId === 'missed-mates';
         const whiteLost = game.winner === 'black';
         const blackLost = game.winner === 'white';
-        const whiteBlunderClass = isMissedMates && whiteLost && whiteBlunders >= 2 
-            ? 'text-red-500 font-bold' 
-            : whiteBlunders > 0 
-                ? 'text-red-400 font-bold' 
-                : 'text-gray-500';
-        const blackBlunderClass = isMissedMates && blackLost && blackBlunders >= 2 
-            ? 'text-red-500 font-bold' 
-            : blackBlunders > 0 
-                ? 'text-red-400 font-bold' 
-                : 'text-gray-500';
+        let missedMateInfo = '';
+        let missedMateColorClass = '';
+        
+        if (isMissedMates && game.analysis && game.analysis.length > 0) {
+            let bestMateMissed = null;
+            let playerWhoMissed = null;
+            
+            for (let i = 0; i < game.analysis.length; i++) {
+                const evalData = game.analysis[i];
+                const isWhitePosition = i % 2 === 0; // Even indices are after white moves (white's position)
+                
+                if (evalData.mate !== undefined) {
+                    if (whiteLost && isWhitePosition && evalData.mate > 0) {
+                        // White had mate but lost
+                        if (!bestMateMissed || evalData.mate < bestMateMissed) {
+                            bestMateMissed = evalData.mate;
+                            playerWhoMissed = whitePlayer; // White player missed it
+                        }
+                    } else if (blackLost && !isWhitePosition && evalData.mate < 0) {
+                        // Black had mate but lost
+                        const mateCount = Math.abs(evalData.mate);
+                        if (!bestMateMissed || mateCount < bestMateMissed) {
+                            bestMateMissed = mateCount;
+                            playerWhoMissed = blackPlayer; // Black player missed it
+                        }
+                    }
+                }
+            }
+            
+            if (bestMateMissed && playerWhoMissed) {
+                missedMateInfo = `${playerWhoMissed} missed M${bestMateMissed}`;
+                // Use player color for the missed mate info
+                const isPlayer1Missed = playerWhoMissed === player1Name;
+                // Use player1 color (red) if player1 missed it, otherwise player2 color (blue)
+                missedMateColorClass = isPlayer1Missed ? 'text-red-400' : 'text-blue-400';
+            }
+        }
+        
+        // Use neutral colors for blunders (not red to avoid confusion with player colors)
+        const whiteBlunderClass = whiteBlunders > 0 
+            ? 'text-yellow-400 font-bold' 
+            : 'text-gray-500';
+        const blackBlunderClass = blackBlunders > 0 
+            ? 'text-yellow-400 font-bold' 
+            : 'text-gray-500';
         
         html += `
             <tr class="hover:bg-gray-800">
@@ -287,6 +389,7 @@ function displayInterestingCategory(containerId, games, title, description, play
                 <td class="px-2 py-2 text-center text-gray-300">${blackAcpl}</td>
                 <td class="px-2 py-2 text-center ${whiteBlunderClass}">${whiteBlunders}</td>
                 <td class="px-2 py-2 text-center ${blackBlunderClass}">${blackBlunders}</td>
+                ${isMissedMates ? `<td class="px-2 py-2 text-center ${missedMateColorClass || 'text-gray-400'} font-bold">${missedMateInfo || '-'}</td>` : ''}
                 <td class="px-2 py-2 text-center">
                     <a href="https://lichess.org/${game.id}" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:underline">View</a>
                 </td>
