@@ -481,6 +481,77 @@ function setupMonthlyMetricSelector() {
 }
 
 // Initialize
+function getLastFetchedTime(gamesByMonth) {
+    let mostRecentTime = 0;
+    
+    // Find the most recent game timestamp
+    Object.values(gamesByMonth).forEach(games => {
+        games.forEach(game => {
+            // Use lastMoveAt if available, otherwise createdAt
+            const gameTime = game.lastMoveAt || game.createdAt;
+            if (gameTime > mostRecentTime) {
+                mostRecentTime = gameTime;
+            }
+        });
+    });
+    
+    return mostRecentTime;
+}
+
+function displayLastFetchedTime(gamesByMonth) {
+    const lastFetchedEl = document.getElementById('last-fetched-time');
+    if (!lastFetchedEl) return;
+    
+    const lastFetchedTime = getLastFetchedTime(gamesByMonth);
+    if (lastFetchedTime === 0) {
+        lastFetchedEl.textContent = '';
+        return;
+    }
+    
+    const date = new Date(lastFetchedTime);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    let timeAgo = '';
+    if (diffMinutes < 60) {
+        timeAgo = `${diffMinutes}m ago`;
+    } else if (diffHours < 24) {
+        timeAgo = `${diffHours}h ago`;
+    } else if (diffDays < 7) {
+        timeAgo = `${diffDays}d ago`;
+    } else {
+        // Use formatDate24h from utils.js if available, otherwise format manually
+        if (typeof formatDate24h === 'function') {
+            timeAgo = formatDate24h(date, true);
+        } else {
+            timeAgo = date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: '2-digit', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    }
+    
+    lastFetchedEl.textContent = `Last updated: ${timeAgo}`;
+    // Set full date/time as tooltip
+    if (typeof formatDate24h === 'function') {
+        lastFetchedEl.title = formatDate24h(date, true);
+    } else {
+        lastFetchedEl.title = date.toLocaleString('en-US', { 
+            month: 'short', 
+            day: '2-digit', 
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+}
+
 async function init() {
     try {
         globalGamesByMonth = await loadAllGames();
@@ -488,6 +559,7 @@ async function init() {
         globalPlayerNames = getPlayerNames(globalGamesByMonth);
 
         setupDateRangeSelectors();
+        displayLastFetchedTime(globalGamesByMonth);
         
         // Initialize calendar after a short delay to ensure DOM is ready
         setTimeout(() => {
