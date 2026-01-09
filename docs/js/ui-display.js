@@ -983,7 +983,8 @@ function setupOpeningsTableSorting() {
 
 let currentSortColumn = 'date';
 let currentSortDirection = 'desc'; // Default: newest first
-
+let currentGamesPage = 1;
+const GAMES_PER_PAGE = 100; // Only render 100 games at a time
 
 function displayGames(gamesByMonth, player1Name, player2Name) {
     const tableBody = document.getElementById('games-table');
@@ -992,12 +993,25 @@ function displayGames(gamesByMonth, player1Name, player2Name) {
     // Check if year filter is 'all' to include year in date
     const route = Router.getCurrentRoute();
     const showYear = route.year === 'all';
+    
+    // Reset pagination when filter changes (check if this is a new filter)
+    const cacheKey = `${route.year}-${route.month}-${route.day || 'all'}`;
+    const lastCacheKey = window.lastGamesCacheKey || '';
+    if (cacheKey !== lastCacheKey) {
+        currentGamesPage = 1;
+        window.lastGamesCacheKey = cacheKey;
+    }
 
     // Flatten all games from all months
     const allGames = Object.values(gamesByMonth).flat();
     
     if (allGames.length === 0) {
         tableBody.innerHTML = '<tr><td colspan="12" class="px-4 py-3 text-center text-gray-500">No games found</td></tr>';
+        // Remove pagination if exists
+        const paginationContainer = document.getElementById('games-pagination');
+        if (paginationContainer) {
+            paginationContainer.remove();
+        }
         return;
     }
 
@@ -1066,8 +1080,14 @@ function displayGames(gamesByMonth, player1Name, player2Name) {
     // Clear table
     tableBody.innerHTML = '';
 
-    // Pre-compute metadata for all games to avoid repeated calculations
-    const gamesWithMetadata = sortedGames.map(game => {
+    // Calculate pagination
+    const totalPages = Math.ceil(sortedGames.length / GAMES_PER_PAGE);
+    const startIndex = (currentGamesPage - 1) * GAMES_PER_PAGE;
+    const endIndex = Math.min(startIndex + GAMES_PER_PAGE, sortedGames.length);
+    const gamesToRender = sortedGames.slice(startIndex, endIndex);
+
+    // Pre-compute metadata only for games to render (memory optimization)
+    const gamesWithMetadata = gamesToRender.map(game => {
         if (!game._metadata) {
             game._metadata = {
                 moveCount: game.moves ? game.moves.split(' ').length : 0,
@@ -1085,7 +1105,7 @@ function displayGames(gamesByMonth, player1Name, player2Name) {
     // Use DocumentFragment for batch DOM updates
     const fragment = document.createDocumentFragment();
 
-    // Render games
+    // Render only the games for current page
     gamesWithMetadata.forEach((game, index) => {
         const row = document.createElement('tr');
         row.className = 'hover:bg-gray-800';
@@ -1101,10 +1121,177 @@ function displayGames(gamesByMonth, player1Name, player2Name) {
     });
     
     // Batch append all rows at once
+    tableBody.innerHTML = ''; // Clear first
     tableBody.appendChild(fragment);
+
+    // Add pagination controls if needed
+    renderGamesPagination(totalPages, sortedGames.length);
 
     // Update sort indicators
     updateSortIndicators();
+}
+
+function renderGamesPagination(totalPages, totalGames) {
+    // Find or create pagination container
+    let paginationContainer = document.getElementById('games-pagination');
+    const gamesTableContainer = document.getElementById('games-table')?.closest('.bg-gray-800');
+    
+    if (!gamesTableContainer) return;
+    
+    if (!paginationContainer) {
+        paginationContainer = document.createElement('div');
+        paginationContainer.id = 'games-pagination';
+        paginationContainer.className = 'mt-3 flex items-center justify-between px-2 py-2 text-xs text-gray-400';
+        gamesTableContainer.appendChild(paginationContainer);
+    }
+    
+    if (totalPages <= 1) {
+        paginationContainer.innerHTML = `<div class="text-gray-500">Showing ${totalGames} game${totalGames !== 1 ? 's' : ''}</div>`;
+        return;
+    }
+    
+    const startGame = (currentGamesPage - 1) * GAMES_PER_PAGE + 1;
+    const endGame = Math.min(currentGamesPage * GAMES_PER_PAGE, totalGames);
+    
+    let paginationHTML = `
+        <div class="text-gray-500">
+            Showing ${startGame}-${endGame} of ${totalGames} games
+        </div>
+        <div class="flex items-center gap-2">
+    `;
+    
+    // Previous button
+    paginationHTML += `
+        <button 
+            id="games-prev-page" 
+            class="px-2 py-1 bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            ${currentGamesPage === 1 ? 'disabled' : ''}
+        >
+            ←
+        </button>
+    `;
+    
+    // Page numbers (show max 5 pages)
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentGamesPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    if (endPage - startPage < maxVisiblePages - 1) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+    
+    if (startPage > 1) {
+        paginationHTML += `<button class="games-page-btn px-2 py-1 bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white rounded" data-page="1">1</button>`;
+        if (startPage > 2) {
+            paginationHTML += `<span class="px-1">...</span>`;
+        }
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        paginationHTML += `
+            <button 
+                class="games-page-btn px-2 py-1 border rounded ${
+                    i === currentGamesPage 
+                        ? 'bg-gray-600 border-gray-500 text-white' 
+                        : 'bg-gray-700 hover:bg-gray-600 border-gray-600 text-white'
+                }"
+                data-page="${i}"
+            >
+                ${i}
+            </button>
+        `;
+    }
+    
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            paginationHTML += `<span class="px-1">...</span>`;
+        }
+        paginationHTML += `<button class="games-page-btn px-2 py-1 bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white rounded" data-page="${totalPages}">${totalPages}</button>`;
+    }
+    
+    // Next button
+    paginationHTML += `
+        <button 
+            id="games-next-page" 
+            class="px-2 py-1 bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            ${currentGamesPage === totalPages ? 'disabled' : ''}
+        >
+            →
+        </button>
+    `;
+    
+    paginationHTML += `</div>`;
+    paginationContainer.innerHTML = paginationHTML;
+    
+    // Add event listeners
+    const prevBtn = document.getElementById('games-prev-page');
+    const nextBtn = document.getElementById('games-next-page');
+    const pageBtns = paginationContainer.querySelectorAll('.games-page-btn');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentGamesPage > 1) {
+                currentGamesPage--;
+                const route = Router.getCurrentRoute();
+                const { year, month, day } = route;
+                const cacheKey = `${year}-${month}-${day || 'all'}`;
+                let filteredGames = window.filteredGamesCache ? window.filteredGamesCache.get(cacheKey) : null;
+                if (!filteredGames && window.globalGamesByMonth) {
+                    if (typeof filterGamesByDateRange === 'function') {
+                        filteredGames = filterGamesByDateRange(window.globalGamesByMonth, year, month, day);
+                    }
+                }
+                if (filteredGames) {
+                    const [player1Name, player2Name] = getPlayerNames(window.globalGamesByMonth || {});
+                    displayGames(filteredGames, player1Name, player2Name);
+                }
+            }
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const route = Router.getCurrentRoute();
+            const { year, month, day } = route;
+            const cacheKey = `${year}-${month}-${day || 'all'}`;
+            let filteredGames = window.filteredGamesCache ? window.filteredGamesCache.get(cacheKey) : null;
+            if (!filteredGames && window.globalGamesByMonth) {
+                if (typeof filterGamesByDateRange === 'function') {
+                    filteredGames = filterGamesByDateRange(window.globalGamesByMonth, year, month, day);
+                }
+            }
+            if (filteredGames) {
+                const allGames = Object.values(filteredGames).flat();
+                const totalPages = Math.ceil(allGames.length / GAMES_PER_PAGE);
+                if (currentGamesPage < totalPages) {
+                    currentGamesPage++;
+                    const [player1Name, player2Name] = getPlayerNames(window.globalGamesByMonth || {});
+                    displayGames(filteredGames, player1Name, player2Name);
+                }
+            }
+        });
+    }
+    
+    pageBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const page = parseInt(btn.dataset.page);
+            if (page !== currentGamesPage) {
+                currentGamesPage = page;
+                const route = Router.getCurrentRoute();
+                const { year, month, day } = route;
+                const cacheKey = `${year}-${month}-${day || 'all'}`;
+                let filteredGames = window.filteredGamesCache ? window.filteredGamesCache.get(cacheKey) : null;
+                if (!filteredGames && window.globalGamesByMonth) {
+                    if (typeof filterGamesByDateRange === 'function') {
+                        filteredGames = filterGamesByDateRange(window.globalGamesByMonth, year, month, day);
+                    }
+                }
+                if (filteredGames) {
+                    const [player1Name, player2Name] = getPlayerNames(window.globalGamesByMonth || {});
+                    displayGames(filteredGames, player1Name, player2Name);
+                }
+            }
+        });
+    });
 }
 
 function updateSortIndicators() {

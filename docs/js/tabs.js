@@ -14,6 +14,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         tabPanes.forEach(pane => {
+            const tabName = pane.dataset.tabContent;
+            const wasActive = pane.classList.contains('active');
+            
+            // Only cleanup charts when tabs are being hidden (not when switching to them)
+            if (wasActive && tabName !== targetTab) {
+                if (tabName === 'overview' && window.pointsChart) {
+                    // Destroy points chart when overview tab is hidden
+                    try {
+                        window.pointsChart.destroy();
+                        window.pointsChart = null;
+                    } catch (e) {
+                        console.warn('Error destroying points chart:', e);
+                    }
+                }
+                if (tabName === 'monthly' && window.monthlyWinrateChart) {
+                    // Destroy monthly chart when monthly tab is hidden
+                    try {
+                        window.monthlyWinrateChart.destroy();
+                        window.monthlyWinrateChart = null;
+                    } catch (e) {
+                        console.warn('Error destroying monthly chart:', e);
+                    }
+                }
+            }
+            
             pane.classList.remove('active');
         });
 
@@ -72,11 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (filteredGames && typeof calculateStats === 'function' && typeof getPlayerNames === 'function') {
                     const stats = calculateStats(filteredGames, window.globalGamesByMonth || {}, getPlayerNames);
                     const [player1Name, player2Name] = getPlayerNames(window.globalGamesByMonth || {});
-                    // Use requestAnimationFrame to ensure DOM is ready
+                    // Use requestAnimationFrame with a small delay to ensure DOM is ready and tab is visible
                     requestAnimationFrame(() => {
-                        const metricSelector = document.getElementById('monthly-metric-selector');
-                        const metric = metricSelector ? metricSelector.value : 'winrate';
-                        renderMonthlyWinrateChart(stats, player1Name, player2Name, metric);
+                        setTimeout(() => {
+                            const metricSelector = document.getElementById('monthly-metric-selector');
+                            const metric = metricSelector ? metricSelector.value : 'winrate';
+                            renderMonthlyWinrateChart(stats, player1Name, player2Name, metric);
+                        }, 50);
                     });
                 }
             }

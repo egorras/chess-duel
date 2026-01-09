@@ -3,8 +3,14 @@ let globalGamesByMonth = {};
 let globalPlayerNames = [];
 window.globalGamesByMonth = globalGamesByMonth; // Expose for calendar
 
-// Cache for filtered games to avoid repeated filtering
-let filteredGamesCache = new Map();
+// Cache for filtered games to avoid repeated filtering (LRU cache with max 20 entries)
+let filteredGamesCache = null;
+if (typeof window !== 'undefined' && window.optimizations && window.optimizations.LRUCache) {
+    filteredGamesCache = new window.optimizations.LRUCache(20);
+} else {
+    // Fallback to Map if LRU cache not available
+    filteredGamesCache = new Map();
+}
 window.filteredGamesCache = filteredGamesCache; // Expose for tabs.js
 
 function displayStatsWithChart(gamesByMonth) {
@@ -649,6 +655,11 @@ async function init() {
         setupDateRangeSelectors();
         displayLastFetchedTime(globalGamesByMonth);
         setupRecentGamesLoader();
+        
+        // Start memory cleanup
+        if (typeof window !== 'undefined' && window.optimizations && window.optimizations.startMemoryCleanup) {
+            window.optimizations.startMemoryCleanup();
+        }
         
         // Initialize calendar after a short delay to ensure DOM is ready
         setTimeout(() => {

@@ -1,4 +1,5 @@
 let pointsChart = null;
+window.pointsChart = pointsChart; // Expose for cleanup
 
 function generateChartData(gamesByMonth, player1Name) {
     const allGames = [];
@@ -169,19 +170,30 @@ function renderPointsChart(gamesByMonth, player1Name, player2Name) {
 }
 
 let monthlyWinrateChart = null;
+window.monthlyWinrateChart = monthlyWinrateChart; // Expose for cleanup
 let lastMonthlyChartData = null;
 let lastMonthlyChartKey = null;
 let currentMonthlyMetric = 'winrate';
 
 function renderMonthlyWinrateChart(stats, player1Name, player2Name, metric = 'winrate') {
     const canvas = document.getElementById('monthly-winrate-chart');
-    if (!canvas || !stats || !stats.monthlyStats) return;
-
-    // Check if canvas is visible (tab is active)
-    const canvasParent = canvas.closest('.tab-pane');
-    if (canvasParent && !canvasParent.classList.contains('active')) {
-        // Tab is not active, don't render yet
+    if (!canvas || !stats || !stats.monthlyStats) {
+        console.warn('Monthly chart render skipped - missing requirements:', {
+            canvas: !!canvas,
+            stats: !!stats,
+            monthlyStats: !!(stats && stats.monthlyStats)
+        });
         return;
+    }
+
+    // Sync with global reference first (in case chart was destroyed externally)
+    // This ensures we know the true state of the chart
+    if (window.monthlyWinrateChart !== monthlyWinrateChart) {
+        if (window.monthlyWinrateChart) {
+            monthlyWinrateChart = window.monthlyWinrateChart;
+        } else {
+            monthlyWinrateChart = null;
+        }
     }
 
     // Prepare data from monthly stats
@@ -297,16 +309,27 @@ function renderMonthlyWinrateChart(stats, player1Name, player2Name, metric = 'wi
 
     const dataKey = JSON.stringify({ labels, player1Data, player2Data, metric });
 
+    // If chart was destroyed externally (null), clear the cache key to force recreation
+    if (!monthlyWinrateChart) {
+        lastMonthlyChartKey = null;
+    }
+
     // Only recreate chart if data has changed or chart doesn't exist
+    // If chart was destroyed (null), always recreate
     if (monthlyWinrateChart && dataKey === lastMonthlyChartKey) {
-        // Data hasn't changed, just update if needed
+        // Data hasn't changed, chart exists, no need to recreate
         return;
     }
 
     // Destroy existing chart if it exists
     if (monthlyWinrateChart) {
-        monthlyWinrateChart.destroy();
+        try {
+            monthlyWinrateChart.destroy();
+        } catch (e) {
+            console.warn('Error destroying monthly chart:', e);
+        }
         monthlyWinrateChart = null;
+        window.monthlyWinrateChart = null;
     }
 
     lastMonthlyChartData = { labels, player1Data, player2Data };
@@ -403,4 +426,6 @@ function renderMonthlyWinrateChart(stats, player1Name, player2Name, metric = 'wi
             }
         }
     });
+    
+    window.monthlyWinrateChart = monthlyWinrateChart; // Update global reference
 }
