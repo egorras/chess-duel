@@ -498,6 +498,91 @@ function getLastFetchedTime(gamesByMonth) {
     return mostRecentTime;
 }
 
+function setupRecentGamesLoader() {
+    const loadBtn = document.getElementById('load-recent-games-btn');
+    const loadText = document.getElementById('load-recent-games-text');
+    const errorEl = document.getElementById('error');
+    
+    if (!loadBtn) return;
+    
+    loadBtn.addEventListener('click', async () => {
+        if (loadBtn.disabled) return;
+        
+        // Disable button and show loading state
+        loadBtn.disabled = true;
+        const originalText = loadText.textContent;
+        loadText.textContent = 'Loading...';
+        
+        // Hide any previous errors
+        if (errorEl) {
+            errorEl.classList.add('hidden');
+        }
+        
+        try {
+            const [player1Name, player2Name] = getPlayerNames(globalGamesByMonth);
+            
+            // Callback to update UI during retries
+            const onRetry = (retryNum, maxRetries, waitTime) => {
+                loadText.textContent = `Rate limited. Retrying ${retryNum}/${maxRetries} in ${waitTime/1000}s...`;
+            };
+            
+            const result = await loadRecentGames(globalGamesByMonth, player1Name, player2Name, onRetry);
+            
+            if (result.success) {
+                if (result.newCount > 0) {
+                    // Update global games data
+                    globalGamesByMonth = result.mergedGames;
+                    window.globalGamesByMonth = globalGamesByMonth;
+                    
+                    // Clear the filtered games cache since we have new data
+                    filteredGamesCache.clear();
+                    
+                    // Update the display with new data
+                    const route = Router.getCurrentRoute();
+                    const { year, month, day } = route;
+                    const filteredGames = filterGamesByDateRange(globalGamesByMonth, year, month, day);
+                    displayStatsWithChart(filteredGames);
+                    
+                    // Update calendar
+                    if (typeof displayCalendar === 'function') {
+                        const calendarYearSelect = document.getElementById('calendar-year-select');
+                        const calendarYear = calendarYearSelect ? parseInt(calendarYearSelect.value) : (year !== 'all' ? parseInt(year) : new Date().getFullYear());
+                        const calendarGames = filterGamesByDateRange(globalGamesByMonth, calendarYear.toString(), 'all', 'all');
+                        displayCalendar(calendarGames, calendarYear);
+                    }
+                    
+                    // Show success message
+                    loadText.textContent = result.message;
+                    setTimeout(() => {
+                        loadText.textContent = originalText;
+                    }, 2000);
+                } else {
+                    loadText.textContent = result.message || 'No new games';
+                    setTimeout(() => {
+                        loadText.textContent = originalText;
+                    }, 2000);
+                }
+            } else {
+                // Show error
+                if (errorEl) {
+                    errorEl.textContent = `Error: ${result.error || 'Failed to load recent games'}`;
+                    errorEl.classList.remove('hidden');
+                }
+                loadText.textContent = originalText;
+            }
+        } catch (error) {
+            console.error('Error loading recent games:', error);
+            if (errorEl) {
+                errorEl.textContent = `Error: ${error.message || 'Failed to load recent games'}`;
+                errorEl.classList.remove('hidden');
+            }
+            loadText.textContent = originalText;
+        } finally {
+            loadBtn.disabled = false;
+        }
+    });
+}
+
 function displayLastFetchedTime(gamesByMonth) {
     const lastFetchedEl = document.getElementById('last-fetched-time');
     if (!lastFetchedEl) return;
@@ -560,6 +645,7 @@ async function init() {
 
         setupDateRangeSelectors();
         displayLastFetchedTime(globalGamesByMonth);
+        setupRecentGamesLoader();
         
         // Initialize calendar after a short delay to ensure DOM is ready
         setTimeout(() => {
