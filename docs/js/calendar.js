@@ -165,9 +165,9 @@ function displayCalendar(gamesByMonth, selectedYear) {
         }
         
         if (monthLabel) {
-            calendarHTML += `<th class="text-xs text-gray-500 font-normal py-1 px-0.5 text-center min-w-[11px] cursor-pointer hover:text-gray-300 transition-colors" data-month="${monthKey}" title="Click to filter to ${monthLabel}">${monthLabel}</th>`;
+            calendarHTML += `<th class="text-xs text-gray-500 font-normal py-1 px-0 text-center min-w-[11px] cursor-pointer hover:text-gray-300 transition-colors" data-month="${monthKey}" title="Click to filter to ${monthLabel}">${monthLabel}</th>`;
         } else {
-            calendarHTML += `<th class="text-xs text-gray-500 font-normal py-1 px-0.5 text-center min-w-[11px]"></th>`;
+            calendarHTML += `<th class="text-xs text-gray-500 font-normal py-1 px-0 text-center min-w-[11px]"></th>`;
         }
     }
     
