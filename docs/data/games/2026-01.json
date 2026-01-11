@@ -6451,5 +6451,171 @@
       "middle": 16,
       "end": 46
     }
+  },
+  {
+    "id": "WUCsomsB",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1768127126198,
+    "lastMoveAt": 1768127181284,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1702
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1789
+      }
+    },
+    "fullId": "WUCsomsBLU6Z",
+    "winner": "white",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense",
+      "ply": 2
+    },
+    "moves": "e4 c6 Nf3 d5 exd5 cxd5 Bb5+ Nc6 d3 Bg4 Bf4 e6 h3 Bxf3 Qxf3 Nf6 Nd2 Be7 a3 O-O O-O-O Rc8 g4 Qc7 Bxc7 Rxc7 g5",
+    "clocks": [
+      30003,
+      30003,
+      29931,
+      30003,
+      29883,
+      29931,
+      29787,
+      29851,
+      29667,
+      29755,
+      29507,
+      29659,
+      29363,
+      29259,
+      29219,
+      29203,
+      29019,
+      29075,
+      28587,
+      28835,
+      28139,
+      28347,
+      27907,
+      27987,
+      27299,
+      27811,
+      27155,
+      26795
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 17
+    }
+  },
+  {
+    "id": "Bm6XoDil",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1768127226700,
+    "lastMoveAt": 1768127440042,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1789
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1702
+      }
+    },
+    "fullId": "Bm6XoDilGsz8",
+    "winner": "white",
+    "opening": {
+      "eco": "B01",
+      "name": "Scandinavian Defense: Main Line",
+      "ply": 6
+    },
+    "moves": "e4 d5 exd5 Qxd5 Nc3 Qa5 d4 c5 d5 Bf5 Nf3 f6 Bb5+ Nd7 O-O a6 Be2 g5 Bxg5 fxg5 Nxg5 h6 Bh5+ Kd8 Nf7+ Kc7 Nxh8 Bg7 Ng6 Ngf6 Re1 Bxg6 Bxg6 Kd6 Qe2 e5 dxe6 Ke7 exd7+ Kxd7 Rad1+ Kc6 Qe6+ Kc7 Rd7+ Kb8 Rxg7",
+    "clocks": [
+      30003,
+      30003,
+      29899,
+      29955,
+      29851,
+      29707,
+      29627,
+      29427,
+      28867,
+      28723,
+      27475,
+      28371,
+      27323,
+      28027,
+      26827,
+      27867,
+      26267,
+      26931,
+      24995,
+      26131,
+      24907,
+      24475,
+      24675,
+      24331,
+      24555,
+      24147,
+      24075,
+      24051,
+      23155,
+      23707,
+      22931,
+      22443,
+      22787,
+      20427,
+      22403,
+      19195,
+      22283,
+      19083,
+      21635,
+      19083,
+      21435,
+      19003,
+      20963,
+      18843,
+      20835,
+      18747,
+      20554,
+      18130
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 18
+    }
   }
 ]
