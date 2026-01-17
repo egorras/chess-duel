@@ -8261,5 +8261,197 @@
       "middle": 32,
       "end": 60
     }
+  },
+  {
+    "id": "XbMAcNYL",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1768651713090,
+    "lastMoveAt": 1768651948085,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1712
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1794
+      }
+    },
+    "fullId": "XbMAcNYLc86U",
+    "winner": "black",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense",
+      "ply": 2
+    },
+    "moves": "e4 c6 Nf3 d5 exd5 cxd5 Bb5+ Nc6 d3 Bg4 h3 Bh5 Bg5 Qb6 Bxc6+ bxc6 g4 Bg6 Qc1 e6 O-O Bc5 Ne5 Ne7 Nc3 Bd6 Nxg6 Nxg6 a3 O-O b4 Rac8 Na4 Qb5 Nc3 Qb8 Ne2 Ne5 d4 Nf3+ Kg2 Nxg5 Qxg5 Qb5 Ng3 Qc4 Nh5 Qxd4 Rad1 Qe4+ f3 Qe2+ Kg1 Qh2#",
+    "clocks": [
+      30003,
+      30003,
+      29811,
+      30003,
+      29715,
+      29931,
+      29507,
+      29835,
+      29227,
+      29731,
+      28875,
+      29563,
+      28379,
+      29091,
+      28251,
+      28979,
+      27643,
+      28867,
+      26515,
+      28043,
+      26131,
+      27811,
+      25595,
+      27059,
+      24691,
+      26299,
+      23395,
+      26163,
+      22891,
+      25939,
+      22771,
+      25435,
+      22307,
+      24931,
+      21827,
+      24227,
+      21499,
+      23435,
+      21043,
+      23267,
+      20851,
+      21219,
+      20851,
+      21003,
+      20019,
+      20739,
+      19723,
+      19587,
+      18947,
+      19459,
+      18683,
+      19003,
+      18233,
+      18886
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 23
+    }
+  },
+  {
+    "id": "OwhKTUnw",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1768651949170,
+    "lastMoveAt": 1768652158709,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1794
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1712
+      }
+    },
+    "fullId": "OwhKTUnwz6Z6",
+    "winner": "black",
+    "opening": {
+      "eco": "B21",
+      "name": "Sicilian Defense: Smith-Morra Gambit Declined, Scandinavian Formation",
+      "ply": 6
+    },
+    "moves": "e4 c5 c3 d5 d4 cxd4 cxd4 dxe4 Nc3 Nc6 Bb5 a6 Bxc6+ bxc6 Qa4 Bd7 Nxe4 c5 Qc4 cxd4 Qxd4 f6 Nf3 e5 Qd5 Bb4+ Nc3 Bxc3+ bxc3 Bb5 Qe6+ Ne7 Be3 Qd3 Ng1 Qf1+ Kd2 Rd8+ Kc2 Qd3+ Kb2 Ba4 Nf3 Rb8+ Ka3 Qxc3+ Kxa4 Qb4#",
+    "clocks": [
+      30003,
+      30003,
+      29867,
+      29931,
+      29867,
+      29819,
+      29715,
+      29731,
+      29475,
+      29259,
+      29267,
+      29179,
+      29083,
+      29179,
+      28867,
+      28811,
+      28011,
+      28539,
+      27723,
+      28147,
+      27347,
+      26139,
+      27219,
+      25915,
+      25587,
+      25571,
+      25299,
+      25179,
+      25187,
+      24307,
+      24787,
+      24011,
+      24347,
+      23339,
+      22235,
+      22979,
+      22131,
+      22699,
+      21963,
+      22171,
+      21635,
+      20411,
+      20099,
+      20203,
+      19931,
+      20091,
+      19770,
+      19833
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 29
+    }
   }
 ]
