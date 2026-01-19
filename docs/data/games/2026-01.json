@@ -8600,5 +8600,192 @@
       "middle": 19,
       "end": 61
     }
+  },
+  {
+    "id": "8xvSTAAu",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1768817993768,
+    "lastMoveAt": 1768818186970,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1712
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1775
+      }
+    },
+    "fullId": "8xvSTAAuPxLM",
+    "winner": "black",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense",
+      "ply": 2
+    },
+    "moves": "e4 c6 e5 d5 exd6 exd6 Bd3 Nf6 Qe2+ Be7 Nf3 O-O b3 Re8 O-O Bg4 Qd1 d5 Bb2 Nbd7 c4 dxc4 Bxc4 Nb6 Be2 Bb4 Bc3 Bxc3 Nxc3 Qe7 Re1 Rad8 h3 Bh5 g4 Bg6 Nh4 Qd6 Nxg6 hxg6 d3 Nbd5 Ne4 Nxe4 dxe4 Nf4 Kh2 Rxe4 Qc2 Rde8 Bd3 Rxe1 Rxe1",
+    "clocks": [
+      30003,
+      30003,
+      29931,
+      30003,
+      29851,
+      29651,
+      29555,
+      29499,
+      29363,
+      29331,
+      29251,
+      29219,
+      29091,
+      29011,
+      28651,
+      28915,
+      28483,
+      28811,
+      28347,
+      28155,
+      28259,
+      28027,
+      28171,
+      27811,
+      27835,
+      27379,
+      27347,
+      27251,
+      27315,
+      26787,
+      26595,
+      26179,
+      26379,
+      26059,
+      26227,
+      25963,
+      25939,
+      24971,
+      25139,
+      24875,
+      23883,
+      24299,
+      23531,
+      24139,
+      23403,
+      23939,
+      22723,
+      23507,
+      21987,
+      22699,
+      19555,
+      22451,
+      18743,
+      22126
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 30,
+      "end": 53
+    }
+  },
+  {
+    "id": "rP7ME9Li",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1768818191716,
+    "lastMoveAt": 1768818329374,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1775
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1712
+      }
+    },
+    "fullId": "rP7ME9LijaXm",
+    "winner": "black",
+    "opening": {
+      "eco": "B01",
+      "name": "Scandinavian Defense: Main Line, Mieses Variation",
+      "ply": 8
+    },
+    "moves": "e4 d5 exd5 Qxd5 Nc3 Qa5 d4 Nf6 Nf3 Bg4 Be2 Nbd7 O-O O-O-O Re1 e6 Be3 Nd5 Nxd5 Qxd5 c3 Bd6 Qb3 h5 Bc4 Qc6 Bb5 Qd5 Be2 Nb6 h3 f5 hxg4 hxg4 Qxd5 Nxd5 Ng5 Bh2+ Kf1 Bf4 Nxe6 Rh1#",
+    "clocks": [
+      30003,
+      30003,
+      29891,
+      30003,
+      29827,
+      29891,
+      29763,
+      29643,
+      29659,
+      29515,
+      29523,
+      29291,
+      29387,
+      29171,
+      29155,
+      29075,
+      28971,
+      28819,
+      28723,
+      28651,
+      28643,
+      28299,
+      28075,
+      28059,
+      26763,
+      27579,
+      26443,
+      27155,
+      25875,
+      25755,
+      25771,
+      24771,
+      25339,
+      24675,
+      25187,
+      24315,
+      24827,
+      23651,
+      24403,
+      23403,
+      23644,
+      23157
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 22
+    }
   }
 ]
