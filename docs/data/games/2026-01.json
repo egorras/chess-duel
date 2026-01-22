@@ -9850,5 +9850,158 @@
       "middle": 28,
       "end": 105
     }
+  },
+  {
+    "id": "BYObZOAE",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1769077694921,
+    "lastMoveAt": 1769077773071,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1692
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1781
+      }
+    },
+    "fullId": "BYObZOAErzXW",
+    "winner": "black",
+    "opening": {
+      "eco": "A06",
+      "name": "Zukertort Opening",
+      "ply": 2
+    },
+    "moves": "Nf3 d5 a3 c5 d3 Nc6 Bg5 h6 Bh4 Bg4 h3 Bxf3 exf3 Qb6 Qc1 e6 Be2 Be7 Bg3 Nf6 O-O O-O Nd2 Nd4 c3 Nxe2+",
+    "clocks": [
+      30003,
+      30003,
+      29755,
+      29907,
+      29531,
+      29819,
+      29187,
+      29603,
+      29035,
+      29515,
+      28867,
+      29291,
+      28867,
+      28547,
+      28067,
+      28355,
+      27707,
+      28011,
+      27531,
+      27851,
+      27227,
+      27715,
+      26283,
+      27563,
+      25651,
+      27315,
+      25342
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 20
+    }
+  },
+  {
+    "id": "m6YRwRBk",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1769077778361,
+    "lastMoveAt": 1769077988772,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1781
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1692
+      }
+    },
+    "fullId": "m6YRwRBk1ngn",
+    "winner": "white",
+    "opening": {
+      "eco": "C44",
+      "name": "Scotch Game",
+      "ply": 5
+    },
+    "moves": "e4 e5 Nf3 Nc6 d4 d6 Bc4 Bg4 Bxf7+ Kd7 Nxe5+ Nxe5 f3 Nxf7 fxg4 Qh4+ g3 Qf6 Rf1 Qe7 Nc3 Re8 Bf4 Nf6 e5 h6 Qf3 c6 O-O-O Nh7 exd6 Qf6 Ne4 Qe6 Nc5+",
+    "clocks": [
+      30003,
+      30003,
+      29891,
+      29971,
+      29827,
+      29875,
+      29067,
+      29755,
+      28339,
+      28643,
+      27451,
+      28195,
+      26859,
+      27299,
+      26619,
+      27179,
+      26475,
+      26555,
+      25723,
+      26187,
+      25099,
+      25987,
+      24211,
+      25723,
+      22643,
+      23667,
+      22275,
+      22763,
+      22115,
+      21395,
+      21707,
+      20187,
+      20859,
+      18963,
+      20561,
+      18596
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 24
+    }
   }
 ]
