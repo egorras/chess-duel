@@ -15346,5 +15346,552 @@
       "middle": 15,
       "end": 46
     }
+  },
+  {
+    "id": "CeJIdelm",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1769680579847,
+    "lastMoveAt": 1769680942259,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1666
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1781
+      }
+    },
+    "fullId": "CeJIdelm3BcY",
+    "winner": "black",
+    "opening": {
+      "eco": "D00",
+      "name": "Queen's Pawn Game: Accelerated London System, Steinitz Countergambit",
+      "ply": 4
+    },
+    "moves": "d4 d5 Bf4 c5 e3 Nc6 Nf3 Bf5 Bd3 e6 Bxf5 exf5 O-O Nf6 Nbd2 Be7 a3 O-O h3 cxd4 Nxd4 Re8 Nxf5 Rc8 b4 a6 Nb3 g6 Nh6+ Kg7 Qd3 Nh5 Qc3+ Bf6 Qd2 Nxf4 exf4 Bxa1 Rxa1 Kxh6 f5+ Kg7 fxg6 hxg6 Nc5 Qe7 g3 Rcd8 Qc3+ f6 g4 d4 Qd3 Ne5 Qb3 Qd6 Nxb7 Qc7 Nxd8 Rxd8 Kg2 Qc6+ f3 Rc8 Rc1 d3 c3 Qxf3+ Kg1 Qe3+ Kg2 Qxc1 Qa4 Qxc3 Qxa6 d2 Qb7+ Rc7 Qd5",
+    "clocks": [
+      30003,
+      30003,
+      29827,
+      29883,
+      29771,
+      29811,
+      29683,
+      29763,
+      29523,
+      29699,
+      29339,
+      29651,
+      29179,
+      29523,
+      28931,
+      29339,
+      28675,
+      29155,
+      28563,
+      28787,
+      28299,
+      28659,
+      27787,
+      27939,
+      27547,
+      27499,
+      27363,
+      27099,
+      26851,
+      26899,
+      24875,
+      26683,
+      24083,
+      26187,
+      22315,
+      25995,
+      22059,
+      25835,
+      21763,
+      25739,
+      21627,
+      25611,
+      21315,
+      25347,
+      20531,
+      23963,
+      19947,
+      23603,
+      19531,
+      23115,
+      19307,
+      22707,
+      18907,
+      22467,
+      17899,
+      20787,
+      17611,
+      19995,
+      17459,
+      19995,
+      15931,
+      19739,
+      15619,
+      19059,
+      15051,
+      18875,
+      11043,
+      18667,
+      10907,
+      18107,
+      10715,
+      17867,
+      10547,
+      15355,
+      10363,
+      15291,
+      10043,
+      15123,
+      9610,
+      14984
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 26,
+      "end": 59
+    }
+  },
+  {
+    "id": "sEJ1XVvy",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1769680944999,
+    "lastMoveAt": 1769681144994,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1781
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1666
+      }
+    },
+    "fullId": "sEJ1XVvy4dig",
+    "winner": "white",
+    "opening": {
+      "eco": "C44",
+      "name": "Scotch Game",
+      "ply": 5
+    },
+    "moves": "e4 e5 Nf3 Nc6 d4 Nf6 d5 Ne7 Nc3 d6 Bb5+ Bd7 O-O a6 Ba4 b5 Bb3 c5 Re1 c4 Bxc4 bxc4 Bg5 Nh5 Nxe5 dxe5 Qxh5 g6 Qe2 f6 Bh4 Qc8 Bxf6 Rg8 Bxe5 Bg4 f3 Bd7 d6 Nc6 Qxc4 Nxe5 Qxg8 Qc5+ Kh1 Qf2 Nd5 Nxf3 Nf6+ Kd8 Qxf8+ Be8 Qxe8#",
+    "clocks": [
+      30003,
+      30003,
+      29891,
+      29979,
+      29827,
+      29787,
+      29555,
+      29571,
+      29443,
+      29475,
+      29043,
+      29411,
+      28659,
+      29315,
+      28515,
+      29187,
+      28403,
+      28707,
+      28267,
+      28547,
+      27971,
+      28459,
+      27739,
+      27467,
+      27291,
+      26803,
+      27107,
+      26675,
+      26747,
+      26443,
+      26563,
+      25491,
+      26011,
+      24987,
+      25483,
+      24483,
+      25099,
+      22691,
+      24683,
+      22531,
+      24363,
+      21883,
+      24259,
+      21539,
+      23811,
+      19883,
+      22227,
+      19523,
+      21595,
+      19371,
+      21483,
+      19283,
+      21331
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 16
+    }
+  },
+  {
+    "id": "Q40VVnPl",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1769681147287,
+    "lastMoveAt": 1769681401388,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1666,
+        "analysis": {
+          "inaccuracy": 2,
+          "mistake": 0,
+          "blunder": 2,
+          "acpl": 56,
+          "accuracy": 76
+        }
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1781,
+        "analysis": {
+          "inaccuracy": 1,
+          "mistake": 1,
+          "blunder": 0,
+          "acpl": 23,
+          "accuracy": 91
+        }
+      }
+    },
+    "fullId": "Q40VVnPldZiT",
+    "winner": "black",
+    "opening": {
+      "eco": "B13",
+      "name": "Caro-Kann Defense: Exchange Variation",
+      "ply": 8
+    },
+    "moves": "e4 c6 Nf3 d5 exd5 cxd5 d4 Nc6 c3 Bg4 Bf4 e6 h3 Bxf3 Qxf3 Nf6 Bd3 Be7 Nd2 O-O O-O Qb6 b3 Rac8 g4 Nd8 Bxh7+ Kxh7 g5 Ne4 Qh5+ Kg8 g6 fxg6 Qxg6 Rxf4 Nxe4 Rxe4 Kh2 e5 Qe8+ Bf8 Rg1 exd4 Rxg7+ Kxg7 Rg1+ Kh7 Qxf8 Qc7+ Kh1 Ne6 Qf5+ Kh8 Qxe6 Rxe6",
+    "clocks": [
+      30003,
+      30003,
+      29955,
+      30003,
+      29923,
+      29971,
+      29907,
+      29899,
+      29795,
+      29827,
+      29683,
+      29739,
+      29619,
+      29547,
+      29619,
+      29451,
+      29515,
+      29307,
+      29451,
+      29075,
+      29291,
+      28915,
+      29027,
+      28651,
+      28235,
+      27027,
+      27827,
+      26827,
+      27699,
+      25859,
+      27187,
+      25619,
+      26491,
+      25395,
+      26131,
+      24931,
+      24795,
+      24803,
+      24683,
+      23579,
+      22555,
+      22131,
+      21883,
+      21451,
+      21259,
+      21147,
+      21163,
+      20355,
+      19995,
+      19251,
+      18955,
+      19075,
+      18291,
+      18443,
+      17139,
+      18217,
+      16926
+    ],
+    "analysis": [
+      {
+        "eval": 18
+      },
+      {
+        "eval": 31
+      },
+      {
+        "eval": 17
+      },
+      {
+        "eval": 21
+      },
+      {
+        "eval": 14
+      },
+      {
+        "eval": 7
+      },
+      {
+        "eval": 0
+      },
+      {
+        "eval": 13
+      },
+      {
+        "eval": 8
+      },
+      {
+        "eval": 6
+      },
+      {
+        "eval": 0
+      },
+      {
+        "eval": 4
+      },
+      {
+        "eval": 0
+      },
+      {
+        "eval": 17
+      },
+      {
+        "eval": 16
+      },
+      {
+        "eval": 15
+      },
+      {
+        "eval": 7
+      },
+      {
+        "eval": 46
+      },
+      {
+        "eval": 42
+      },
+      {
+        "eval": 48
+      },
+      {
+        "eval": 49
+      },
+      {
+        "eval": 78
+      },
+      {
+        "eval": 41
+      },
+      {
+        "eval": 49
+      },
+      {
+        "eval": 35
+      },
+      {
+        "eval": 52
+      },
+      {
+        "eval": -414,
+        "best": "a1c1",
+        "variation": "Rac1",
+        "judgment": {
+          "name": "Blunder",
+          "comment": "Blunder. Rac1 was best."
+        }
+      },
+      {
+        "eval": -315,
+        "best": "f6h7",
+        "variation": "Nxh7 Qg3 g5 Be5 Nc6 Rae1 Nxe5 Rxe5 Qc7 f4 Bd6 fxg5",
+        "judgment": {
+          "name": "Inaccuracy",
+          "comment": "Inaccuracy. Nxh7 was best."
+        }
+      },
+      {
+        "eval": -308
+      },
+      {
+        "eval": -151,
+        "best": "f6d7",
+        "variation": "Nd7 Rae1 Kg8 Re3 e5 Bxe5 Qg6 Qg4 Ne6 Bxg7 Kxg7 h4",
+        "judgment": {
+          "name": "Mistake",
+          "comment": "Mistake. Nd7 was best."
+        }
+      },
+      {
+        "eval": -236,
+        "best": "d2e4",
+        "variation": "Nxe4",
+        "judgment": {
+          "name": "Inaccuracy",
+          "comment": "Inaccuracy. Nxe4 was best."
+        }
+      },
+      {
+        "eval": -187
+      },
+      {
+        "eval": -558,
+        "best": "d2e4",
+        "variation": "Nxe4 dxe4 Be5 Rxc3 Rae1 Qc6 Re3 Rxe3 fxe3 Qc3 Rf4 Qxe3+",
+        "judgment": {
+          "name": "Blunder",
+          "comment": "Blunder. Nxe4 was best."
+        }
+      },
+      {
+        "eval": -558
+      },
+      {
+        "eval": -622
+      },
+      {
+        "eval": -608
+      },
+      {
+        "eval": -602
+      },
+      {
+        "eval": -553
+      },
+      {
+        "eval": -557
+      },
+      {
+        "eval": -564
+      },
+      {
+        "eval": -545
+      },
+      {
+        "eval": -654
+      },
+      {
+        "eval": -678
+      },
+      {
+        "eval": -685
+      },
+      {
+        "eval": -655
+      },
+      {
+        "eval": -640
+      },
+      {
+        "eval": -610
+      },
+      {
+        "eval": -602
+      },
+      {
+        "eval": -557
+      },
+      {
+        "eval": -584
+      },
+      {
+        "eval": -578
+      },
+      {
+        "eval": -594
+      },
+      {
+        "eval": -577
+      },
+      {
+        "eval": -554
+      },
+      {
+        "eval": -1012,
+        "best": "f5f6",
+        "variation": "Qf6+ Ng7 cxd4 Re6 Qh4+ Kg8 Rg5 Rce8 Qh5 Qf7 Qg4 Rh6",
+        "judgment": {
+          "name": "Inaccuracy",
+          "comment": "Inaccuracy. Qf6+ was best."
+        }
+      },
+      {
+        "eval": -918
+      }
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 19,
+      "end": 49
+    }
   }
 ]
