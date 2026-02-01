@@ -1,0 +1,297 @@
+[
+  {
+    "id": "v3gUWvz9",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1769939831868,
+    "lastMoveAt": 1769940126025,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1663
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1781
+      }
+    },
+    "fullId": "v3gUWvz9eftU",
+    "winner": "black",
+    "opening": {
+      "eco": "B12",
+      "name": "Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense",
+      "ply": 6
+    },
+    "moves": "e4 c6 d4 d5 e5 c5 c4 e6 Nf3 Nc6 Be2 b5 cxb5 Qa5+ Bd2 Nb4 a3 Bb7 Nc3 Nc6 Nxd5 Qd8 Nc3 Nxd4 Nxd4 Qxd4 O-O Qxe5 Re1 Bd6 g3 Rd8 b6 Qf6 Bb5+ Ke7 h4 Qf5 Kh2 Bxg3+ fxg3 Qf2+ Kh3 Qg2+ Kg4 f5+ Kf4 Rd4+ Kg5 Qxg3+ Kh5 Qg6#",
+    "clocks": [
+      30003,
+      30003,
+      29875,
+      30003,
+      29819,
+      29931,
+      29755,
+      29291,
+      29251,
+      28883,
+      28875,
+      28347,
+      28251,
+      28219,
+      27867,
+      28115,
+      27571,
+      27275,
+      26883,
+      25539,
+      26283,
+      24763,
+      24139,
+      24179,
+      23899,
+      24075,
+      22923,
+      23963,
+      22491,
+      23659,
+      22203,
+      22771,
+      21875,
+      20603,
+      21115,
+      20435,
+      20579,
+      20099,
+      18611,
+      18851,
+      17363,
+      18491,
+      17059,
+      17955,
+      16931,
+      17811,
+      15635,
+      17163,
+      14803,
+      16891,
+      14656,
+      16714
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 14
+    }
+  },
+  {
+    "id": "yEudPerY",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1769940128078,
+    "lastMoveAt": 1769940195055,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1781
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1663
+      }
+    },
+    "fullId": "yEudPerY6mjp",
+    "winner": "white",
+    "opening": {
+      "eco": "C45",
+      "name": "Scotch Game: Classical Variation",
+      "ply": 8
+    },
+    "moves": "e4 e5 Nf3 Nc6 d4 exd4 Nxd4 Bc5 Be3 Nxd4 Bxd4 Bxd4 Qxd4 f6 Nc3 b6 Bb5 c5 Qd5 Ne7 Qh5+ g6 Qh6 a6 Ba4 b5 Bxb5 axb5 Nxb5 Ba6 Nd6#",
+    "clocks": [
+      30003,
+      30003,
+      29939,
+      29867,
+      29859,
+      29779,
+      29859,
+      29683,
+      29707,
+      29611,
+      29427,
+      29507,
+      29355,
+      29435,
+      29107,
+      29323,
+      28731,
+      29211,
+      28379,
+      29083,
+      27875,
+      28955,
+      27795,
+      28115,
+      27595,
+      28011,
+      26915,
+      27891,
+      26787,
+      27435,
+      26334
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 13
+    }
+  },
+  {
+    "id": "G0spRYpR",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1769940200915,
+    "lastMoveAt": 1769940491177,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1663
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1781
+      }
+    },
+    "fullId": "G0spRYpRaojX",
+    "winner": "black",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense: Hillbilly Attack",
+      "ply": 3
+    },
+    "moves": "e4 c6 Bc4 d5 exd5 cxd5 Bb3 Nc6 Nf3 Bg4 h3 Bh5 g4 Bg6 d4 e6 c3 Nf6 Bg5 Be7 h4 h5 Bxf6 Bxf6 g5 Be7 Nbd2 O-O a3 Rc8 Bc2 Bxc2 Qxc2 Qd6 O-O-O a5 Nb3 b6 Nbd2 a4 Qxa4 Ra8 Qc2 Na5 Ne5 f6 Ng6 Rfc8 Nxe7+ Qxe7 gxf6 Qxf6 Rdf1 Nc6 f4 Nxd4 Qd1 g6 Kb1 Nb5 Nf3 Nxa3+ bxa3 Rxa3 Ne5 Rcxc3 Qd4 Qf5+ Kb2 Rcb3+ Kc1 Qb1+ Kd2 Ra2+ Qb2 Raxb2#",
+    "clocks": [
+      30003,
+      30003,
+      29923,
+      30003,
+      29883,
+      29971,
+      29875,
+      29923,
+      29835,
+      29867,
+      29747,
+      29771,
+      29635,
+      29659,
+      29499,
+      29531,
+      29443,
+      29435,
+      29387,
+      29347,
+      29251,
+      29139,
+      29083,
+      29011,
+      29027,
+      28763,
+      28387,
+      28651,
+      27947,
+      28515,
+      27819,
+      28179,
+      27819,
+      27163,
+      27371,
+      26659,
+      25547,
+      25867,
+      24867,
+      25731,
+      24067,
+      24779,
+      23803,
+      24083,
+      23443,
+      23467,
+      22995,
+      22643,
+      22475,
+      22643,
+      22347,
+      22547,
+      19931,
+      22339,
+      19731,
+      22083,
+      19059,
+      21267,
+      18499,
+      20515,
+      17731,
+      19971,
+      17275,
+      19859,
+      16499,
+      18819,
+      15771,
+      17635,
+      15451,
+      17339,
+      15331,
+      17091,
+      15235,
+      16963,
+      14953,
+      16841
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 15,
+      "end": 76
+    }
+  }
+]
