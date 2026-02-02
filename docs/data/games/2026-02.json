@@ -293,5 +293,211 @@
       "middle": 15,
       "end": 76
     }
+  },
+  {
+    "id": "ZdJB8Mb4",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1770028498960,
+    "lastMoveAt": 1770028729495,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1663
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1781
+      }
+    },
+    "fullId": "ZdJB8Mb45Gv3",
+    "winner": "black",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense: Hillbilly Attack",
+      "ply": 3
+    },
+    "moves": "e4 c6 Bc4 d5 exd5 cxd5 Bb3 Nc6 Ne2 Bg4 h3 Bh5 Nbc3 e6 g4 Bg6 d3 Bb4 Bd2 Nge7 h4 h5 g5 O-O Ng3 a5 a3 Bd6 Nxh5 Nf5 Qe2 Ncd4 Qd1 b5 f4 Qc7 Be3 Nxe3 Qd2 Nef5 Qf2 b4 axb4 axb4 Nxd5 exd5 Bxd5 Rxa1+ Kd2 Rxh1",
+    "clocks": [
+      30003,
+      30003,
+      29931,
+      29931,
+      29931,
+      29859,
+      29883,
+      29795,
+      29811,
+      29707,
+      29691,
+      29595,
+      29515,
+      29499,
+      29355,
+      29347,
+      29179,
+      28515,
+      29067,
+      27619,
+      28483,
+      27451,
+      28347,
+      26979,
+      27819,
+      26723,
+      27579,
+      26515,
+      26827,
+      26075,
+      26019,
+      25611,
+      25059,
+      24827,
+      23355,
+      23419,
+      22843,
+      22811,
+      22171,
+      21795,
+      21723,
+      19467,
+      21235,
+      19227,
+      20067,
+      18299,
+      19651,
+      18163,
+      19523,
+      17970,
+      19459
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 16
+    }
+  },
+  {
+    "id": "73M8xWpN",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1770028731265,
+    "lastMoveAt": 1770029104867,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1781
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1663
+      }
+    },
+    "fullId": "73M8xWpNfdvp",
+    "winner": "white",
+    "opening": {
+      "eco": "C41",
+      "name": "Philidor Defense",
+      "ply": 5
+    },
+    "moves": "e4 e5 Nf3 d6 d4 Bg4 Bc4 c6 Bxf7+ Kxf7 Ng5+ Ke8 Qxg4 Nd7 Ne6 Ngf6 Qh3 Qc8 Nd2 g5 c3 Nb6 Nxg5 h6 Qxc8+ Rxc8 dxe5 hxg5 exf6 Kf7 Nf3 g4 Nd4 Kxf6 O-O c5 Nf5 d5 Ng3 Bd6 exd5 Nxd5 Ne4+ Ke6 Nxd6 Kxd6 Be3 b6 Rad1 Kc6 Rfe1 Rcg8 g3 Re8 Bg5 Reg8 Bf4 Rf8 Re4 Rhg8 Re6+ Kb5 Rxd5",
+    "clocks": [
+      30003,
+      30003,
+      29915,
+      29827,
+      29843,
+      29739,
+      29355,
+      29419,
+      29107,
+      28995,
+      28963,
+      28619,
+      28867,
+      28267,
+      26003,
+      27859,
+      24955,
+      27027,
+      23539,
+      25827,
+      23219,
+      25211,
+      22779,
+      24827,
+      20179,
+      24443,
+      19987,
+      24259,
+      19835,
+      24099,
+      19627,
+      23803,
+      18475,
+      23619,
+      18203,
+      22771,
+      18123,
+      22267,
+      17475,
+      22075,
+      17107,
+      21923,
+      16555,
+      21571,
+      16355,
+      21491,
+      15571,
+      20163,
+      15347,
+      19979,
+      14371,
+      19427,
+      14155,
+      18211,
+      13475,
+      17443,
+      10771,
+      16483,
+      10275,
+      15443,
+      8523,
+      15075,
+      8216,
+      13668
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 22,
+      "end": 46
+    }
   }
 ]
