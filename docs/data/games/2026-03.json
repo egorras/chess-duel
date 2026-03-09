@@ -2562,5 +2562,219 @@
       "middle": 12,
       "end": 67
     }
+  },
+  {
+    "id": "jxHCsJ0r",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1773075390242,
+    "lastMoveAt": 1773075648542,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1809
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1663
+      }
+    },
+    "fullId": "jxHCsJ0rIfIq",
+    "winner": "white",
+    "opening": {
+      "eco": "B22",
+      "name": "Sicilian Defense: Alapin Variation",
+      "ply": 3
+    },
+    "moves": "e4 c5 c3 Nc6 d4 c4 d5 Ne5 f4 Nc6 dxc6 bxc6 Bxc4 e6 Nf3 Nf6 e5 Nd5 O-O Bc5+ Kh1 Qb6 Re1 O-O Nd4 Nxf4 Bxf4 Qxb2 Nd2 Qxc3 N4b3 Rd8 Nxc5 d6 Ncb3 d5 Be2 c5 Rc1 Qb4 Rxc5 Bb7 Bg3 a5 Bf2 a4 Rb5 Qa3 Nc5 Qxa2 Rxb7",
+    "clocks": [
+      30003,
+      30003,
+      29875,
+      29875,
+      29875,
+      29763,
+      29779,
+      29579,
+      29587,
+      29003,
+      29427,
+      28875,
+      29259,
+      28139,
+      29155,
+      27731,
+      28739,
+      26643,
+      28331,
+      26203,
+      28219,
+      25891,
+      27723,
+      24971,
+      27203,
+      23491,
+      26963,
+      23259,
+      25139,
+      23123,
+      24275,
+      21435,
+      23259,
+      21147,
+      22995,
+      20963,
+      22547,
+      20715,
+      22411,
+      20075,
+      21891,
+      19459,
+      21011,
+      17979,
+      20323,
+      17723,
+      19539,
+      16979,
+      19155,
+      16187,
+      18805,
+      16183
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 28
+    }
+  },
+  {
+    "id": "x9ela14D",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1773075650984,
+    "lastMoveAt": 1773075882415,
+    "status": "stalemate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1663
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1809
+      }
+    },
+    "fullId": "x9ela14D7umT",
+    "opening": {
+      "eco": "B13",
+      "name": "Caro-Kann Defense: Exchange Variation",
+      "ply": 5
+    },
+    "moves": "e4 c6 d4 d5 exd5 cxd5 f4 Nc6 Nf3 Bf5 Bb5 e6 c3 Nf6 Be3 Be7 Nbd2 O-O a3 Qb6 a4 Rac8 b4 a6 Bxc6 Rxc6 Rc1 Qc7 Ne5 Rxc3 Rxc3 Qxc3 g4 Qxe3+ Qe2 Qxe2+ Kxe2 Bxg4+ Ke3 Bxb4 Nb3 Rc8 h3 Rc3+ Kf2 Bf5 Nd2 Rc2 Rd1 Bxd2 Ke2 Bxf4+ Kf3 Bxe5 dxe5 Ne4 Kf4 Rf2+ Ke3 h6 h4 Rh2 a5 Rxh4 Rc1 Rh3+ Kd4 Ra3 Rc8+ Kh7 Rh8+ Kxh8",
+    "clocks": [
+      30003,
+      30003,
+      29963,
+      29995,
+      29883,
+      29939,
+      29779,
+      29539,
+      29707,
+      29451,
+      29627,
+      29363,
+      29539,
+      28803,
+      28235,
+      27915,
+      26971,
+      27787,
+      26795,
+      27603,
+      26443,
+      27331,
+      26251,
+      27027,
+      26059,
+      26899,
+      25635,
+      25891,
+      25491,
+      24539,
+      24507,
+      24371,
+      24299,
+      23971,
+      24203,
+      23507,
+      24203,
+      23067,
+      23819,
+      22691,
+      23699,
+      21803,
+      23315,
+      21275,
+      23227,
+      20715,
+      22811,
+      20139,
+      22619,
+      19755,
+      22475,
+      19587,
+      22299,
+      18947,
+      22091,
+      18595,
+      21963,
+      18275,
+      21859,
+      17675,
+      21859,
+      17475,
+      21859,
+      17339,
+      21795,
+      17131,
+      21675,
+      16931,
+      21371,
+      16739,
+      20950,
+      16611
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 20,
+      "end": 50
+    }
   }
 ]
