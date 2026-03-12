@@ -3969,5 +3969,100 @@
       "middle": 20,
       "end": 50
     }
+  },
+  {
+    "id": "GB7Pw0Zn",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1773304974550,
+    "lastMoveAt": 1773305179346,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1661
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1809
+      }
+    },
+    "fullId": "GB7Pw0Zn2gCO",
+    "winner": "black",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense",
+      "ply": 2
+    },
+    "moves": "e4 c6 Nf3 d5 e5 Bg4 d4 e6 Be2 c5 c3 Nc6 Be3 Qb6 Qb3 cxd4 Bxd4 Bc5 Qxb6 axb6 Bxc5 bxc5 Nbd2 Bxf3 Nxf3 Nge7 O-O Ng6 Bb5 Ke7 Bxc6 bxc6 Rfe1 c4 Nd4 Kd7 g3 Rhb8 b3 cxb3 Nxb3 Nxe5 f4 Nf3+ Kf2 Nxe1 Rxe1 Rxa2+",
+    "clocks": [
+      30003,
+      30003,
+      29963,
+      30003,
+      29883,
+      29875,
+      29867,
+      29603,
+      29803,
+      29475,
+      29731,
+      29339,
+      29571,
+      29219,
+      29403,
+      28627,
+      28651,
+      28067,
+      28283,
+      27251,
+      27579,
+      27107,
+      27547,
+      26627,
+      27547,
+      26435,
+      26867,
+      26307,
+      26531,
+      25779,
+      26427,
+      25715,
+      26195,
+      25611,
+      25611,
+      25363,
+      25131,
+      25131,
+      24515,
+      24995,
+      24003,
+      21899,
+      18819,
+      21651,
+      18675,
+      21539,
+      18675,
+      21384,
+      18553
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 15,
+      "end": 32
+    }
   }
 ]
