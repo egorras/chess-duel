@@ -11025,5 +11025,119 @@
       "middle": 18,
       "end": 57
     }
+  },
+  {
+    "id": "Hss25eEo",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1774642854949,
+    "lastMoveAt": 1774643082464,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1647
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1809
+      }
+    },
+    "fullId": "Hss25eEoD61T",
+    "winner": "black",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense: Hillbilly Attack",
+      "ply": 3
+    },
+    "moves": "e4 c6 Bc4 d5 exd5 cxd5 Bb3 Nc6 Nf3 Bg4 Qe2 e6 d3 Nf6 Be3 Bd6 h3 Bh5 g4 Bg6 Nbd2 O-O O-O-O Rc8 a3 a6 Nh4 b5 Nxg6 fxg6 g5 Nh5 h4 Ne5 f4 Nc6 Rdf1 Ne7 Rh2 e5 Rhf2 exf4 Bxf4 Bxf4 Re1 Nc6 Qe6+ Kh8 Bxd5 Nd4 Rxf4 Nxf4 Qe4 Rxc2+ Kd1 Qc7 Nc4 bxc4 Bxc4 Rxb2 Qxd4 Qa5 Qe3 Ng2 Re2 Nxe3+ Rxe3",
+    "clocks": [
+      30003,
+      30003,
+      29811,
+      30003,
+      29771,
+      30003,
+      29699,
+      29971,
+      29643,
+      29915,
+      29571,
+      29835,
+      29507,
+      29715,
+      29435,
+      29579,
+      29259,
+      29483,
+      29139,
+      29371,
+      28875,
+      29251,
+      28683,
+      29179,
+      28459,
+      29019,
+      28051,
+      28795,
+      27907,
+      28547,
+      27715,
+      28355,
+      27611,
+      27675,
+      27267,
+      27219,
+      26339,
+      26443,
+      25515,
+      26227,
+      25363,
+      25947,
+      25195,
+      25763,
+      24043,
+      25051,
+      23315,
+      24779,
+      23099,
+      24011,
+      22091,
+      23179,
+      21939,
+      22795,
+      21715,
+      21891,
+      20771,
+      21595,
+      20771,
+      19451,
+      20483,
+      19099,
+      19907,
+      18755,
+      19595,
+      18563,
+      19501,
+      18418
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 19,
+      "end": 66
+    }
   }
 ]
