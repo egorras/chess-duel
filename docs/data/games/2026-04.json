@@ -12096,5 +12096,233 @@
     "division": {
       "middle": 16
     }
+  },
+  {
+    "id": "UaELIx3e",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1776590221025,
+    "lastMoveAt": 1776590574084,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1825
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1633
+      }
+    },
+    "fullId": "UaELIx3eiuoy",
+    "winner": "black",
+    "opening": {
+      "eco": "C40",
+      "name": "King's Pawn Game: McConnell Defense",
+      "ply": 4
+    },
+    "moves": "e4 e5 Nf3 Qf6 d4 exd4 Nxd4 Bc5 Be3 d6 Nc3 Be6 Qd2 a6 O-O-O Ne7 Nxe6 Qxe6 Bxc5 O-O Bd4 c5 Be3 Rd8 Bxc5 Nbc6 Be3 b5 Nd5 a5 Nc7 Qxa2 c3 Rac8 Nxb5 a4 Na3 Nb4 Qd4 Qa1+ Kd2 Qxb2+ Ke1 Rxc3 Nc4 Nc2+ Ke2 Nxd4+ Ke1 Rxe3+ fxe3 Nc2+ Kf2 Qf6+ Kg3 Ng6 Bd3 Qh4+ Kf3 Ne5+ Nxe5 dxe5 Bxc2 Rxd1 Rxd1 g6 Bxa4 Qxh2 Rd7 h5 Re7 Kf8 Re8+ Kg7 g3 h4 Rxe5 Qxg3+ Ke2 Qxe5 Kd3 h3",
+    "clocks": [
+      30003,
+      30003,
+      29915,
+      29835,
+      29915,
+      29715,
+      29579,
+      29531,
+      28755,
+      28875,
+      28291,
+      28603,
+      27475,
+      28251,
+      27283,
+      27979,
+      26891,
+      27291,
+      26627,
+      26107,
+      26163,
+      25859,
+      25635,
+      25747,
+      24875,
+      25011,
+      24307,
+      24859,
+      24075,
+      23723,
+      23891,
+      23515,
+      23547,
+      23155,
+      23123,
+      21627,
+      22827,
+      21203,
+      20715,
+      20827,
+      20635,
+      20763,
+      20515,
+      18219,
+      19443,
+      17443,
+      18771,
+      17131,
+      18475,
+      16331,
+      18331,
+      15979,
+      17987,
+      15811,
+      17675,
+      15411,
+      17011,
+      15291,
+      16899,
+      14811,
+      16739,
+      14579,
+      16595,
+      14211,
+      16451,
+      13955,
+      16139,
+      13787,
+      14963,
+      13155,
+      14859,
+      12619,
+      14627,
+      12499,
+      14587,
+      11699,
+      14451,
+      11435,
+      14307,
+      11339,
+      14187,
+      11259,
+      14112
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 26,
+      "end": 62
+    }
+  },
+  {
+    "id": "YfilxCqy",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1776590576003,
+    "lastMoveAt": 1776590734398,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1633
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1825
+      }
+    },
+    "fullId": "YfilxCqyzwJU",
+    "winner": "black",
+    "opening": {
+      "eco": "B13",
+      "name": "Caro-Kann Defense: Exchange Variation",
+      "ply": 8
+    },
+    "moves": "e4 c6 Nf3 d5 exd5 cxd5 d4 Nc6 Bd3 Bg4 c3 e5 h3 Bxf3 gxf3 e4 fxe4 dxe4 Bxe4 Qe7 f3 f5 Nd2 fxe4 Nxe4 Nf6 Bg5 O-O-O Qa4 h6 Bxf6 gxf6 O-O-O f5 Nc5 Qe3+ Kc2 Bxc5 dxc5 Qe2+ Kb3 Rxd1 Qf4 Rxh1 Qxf5+ Kc7 Qf7+ Kb8 Qf4+ Qe5 Qxe5+ Nxe5",
+    "clocks": [
+      30003,
+      30003,
+      29955,
+      30003,
+      29923,
+      29971,
+      29787,
+      29971,
+      29659,
+      29827,
+      29579,
+      29739,
+      29435,
+      29515,
+      29435,
+      29395,
+      29339,
+      29339,
+      29203,
+      29139,
+      28179,
+      29059,
+      26275,
+      28947,
+      26275,
+      28555,
+      25899,
+      28323,
+      25251,
+      27971,
+      25051,
+      27955,
+      24891,
+      27619,
+      24515,
+      27139,
+      23731,
+      26963,
+      23395,
+      26643,
+      22883,
+      26203,
+      22083,
+      24699,
+      21971,
+      24539,
+      21547,
+      24259,
+      21315,
+      24075,
+      20811,
+      23911,
+      20786
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 27,
+      "end": 42
+    }
   }
 ]
