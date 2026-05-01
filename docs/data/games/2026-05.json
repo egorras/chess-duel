@@ -1,0 +1,132 @@
+[
+  {
+    "id": "USUGzKKO",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1777620142204,
+    "lastMoveAt": 1777620180526,
+    "status": "timeout",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1848
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1644
+      }
+    },
+    "fullId": "USUGzKKO0gVp",
+    "winner": "white",
+    "opening": {
+      "eco": "B12",
+      "name": "Caro-Kann Defense: Advance Variation",
+      "ply": 5
+    },
+    "moves": "e4 c6 d4 d5 e5 e6 Nf3 Nd7 Bd3 h6 O-O Bb4 c3 Ba5 Be3",
+    "clocks": [
+      30003,
+      30003,
+      29771,
+      29859,
+      29723,
+      29347,
+      29355,
+      29075,
+      29283,
+      28891,
+      29219,
+      28707,
+      29083,
+      28595,
+      28081,
+      19052
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {}
+  },
+  {
+    "id": "GsmDAs9H",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1777620660530,
+    "lastMoveAt": 1777620749499,
+    "status": "outoftime",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1848
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1644
+      }
+    },
+    "fullId": "GsmDAs9HSYEw",
+    "winner": "white",
+    "opening": {
+      "eco": "C45",
+      "name": "Scotch Game: Malaniuk Variation",
+      "ply": 8
+    },
+    "moves": "e4 e5 Nf3 Nc6 d4 exd4 Nxd4 Bb4+ c3 Ba5 Bc4 d6 O-O Nge7 Re1 Bd7 Nxc6 Bxc6 Bxf7+ Kxf7 Qh5+ g6 Qxa5 b6 Qg5",
+    "clocks": [
+      30003,
+      30003,
+      29867,
+      29931,
+      29787,
+      29803,
+      29787,
+      29587,
+      29491,
+      29371,
+      29283,
+      28931,
+      28939,
+      28355,
+      27659,
+      27979,
+      26659,
+      27603,
+      26339,
+      27315,
+      26203,
+      26755,
+      26067,
+      26341,
+      25206,
+      0
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 20
+    }
+  }
+]
