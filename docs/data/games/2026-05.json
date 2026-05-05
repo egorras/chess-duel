@@ -3129,5 +3129,114 @@
       "middle": 16,
       "end": 54
     }
+  },
+  {
+    "id": "ElqVpH0p",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1777980316312,
+    "lastMoveAt": 1777980557467,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1643
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1857
+      }
+    },
+    "fullId": "ElqVpH0p68c0",
+    "winner": "black",
+    "opening": {
+      "eco": "B12",
+      "name": "Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense",
+      "ply": 6
+    },
+    "moves": "e4 c6 d4 d5 e5 c5 c3 Nc6 Nf3 Bg4 h3 Bxf3 gxf3 e6 Be2 Qb6 Rg1 cxd4 cxd4 Nxd4 Be3 Bc5 b3 Nf5 Bxc5 Qxc5 f4 Nge7 Nd2 Rc8 Rc1 Qb6 Rxc8+ Nxc8 Bd3 Nce7 Nf3 g6 h4 h5 Ng5 Qb4+ Ke2 Qxf4 Bb5+ Nc6 Bxc6+ bxc6 Qa1 Qxh4 Nf3 Qe4+ Kf1 Qxf3 Qc1 Qh3+ Ke1 O-O Qxc6 Nd4 Qc3 Qxc3+",
+    "clocks": [
+      30003,
+      30003,
+      29931,
+      30003,
+      29875,
+      29915,
+      29739,
+      29867,
+      29531,
+      29747,
+      29419,
+      29251,
+      29003,
+      29203,
+      28739,
+      29107,
+      28179,
+      28803,
+      27995,
+      28643,
+      27875,
+      28043,
+      26771,
+      27795,
+      25795,
+      27691,
+      25251,
+      27195,
+      24539,
+      26619,
+      24379,
+      26259,
+      24003,
+      26123,
+      23211,
+      25843,
+      21483,
+      25611,
+      21139,
+      25003,
+      20675,
+      24323,
+      19739,
+      24171,
+      19443,
+      23947,
+      19315,
+      23859,
+      18331,
+      22883,
+      18083,
+      22491,
+      17867,
+      22363,
+      17707,
+      21379,
+      17323,
+      21243,
+      16827,
+      20179,
+      16555,
+      19935,
+      16450
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 16,
+      "end": 48
+    }
   }
 ]
