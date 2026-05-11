@@ -4302,5 +4302,201 @@
       "middle": 13,
       "end": 47
     }
+  },
+  {
+    "id": "L7oqCDq7",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1778514633449,
+    "lastMoveAt": 1778515018861,
+    "status": "draw",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1648
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1837
+      }
+    },
+    "fullId": "L7oqCDq7GPaU",
+    "opening": {
+      "eco": "B13",
+      "name": "Caro-Kann Defense: Exchange Variation",
+      "ply": 8
+    },
+    "moves": "e4 c6 d4 d5 exd5 cxd5 Nf3 Nc6 Bb5 Bg4 c3 e6 Be3 Qb6 Bxc6+ bxc6 Qb3 Nf6 Ne5 Rc8 Nd2 Be7 h3 Bf5 g4 Bg6 h4 h5 g5 Ne4 Nxg6 fxg6 Nxe4 dxe4 Qxe6 Rd8 Qxg6+ Kf8 O-O Qxb2 Qxc6 Rd6 Qxe4 Qxc3 Rfc1 Qa5 Rc8+ Rd8 Rxd8+ Qxd8 Rb1 Qa5 Rb8+ Kf7 Rxh8 Qe1+ Kg2 Bd6 Qf5+ Ke7 Qf8+ Kd7 Qd8+ Kc6 Qc8+ Bc7 d5+ Kd6 Bf4+ Kxd5 Qxc7 Qe4+ f3 Qe2+ Kg3 Qe1+ Kh3 Qf1+ Kg3 Qe1+ Kg2 Qe2+ Kg1 Qe1+ Kh2 Qf2+ Kh3 Qf1+ Kg3 Qe1+",
+    "clocks": [
+      30003,
+      30003,
+      29835,
+      29947,
+      29771,
+      29899,
+      29675,
+      29683,
+      29283,
+      29619,
+      29043,
+      29499,
+      28827,
+      29323,
+      28499,
+      29155,
+      28091,
+      28787,
+      27283,
+      27539,
+      26915,
+      27091,
+      26539,
+      26779,
+      25787,
+      26259,
+      25347,
+      25075,
+      25123,
+      24723,
+      24563,
+      24499,
+      24299,
+      24219,
+      23923,
+      23251,
+      23611,
+      22907,
+      22835,
+      22699,
+      21931,
+      21155,
+      21683,
+      20803,
+      20403,
+      20339,
+      20179,
+      19819,
+      17803,
+      19443,
+      17099,
+      18827,
+      16675,
+      18691,
+      16491,
+      18435,
+      16363,
+      17979,
+      16027,
+      17811,
+      15563,
+      17683,
+      15147,
+      17443,
+      14571,
+      17187,
+      14307,
+      16963,
+      13467,
+      16875,
+      13331,
+      16691,
+      13019,
+      16403,
+      12883,
+      16163,
+      12451,
+      15931,
+      12235,
+      15651,
+      12123,
+      15467,
+      11963,
+      15315,
+      11587,
+      15107,
+      11451,
+      14939,
+      11387,
+      14803,
+      11384
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 20,
+      "end": 50
+    }
+  },
+  {
+    "id": "YHvhYHfX",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1778515022547,
+    "lastMoveAt": 1778515087585,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1837
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1648
+      }
+    },
+    "fullId": "YHvhYHfXQ5Mt",
+    "winner": "white",
+    "opening": {
+      "eco": "C40",
+      "name": "Elephant Gambit",
+      "ply": 4
+    },
+    "moves": "e4 e5 Nf3 d5 Nxe5 dxe4 Nc3 f5 Bc4 Nh6 Qh5+ g6 Nxg6 hxg6 Qxg6+ Kd7 Qe6#",
+    "clocks": [
+      30003,
+      30003,
+      29883,
+      29939,
+      29147,
+      29779,
+      28955,
+      29315,
+      28723,
+      28771,
+      28051,
+      28395,
+      27267,
+      28067,
+      27091,
+      27903,
+      26225
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {}
   }
 ]
