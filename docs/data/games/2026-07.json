@@ -1495,5 +1495,125 @@
       "middle": 21,
       "end": 57
     }
+  },
+  {
+    "id": "8eUbjDPf",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1783178622980,
+    "lastMoveAt": 1783178871733,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1824
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1668
+      }
+    },
+    "fullId": "8eUbjDPf41N8",
+    "winner": "black",
+    "opening": {
+      "eco": "B01",
+      "name": "Scandinavian Defense: Main Line",
+      "ply": 6
+    },
+    "moves": "e4 d5 exd5 Qxd5 Nc3 Qa5 Nf3 Nf6 g3 Bf5 Bg2 c6 O-O e6 d4 Bb4 Bd2 Nd5 Nxd5 cxd5 Bxb4 Qxb4 b3 Nc6 a3 Qb6 c4 dxc4 bxc4 O-O d5 exd5 cxd5 Rad8 Ng5 h6 Qf3 Ne7 Ne4 Bxe4 Qxe4 Nxd5 Rad1 Nf6 Qe7 Rfe8 Qxb7 Qxb7 Bxb7 Rxd1 Rxd1 Rb8 Bg2 Rb3 a4 Ra3 Bc6 h5 h4 g6 Kg2 Kg7 Bb5 Ne4 f3 Nc3 Rd3 Nxb5 Rxa3 Nxa3 a5 Nc4 a6",
+    "clocks": [
+      30003,
+      30003,
+      29883,
+      30003,
+      29827,
+      29923,
+      29771,
+      29859,
+      29723,
+      29747,
+      29667,
+      29635,
+      29603,
+      29539,
+      29539,
+      29459,
+      29427,
+      29251,
+      29115,
+      28899,
+      28779,
+      28899,
+      28611,
+      28587,
+      28171,
+      28451,
+      28003,
+      27587,
+      27787,
+      27403,
+      27315,
+      27187,
+      27219,
+      26955,
+      25915,
+      25995,
+      24091,
+      25595,
+      23035,
+      25403,
+      22971,
+      24355,
+      22675,
+      24227,
+      22027,
+      23107,
+      21187,
+      22979,
+      21035,
+      22371,
+      20907,
+      22147,
+      20515,
+      21819,
+      20347,
+      21667,
+      20211,
+      20979,
+      20051,
+      20339,
+      19931,
+      19803,
+      19531,
+      19339,
+      18779,
+      19235,
+      17923,
+      19019,
+      17179,
+      19019,
+      17011,
+      18923,
+      16874,
+      18689
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 22,
+      "end": 49
+    }
   }
 ]
