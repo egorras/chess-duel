@@ -3519,5 +3519,124 @@
       "middle": 17,
       "end": 68
     }
+  },
+  {
+    "id": "GKONFgeg",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1784282382216,
+    "lastMoveAt": 1784282709807,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1824
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1680
+      }
+    },
+    "fullId": "GKONFgegFR1i",
+    "winner": "white",
+    "opening": {
+      "eco": "B22",
+      "name": "Sicilian Defense: Alapin Variation",
+      "ply": 3
+    },
+    "moves": "e4 c5 c3 Nc6 d4 cxd4 cxd4 e5 d5 Nce7 Nc3 a6 Nf3 d6 Bd3 f5 O-O f4 Re1 h6 a3 g5 b4 g4 Nh4 Bd7 f3 g3 hxg3 Nc8 gxf4 Qxh4 fxe5 dxe5 Be3 Nf6 Bf2 Qg5 Kf1 h5 Ke2 Nd6 Rg1 Rc8 Rc1 Nb5 Be3 Qg3 Na2 Nxa3 Rxc8+ Bxc8 Qa4+ Nb5 Bxb5+ axb5 Qxb5+ Nd7 Rc1 Bd6 Rxc8+ Ke7 Rxh8 Qxg2+ Bf2 Qg5 Rh7+ Ke8 Qxd7+ Kf8 Qc8+ Qd8 Qxd8#",
+    "clocks": [
+      30003,
+      30003,
+      29899,
+      29891,
+      29899,
+      29675,
+      29899,
+      29347,
+      29667,
+      29027,
+      28955,
+      28579,
+      28379,
+      28459,
+      27819,
+      28259,
+      27635,
+      26987,
+      27451,
+      26555,
+      27187,
+      26451,
+      27083,
+      26275,
+      27003,
+      25731,
+      25915,
+      25339,
+      25795,
+      24611,
+      25643,
+      24387,
+      25363,
+      22699,
+      24963,
+      22123,
+      24747,
+      21475,
+      24475,
+      20875,
+      24339,
+      19099,
+      24131,
+      18211,
+      23787,
+      16899,
+      21843,
+      16171,
+      20883,
+      15099,
+      20323,
+      14971,
+      20171,
+      14827,
+      20059,
+      14523,
+      19979,
+      14099,
+      18667,
+      13707,
+      18291,
+      13395,
+      18083,
+      13291,
+      17915,
+      12027,
+      17731,
+      11427,
+      17619,
+      11275,
+      17155,
+      11004,
+      17024
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 23,
+      "end": 69
+    }
   }
 ]
