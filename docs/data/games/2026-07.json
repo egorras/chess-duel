@@ -848,7 +848,11 @@
           "mistake": 2,
           "blunder": 5,
           "acpl": 102,
-          "accuracy": 68
+          "accuracy": 68,
+          "phases": {
+            "opening": 94,
+            "middlegame": 59
+          }
         }
       },
       "black": {
@@ -862,7 +866,11 @@
           "mistake": 0,
           "blunder": 4,
           "acpl": 69,
-          "accuracy": 76
+          "accuracy": 76,
+          "phases": {
+            "opening": 78,
+            "middlegame": 71
+          }
         }
       }
     },
