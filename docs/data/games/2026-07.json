@@ -4378,5 +4378,210 @@
       "middle": 24,
       "end": 45
     }
+  },
+  {
+    "id": "SgCs0mob",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1784553797629,
+    "lastMoveAt": 1784553992324,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1681
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1824
+      }
+    },
+    "fullId": "SgCs0mobIk40",
+    "winner": "white",
+    "opening": {
+      "eco": "A06",
+      "name": "Zukertort Opening: Tennison Gambit",
+      "ply": 3
+    },
+    "moves": "Nf3 d5 e4 dxe4 Ng5 Nc6 d3 exd3 Bxd3 Nf6 Nc3 Bg4 f3 Bh5 g4 Bg6 Be3 h6 Nh3 e6 Qe2 Bxd3 Qxd3 Bd6 O-O-O O-O g5 hxg5 Bxg5 Qe7 Nf2 Rad8 Qb5 Rb8 Nfe4 a6 Bxf6 gxf6 Rhg1+ Kh7 Qh5#",
+    "clocks": [
+      30003,
+      30003,
+      29827,
+      29875,
+      29739,
+      29395,
+      29595,
+      29275,
+      29595,
+      28899,
+      28523,
+      28411,
+      28387,
+      28251,
+      28163,
+      27811,
+      27803,
+      27451,
+      27139,
+      27211,
+      26187,
+      27067,
+      25947,
+      26779,
+      25683,
+      25227,
+      25235,
+      24379,
+      24787,
+      24083,
+      23987,
+      23987,
+      23099,
+      21195,
+      22491,
+      20851,
+      21739,
+      20611,
+      21235,
+      20080,
+      21187
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 21
+    }
+  },
+  {
+    "id": "anTRT8aO",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1784553994082,
+    "lastMoveAt": 1784554411740,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1824
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1681
+      }
+    },
+    "fullId": "anTRT8aOppZq",
+    "winner": "white",
+    "opening": {
+      "eco": "C45",
+      "name": "Scotch Game",
+      "ply": 7
+    },
+    "moves": "e4 e5 Nf3 Nc6 d4 exd4 Nxd4 d6 Bc4 Be6 Bxe6 fxe6 Nxe6 Qe7 Qh5+ g6 Qh3 Nb4 Na3 Nf6 Bg5 Kf7 Bxf6 Qxf6 Nxc7 Qxb2 Qd7+ Be7 O-O Rhd8 Qa4 Rac8 Rab1 Qxa2 Rxb4 Rxc7 Nb5 Qxc2 Nxc7 Qxc7 Qxa7 Rb8 Rfb1 Qc6 g3 Re8 Qe3 Rb8 Qf4+ Bf6 g4 g5 Qf5 Kg7 Qa5 Bd4 Qxg5+ Kh8 Rxd4 Qc2 Rbd1 Rg8 Qf6+ Rg7 Rxd6 h5 Rd8+ Kh7 Qf5+ Kh6 R1d6+ Rg6 Qxg6#",
+    "clocks": [
+      30003,
+      30003,
+      29915,
+      29819,
+      29875,
+      29723,
+      29803,
+      29555,
+      29643,
+      29171,
+      28827,
+      29171,
+      28715,
+      28307,
+      27939,
+      27707,
+      27491,
+      22763,
+      26139,
+      21851,
+      25355,
+      21163,
+      25027,
+      20739,
+      24395,
+      20179,
+      23387,
+      19419,
+      22795,
+      18515,
+      22291,
+      17531,
+      22083,
+      16291,
+      20659,
+      16035,
+      20019,
+      15251,
+      19523,
+      15075,
+      19003,
+      13779,
+      18211,
+      12331,
+      17187,
+      11491,
+      16099,
+      10323,
+      15923,
+      10027,
+      15403,
+      9851,
+      14571,
+      9595,
+      13851,
+      8691,
+      13587,
+      8531,
+      13179,
+      8411,
+      12579,
+      8187,
+      12291,
+      8123,
+      11731,
+      8043,
+      11587,
+      7971,
+      11427,
+      7859,
+      11219,
+      7776,
+      11037
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 21,
+      "end": 40
+    }
   }
 ]
