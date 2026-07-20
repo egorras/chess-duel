@@ -1654,8 +1654,8 @@
     "winner": "black",
     "opening": {
       "eco": "B15",
-      "name": "Caro-Kann Defense: Tartakower Variation",
-      "ply": 10
+      "name": "Caro-Kann Defense: Main Line",
+      "ply": 7
     },
     "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Nf6 Nxf6+ exf6 Nf3 Bg4 Be2 Bd6 h3 Bh5 Be3 O-O O-O Re8 Qd2 Nd7 c4 Nf8 c5 Bb8 b4 Qc7 g3 Ne6 Nh2 Bxe2 Qxe2 Qd7 Qg4 Qd5 Bh6 g5 h4 Qxd4 Qf5 Bxg3 Rad1 Bxh2+ Kxh2 Qxh4+ Kg1 Qxh6 Rd7 Kg7 Kg2 Qh4 Rh1 Nf4+ Kg1 Re1#",
     "clocks": [
@@ -2136,8 +2136,8 @@
     "winner": "black",
     "opening": {
       "eco": "B01",
-      "name": "Scandinavian Defense: Classical Variation",
-      "ply": 10
+      "name": "Scandinavian Defense: Main Line, Mieses Variation",
+      "ply": 8
     },
     "moves": "e4 d5 exd5 Qxd5 Nc3 Qa5 d4 Nf6 Nf3 Bf5 Bd3 Bg6 O-O e6 Re1 Nbd7 a3 Bd6 Bxg6 hxg6 Be3 O-O-O b4 Qb6 Na4 Qb5 c3 Qh5 c4 Bxh2+ Nxh2 Qxh2+ Kf1 Qh1+ Ke2 Qxg2 Rg1 Qe4 Nc5 Nxc5 bxc5 Ng4 Rb1 Nxe3 fxe3 Rh2+ Ke1 Qxe3+ Kf1 Qf2#",
     "clocks": [
