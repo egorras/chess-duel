@@ -133,6 +133,7 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
     const totalGames = totalP1 + totalP2 + totalDraw;
     const monthsWonP1 = monthly.filter(m => m.p1 > m.p2).length;
     const monthsWonP2 = monthly.filter(m => m.p2 > m.p1).length;
+    const isMultiMonth = monthly.length > 1;
 
     // Hero stats
     const heroEl = document.getElementById('analysis-hero');
@@ -153,9 +154,11 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
         `;
     }
 
-    // Monthly win-rate chart — both players
+    // Monthly win-rate chart — both players (needs multiple months to show a trend)
+    const winrateContainer = document.getElementById('analysis-monthly-winrate-container');
+    if (winrateContainer) winrateContainer.classList.toggle('hidden', !isMultiMonth);
     const winrateCanvas = document.getElementById('analysis-monthly-winrate-chart');
-    if (winrateCanvas && typeof Chart !== 'undefined') {
+    if (winrateCanvas && typeof Chart !== 'undefined' && isMultiMonth) {
         if (window.analysisWinrateChart) {
             try { window.analysisWinrateChart.destroy(); } catch (e) {}
         }
@@ -195,17 +198,22 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
                 interaction: { mode: 'index', intersect: false },
                 plugins: { legend: { labels: { color: 'rgb(209, 213, 219)', font: { size: 10 } } } },
                 scales: {
-                    x: { ticks: { color: 'rgb(156, 163, 175)', font: { size: 9 } }, grid: { color: 'rgba(75, 85, 99, 0.3)' } },
+                    x: { offset: true, ticks: { color: 'rgb(156, 163, 175)', font: { size: 9 } }, grid: { color: 'rgba(75, 85, 99, 0.3)' } },
                     y: { min: 0, max: 100, ticks: { color: 'rgb(156, 163, 175)', font: { size: 9 }, callback: v => v + '%' }, grid: { color: 'rgba(75, 85, 99, 0.3)' } }
                 }
             }
         });
+    } else if (window.analysisWinrateChart) {
+        try { window.analysisWinrateChart.destroy(); } catch (e) {}
+        window.analysisWinrateChart = null;
     }
 
-    // Rating gap chart
+    // Rating gap chart (needs multiple months to show a trend)
+    const ratingContainer = document.getElementById('analysis-rating-container');
     const ratingCanvas = document.getElementById('analysis-rating-chart');
     const withRatings = monthly.filter(m => m.p1AvgRating !== null);
-    if (ratingCanvas && typeof Chart !== 'undefined' && withRatings.length > 0) {
+    if (ratingContainer) ratingContainer.classList.toggle('hidden', !isMultiMonth);
+    if (ratingCanvas && typeof Chart !== 'undefined' && isMultiMonth && withRatings.length > 0) {
         if (window.analysisRatingChart) {
             try { window.analysisRatingChart.destroy(); } catch (e) {}
         }
@@ -238,24 +246,28 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
                 interaction: { mode: 'index', intersect: false },
                 plugins: { legend: { labels: { color: 'rgb(209, 213, 219)', font: { size: 10 } } } },
                 scales: {
-                    x: { ticks: { color: 'rgb(156, 163, 175)', font: { size: 9 } }, grid: { color: 'rgba(75, 85, 99, 0.3)' } },
+                    x: { offset: true, ticks: { color: 'rgb(156, 163, 175)', font: { size: 9 } }, grid: { color: 'rgba(75, 85, 99, 0.3)' } },
                     y: { ticks: { color: 'rgb(156, 163, 175)', font: { size: 9 } }, grid: { color: 'rgba(75, 85, 99, 0.3)' } }
                 }
             }
         });
+    } else if (window.analysisRatingChart) {
+        try { window.analysisRatingChart.destroy(); } catch (e) {}
+        window.analysisRatingChart = null;
+    }
 
-        const lastGap = withRatings[withRatings.length - 1].p2AvgRating - withRatings[withRatings.length - 1].p1AvgRating;
-        const heroRating = document.getElementById('analysis-hero-rating');
-        if (heroRating) {
+    const heroRating = document.getElementById('analysis-hero-rating');
+    if (heroRating) {
+        if (withRatings.length > 0) {
+            const lastGap = withRatings[withRatings.length - 1].p2AvgRating - withRatings[withRatings.length - 1].p1AvgRating;
             heroRating.innerHTML = `
-                <div class="text-xs text-gray-400 mb-1">Rating Gap (latest)</div>
+                <div class="text-xs text-gray-400 mb-1">Rating Gap${isMultiMonth ? ' (latest)' : ''}</div>
                 <div class="text-lg font-bold text-white">${Math.abs(lastGap)}</div>
                 <div class="text-xs mt-1">${lastGap > 0 ? `<span class="text-blue-400">${player2Name}</span>` : `<span class="text-red-400">${player1Name}</span>`} ahead</div>
             `;
+        } else {
+            heroRating.innerHTML = `<div class="text-xs text-gray-400 mb-1">Rating Gap</div><div class="text-lg font-bold text-gray-600">–</div>`;
         }
-    } else {
-        const heroRating = document.getElementById('analysis-hero-rating');
-        if (heroRating) heroRating.innerHTML = `<div class="text-xs text-gray-400 mb-1">Rating Gap</div><div class="text-lg font-bold text-gray-600">–</div>`;
     }
 
     // Opening matchups (min 15 games), both players side by side, sorted by player1 win rate

@@ -97,7 +97,7 @@ const Router = {
 
     // Check if a string is a valid tab name
     isValidTab(tab) {
-        const validTabs = ['overview', 'openings', 'sessions', 'monthly', 'stats', 'games', 'fun'];
+        const validTabs = ['overview', 'openings', 'sessions', 'monthly', 'stats', 'games', 'fun', 'explorer'];
         return validTabs.includes(tab);
     },
 

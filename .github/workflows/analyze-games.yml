@@ -1,0 +1,51 @@
+name: Analyze Chess Games
+
+on:
+  schedule:
+    - cron: '30 */3 * * *' # offset from the hourly fetch job, every 3 hours
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Max number of games to analyze this run'
+        required: false
+        default: '15'
+
+jobs:
+  analyze-games:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Stockfish
+        run: sudo apt-get update && sudo apt-get install -y stockfish
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Analyze games missing computer analysis
+        env:
+          ANALYSIS_LIMIT: ${{ github.event.inputs.limit || '15' }}
+        run: node scripts/analyze-games.js
+
+      - name: Commit and push if changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/data/games/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Add computer analysis for games"
+            git push
+          fi

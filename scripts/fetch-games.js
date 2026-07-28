@@ -166,8 +166,14 @@ function mergeGames(existingGames, newGames) {
     gameMap.set(game.id, game);
   });
 
-  // Add/update with new games
+  // Add/update with new games, carrying forward our own supplemental
+  // Stockfish analysis (Lichess's response never includes it, so a plain
+  // overwrite would silently wipe it out on every refetch of that month).
   newGames.forEach(game => {
+    const existing = gameMap.get(game.id);
+    if (existing && existing.stockfishAnalysis && !game.stockfishAnalysis) {
+      game.stockfishAnalysis = existing.stockfishAnalysis;
+    }
     gameMap.set(game.id, game);
   });
 
