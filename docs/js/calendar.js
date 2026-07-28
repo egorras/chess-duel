@@ -126,7 +126,7 @@ function displayCalendar(gamesByMonth, selectedYear) {
     // GitHub-style: Rows are days of week (Mon-Sun), Columns are weeks
     let calendarHTML = `
         <div class="overflow-x-auto">
-            <table class="border-collapse" style="border-spacing: 0;">
+            <table class="border-collapse" style="border-spacing: 0; width: 100%;">
                 <thead>
                     <tr class="leading-none">
                         <th class="text-xs text-gray-500 font-normal py-1 px-2 text-right pr-2"></th>

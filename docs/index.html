@@ -180,6 +180,9 @@
                     <button class="tab-button px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-tab="fun">
                         Fun
                     </button>
+                    <button class="tab-button px-4 py-2.5 md:px-6 md:py-3 font-semibold text-xs md:text-sm border-b-2 border-transparent text-gray-400 hover:text-gray-200 whitespace-nowrap flex-shrink-0" data-tab="analysis">
+                        Analysis
+                    </button>
                 </nav>
             </div>
 
@@ -501,6 +504,61 @@
             </div>
             <!-- End Fun Games Tab -->
 
+            <!-- Analysis Tab -->
+            <div class="tab-pane" data-tab-content="analysis">
+
+            <div class="mb-3">
+                <h2 class="text-lg font-semibold text-gray-300">Analysis & Learnings</h2>
+                <p class="text-xs text-gray-500">Deep dive across the full game history — opening win rates, rating gap, streaks, and where each player wins or loses games. Not affected by the date filter above.</p>
+            </div>
+
+            <!-- Hero stats -->
+            <div id="analysis-hero" class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3"></div>
+
+            <!-- Monthly win rate -->
+            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 mb-3">
+                <h3 class="text-xs sm:text-sm font-semibold mb-2 text-gray-300">Monthly Win Rate vs. Break-even</h3>
+                <div class="relative" style="height: 220px; min-height: 220px;">
+                    <canvas id="analysis-monthly-winrate-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Rating gap -->
+            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 mb-3">
+                <h3 class="text-xs sm:text-sm font-semibold mb-2 text-gray-300">Rating Gap Over Time</h3>
+                <div class="relative" style="height: 220px; min-height: 220px;">
+                    <canvas id="analysis-rating-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Streak timeline -->
+            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 mb-3">
+                <h3 class="text-xs sm:text-sm font-semibold mb-2 text-gray-300">Streak Timeline</h3>
+                <div id="analysis-streaks" class="text-gray-400 text-xs"></div>
+            </div>
+
+            <!-- Opening win rates -->
+            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 mb-3">
+                <h3 class="text-xs sm:text-sm font-semibold mb-1 text-gray-300">Win Rate by Opening (min. 15 games)</h3>
+                <p class="text-[10px] text-gray-500 mb-3">Red = above 50% break-even, blue = below. Bar length is distance from break-even.</p>
+                <div id="analysis-openings"></div>
+            </div>
+
+            <!-- Splits -->
+            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 mb-3">
+                <h3 class="text-xs sm:text-sm font-semibold mb-1 text-gray-300">Win Rate by Color / Length / Day</h3>
+                <div id="analysis-splits"></div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 mb-3">
+                <h3 class="text-xs sm:text-sm font-semibold mb-2 text-gray-300">Learnings & Strategy</h3>
+                <div id="analysis-reco"></div>
+            </div>
+
+            </div>
+            <!-- End Analysis Tab -->
+
             </div>
             <!-- End Tab Content -->
 
@@ -591,6 +649,7 @@
     <script src="js/router.js"></script>
     <script src="js/calendar.js"></script>
     <script src="js/interesting-games.js"></script>
+    <script src="js/analysis.js"></script>
     <script src="js/main.js"></script>
     <script src="js/tabs.js"></script>
 </body>
