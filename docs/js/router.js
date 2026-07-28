@@ -8,16 +8,28 @@ const Router = {
         const path = hash.replace(/^#/, '').trim();
         
         if (!path) {
-            return { year: 'all', month: 'all', day: 'all', tab: 'overview' };
+            // No route: fall back to the current month instead of all-time
+            const now = new Date();
+            const year = String(now.getFullYear());
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            return { year, month, day: 'all', tab: 'overview' };
         }
 
         // Split by / or - to handle different formats
         const parts = path.split(/[/-]/);
-        
+
         let year = 'all';
         let month = 'all';
         let day = 'all';
         let tab = 'overview';
+
+        // Explicit all-time route: #all or #all/<tab>
+        if (parts[0] === 'all') {
+            if (parts[1] && this.isValidTab(parts[1])) {
+                tab = parts[1];
+            }
+            return { year, month, day, tab };
+        }
 
         // Check if first part is a valid year (4 digits)
         if (parts[0] && /^\d{4}$/.test(parts[0])) {
@@ -61,8 +73,8 @@ const Router = {
         const activeTab = tab || 'overview';
         
         if (year === 'all') {
-            // If no year, just show tab if it's not overview
-            return activeTab !== 'overview' ? `#${activeTab}` : '';
+            // Explicit all-time route, distinct from the no-hash default
+            return activeTab !== 'overview' ? `#all/${activeTab}` : '#all';
         }
 
         const parts = [year];
