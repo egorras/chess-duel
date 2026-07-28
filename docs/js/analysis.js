@@ -352,6 +352,7 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
         const totalLen = runs.reduce((s, r) => s + r.length, 0);
         const longestP1 = Math.max(0, ...runs.filter(r => r.result === 'p1').map(r => r.length));
         const longestP2 = Math.max(0, ...runs.filter(r => r.result === 'p2').map(r => r.length));
+        const longestDraw = Math.max(0, ...runs.filter(r => r.result === 'draw').map(r => r.length));
 
         const heroStreaks = document.getElementById('analysis-hero-streaks');
         if (heroStreaks) {
@@ -359,6 +360,8 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
                 <div class="text-xs text-gray-400 mb-1">Longest Streaks</div>
                 <div class="text-lg font-bold"><span class="text-red-400">${longestP1}</span><span class="text-gray-500 text-sm"> / </span><span class="text-blue-400">${longestP2}</span></div>
                 <div class="text-xs text-gray-500 mt-1">${player1Name} / ${player2Name} (games)</div>
+                <div class="text-sm font-bold text-gray-400 mt-2">${longestDraw}</div>
+                <div class="text-xs text-gray-500 mt-1">longest draw streak</div>
             `;
         }
 

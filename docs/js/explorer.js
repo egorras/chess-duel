@@ -16,8 +16,12 @@ const PIECE_UNICODE = {
 const SQUARE_LIGHT = '#ebecd0';
 const SQUARE_DARK = '#779952';
 
-const ARROW_LAST_COLOR = 'rgba(255, 170, 0, 0.85)';
-const ARROW_HOVER_COLOR = 'rgba(56, 189, 248, 0.95)';
+// Neutral grayscale arrows — deliberately not red/blue so they never read as
+// "player 1's move" / "player 2's move" (that's what the move-list badges are for).
+// Hover uses amber rather than white so it doesn't look like a plain move arrow.
+const ARROW_LAST_COLOR = 'rgba(226, 232, 240, 0.55)';
+const ARROW_CANDIDATE_COLOR = 'rgba(148, 163, 184, 0.35)';
+const ARROW_HOVER_COLOR = 'rgba(251, 191, 36, 0.9)';
 
 const explorerState = {
     root: null,
@@ -42,7 +46,18 @@ function explorerCreateNode() {
     // needed because in the "All" color filter, p1 may be either color from
     // game to game, so outcome color alone can't tell you whose preference
     // a given move reflects.
-    return { count: 0, p1: 0, p2: 0, draw: 0, moverP1: 0, moverP2: 0, evalSum: 0, evalCount: 0, children: new Map(), games: [] };
+    //
+    // suggestionUci/suggestionSamples = engine's suggested best move FROM this
+    // position (i.e. the move about to be played), tallied by UCI across every
+    // analyzed game that reached here.
+    //
+    // cpLossSum/cpLossCount/bestCount/judgmentCounts describe the quality of
+    // the move that led INTO this node (the edge just taken), per Stockfish.
+    return {
+        count: 0, p1: 0, p2: 0, draw: 0, moverP1: 0, moverP2: 0, evalSum: 0, evalCount: 0, children: new Map(), games: [],
+        suggestionUci: new Map(), suggestionSamples: 0,
+        cpLossSum: 0, cpLossCount: 0, bestCount: 0, judgmentCounts: {}
+    };
 }
 
 function explorerApplyResult(node, result) {
@@ -109,6 +124,10 @@ function buildMoveTree(gamesByMonth, player1Name, colorFilter) {
         else result = 'p2';
 
         const evalByPly = getWhiteEvalByPly(game);
+        const sfMoves = game.stockfishAnalysis?.moves;
+        const chessForUci = sfMoves && sfMoves.length > 0 && typeof window.Chess === 'function'
+            ? new window.Chess()
+            : null;
 
         let node = root;
         explorerApplyResult(node, result);
@@ -116,9 +135,30 @@ function buildMoveTree(gamesByMonth, player1Name, colorFilter) {
         const limit = Math.min(tokens.length, EXPLORER_MAX_PLY);
         for (let i = 0; i < limit; i++) {
             const san = tokens[i];
-            if (!node.children.has(san)) node.children.set(san, explorerCreateNode());
-            node = node.children.get(san);
+            const moveObj = chessForUci ? chessForUci.move(san) : null;
+
+            const parentNode = node;
+            if (!parentNode.children.has(san)) parentNode.children.set(san, explorerCreateNode());
+            node = parentNode.children.get(san);
             explorerApplyResult(node, result);
+
+            // Engine's move-by-move analysis, when we have it: the suggested
+            // best move belongs to the position BEFORE this move (parentNode);
+            // the quality of the move actually played belongs to the edge
+            // just taken (node).
+            const mv = sfMoves && sfMoves[i];
+            if (mv) {
+                parentNode.suggestionSamples++;
+                if (mv.best) parentNode.suggestionUci.set(mv.best, (parentNode.suggestionUci.get(mv.best) || 0) + 1);
+
+                if (moveObj) {
+                    const playedUci = `${moveObj.from}${moveObj.to}${moveObj.promotion || ''}`;
+                    node.cpLossCount++;
+                    node.cpLossSum += mv.cpLoss || 0;
+                    if (mv.judgment) node.judgmentCounts[mv.judgment] = (node.judgmentCounts[mv.judgment] || 0) + 1;
+                    if (mv.best === playedUci) node.bestCount++;
+                }
+            }
 
             // Ply i (0-indexed) is White's move when i is even.
             const moveIsWhite = i % 2 === 0;
@@ -199,7 +239,7 @@ function stylePieceGlyph(el, color) {
 
 function createPieceEl(type, color, square) {
     const el = document.createElement('div');
-    el.className = 'absolute flex items-center justify-center text-2xl sm:text-3xl';
+    el.className = 'absolute flex items-center justify-center text-4xl sm:text-5xl';
     el.style.width = '12.5%';
     el.style.height = '12.5%';
     el.style.transition = 'left 0.28s ease, top 0.28s ease';
@@ -374,19 +414,51 @@ function squareToCoord(square) {
     return { x: col + 0.5, y: row + 0.5 };
 }
 
-function buildArrowMarkup(from, to, color, strokeWidth, markerId) {
+function buildArrowMarkup(from, to, color, strokeWidth, markerId, san, shrink = 0.3) {
     const a = squareToCoord(from);
     const b = squareToCoord(to);
     const dx = b.x - a.x;
     const dy = b.y - a.y;
     const len = Math.sqrt(dx * dx + dy * dy) || 1;
-    const shrink = 0.3; // keep the arrowhead from overlapping the destination piece
     const ex = b.x - (dx / len) * shrink;
     const ey = b.y - (dy / len) * shrink;
-    return `<line x1="${a.x}" y1="${a.y}" x2="${ex}" y2="${ey}" stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round" marker-end="url(#${markerId})" />`;
+    const sanAttr = san ? ` data-san="${san}"` : '';
+    const markerAttr = markerId ? ` marker-end="url(#${markerId})"` : '';
+    return `<line x1="${a.x}" y1="${a.y}" x2="${ex}" y2="${ey}" stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round"${markerAttr}${sanAttr} />`;
 }
 
-function drawExplorerArrows(hoverMove) {
+// Invisible, generously-wide line laid over a visible arrow purely for hit
+// testing — SVG's `pointer-events: stroke` only covers the <line>'s own
+// geometry, not its <marker> arrowhead. Unlike the visible line, this isn't
+// shrunk back from the destination square, so it also covers the arrowhead
+// itself (the natural click target, which would otherwise miss).
+function buildArrowHitMarkup(from, to, san) {
+    return buildArrowMarkup(from, to, 'rgba(0,0,0,0.01)', 0.4, null, san, 0);
+}
+
+// Shared by the moves-table row click and the on-board candidate-arrow click.
+function explorerProceedWithMove(san) {
+    const node = explorerCurrentNode();
+    const child = node.children.get(san);
+    if (!child) {
+        // No games in our history took this move (e.g. an unplayed engine
+        // suggestion) — nothing to descend into, so just open the position.
+        const candidate = resolveCandidateMove(san);
+        if (candidate) window.open(lichessAnalysisUrl(candidate.fen), '_blank', 'noopener');
+        return;
+    }
+    const top = explorerState.forwardStack[explorerState.forwardStack.length - 1];
+    if (top && top.san === san) explorerState.forwardStack.pop();
+    else explorerState.forwardStack = [];
+    explorerState.path.push({ san, node: child });
+    renderExplorer();
+}
+
+// Draws: the move that led to this position (neutral, non-interactive), every
+// candidate next move as a clickable neutral arrow, and — if hoverSan is set —
+// that one candidate brightened. Clicking a candidate arrow proceeds with that
+// move, same as clicking its row in the moves table.
+function drawExplorerArrows(hoverSan) {
     const svg = document.getElementById('explorer-arrows');
     if (!svg) return;
 
@@ -394,6 +466,9 @@ function drawExplorerArrows(hoverMove) {
         <defs>
             <marker id="explorer-arrowhead-last" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="0.55" markerHeight="0.55" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 Z" fill="${ARROW_LAST_COLOR}" />
+            </marker>
+            <marker id="explorer-arrowhead-candidate" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="0.55" markerHeight="0.55" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 Z" fill="${ARROW_CANDIDATE_COLOR}" />
             </marker>
             <marker id="explorer-arrowhead-hover" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="0.7" markerHeight="0.7" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 Z" fill="${ARROW_HOVER_COLOR}" />
@@ -403,13 +478,52 @@ function drawExplorerArrows(hoverMove) {
 
     let arrows = '';
     if (explorerState.lastMove) {
-        arrows += buildArrowMarkup(explorerState.lastMove.from, explorerState.lastMove.to, ARROW_LAST_COLOR, 0.11, 'explorer-arrowhead-last');
-    }
-    if (hoverMove) {
-        arrows += buildArrowMarkup(hoverMove.from, hoverMove.to, ARROW_HOVER_COLOR, 0.16, 'explorer-arrowhead-hover');
+        arrows += buildArrowMarkup(explorerState.lastMove.from, explorerState.lastMove.to, ARROW_LAST_COLOR, 0.09, 'explorer-arrowhead-last');
     }
 
-    svg.innerHTML = defs + arrows;
+    const node = explorerCurrentNode();
+    const clickable = []; // { san, from, to } — every arrow that should be hoverable/clickable
+    Array.from(node.children.keys()).forEach(san => {
+        if (san === hoverSan) return; // draw the hovered one last, on top
+        const candidate = resolveCandidateMove(san);
+        if (!candidate) return;
+        arrows += buildArrowMarkup(candidate.from, candidate.to, ARROW_CANDIDATE_COLOR, 0.09, 'explorer-arrowhead-candidate', san);
+        clickable.push({ san, ...candidate });
+    });
+    if (hoverSan) {
+        const candidate = resolveCandidateMove(hoverSan);
+        if (candidate) {
+            arrows += buildArrowMarkup(candidate.from, candidate.to, ARROW_HOVER_COLOR, 0.14, 'explorer-arrowhead-hover', hoverSan);
+            clickable.push({ san: hoverSan, ...candidate });
+        }
+    }
+
+    // Hit-lines go last so they paint on top of every visible arrow, including
+    // over the arrowhead area.
+    const hitLines = clickable.map(c => buildArrowHitMarkup(c.from, c.to, c.san)).join('');
+
+    svg.innerHTML = defs + arrows + hitLines;
+
+    svg.querySelectorAll('line[data-san]').forEach(line => {
+        line.style.pointerEvents = 'stroke';
+        line.style.cursor = 'pointer';
+        line.addEventListener('mouseenter', () => {
+            drawExplorerArrows(line.dataset.san);
+            explorerSetMoveRowHighlight(line.dataset.san);
+        });
+        line.addEventListener('mouseleave', () => explorerSetMoveRowHighlight(null));
+        line.addEventListener('click', () => explorerProceedWithMove(line.dataset.san));
+    });
+}
+
+// Highlights the matching row in the moves table (used when hovering the
+// corresponding arrow on the board); pass null to clear.
+function explorerSetMoveRowHighlight(san) {
+    const tbody = document.getElementById('explorer-moves-table');
+    if (!tbody) return;
+    tbody.querySelectorAll('tr[data-san]').forEach(tr => {
+        tr.classList.toggle('bg-gray-700', san !== null && tr.dataset.san === san);
+    });
 }
 
 // Resolve a candidate SAN move's from/to at the current position, without
@@ -419,6 +533,18 @@ function resolveCandidateMove(san) {
     const clone = new window.Chess(explorerState.currentChess.fen());
     const move = clone.move(san);
     return move ? { from: move.from, to: move.to, fen: clone.fen() } : null;
+}
+
+// Engine "best" moves are stored as UCI (e.g. "e2e4"); resolve to SAN at the
+// current position for display.
+function uciToSanAtCurrentNode(uci) {
+    if (!uci || !explorerState.currentChess) return null;
+    const from = uci.slice(0, 2);
+    const to = uci.slice(2, 4);
+    const promotion = uci.length > 4 ? uci.slice(4) : undefined;
+    const legal = explorerState.currentChess.moves({ verbose: true });
+    const match = legal.find(m => m.from === from && m.to === to && (!promotion || m.promotion === promotion));
+    return match ? match.san : null;
 }
 
 // Lichess's analysis board takes a FEN with spaces swapped for underscores.
@@ -531,6 +657,22 @@ function renderExplorerBreadcrumb() {
 }
 
 // --- Candidate moves table -----------------------------------------------
+
+// The engine's top-voted suggestion for this position (by UCI, resolved to
+// SAN against the current board), or null if we have no analyzed games here.
+function resolveTopEngineSuggestion(node) {
+    if (!node.suggestionSamples || node.suggestionUci.size === 0) return null;
+
+    let topUci = null, topCount = 0;
+    node.suggestionUci.forEach((count, uci) => {
+        if (count > topCount) { topCount = count; topUci = uci; }
+    });
+    const topSan = uciToSanAtCurrentNode(topUci);
+    if (!topSan) return null;
+
+    return { san: topSan, count: topCount, samples: node.suggestionSamples };
+}
+
 function renderExplorerMovesTable(node) {
     const tbody = document.getElementById('explorer-moves-table');
     const emptyEl = document.getElementById('explorer-empty');
@@ -538,9 +680,12 @@ function renderExplorerMovesTable(node) {
     if (!tbody) return;
     tbody.innerHTML = '';
 
-    const children = Array.from(node.children.entries()).sort((a, b) => b[1].count - a[1].count);
+    const suggestion = resolveTopEngineSuggestion(node);
 
-    if (children.length === 0) {
+    const children = Array.from(node.children.entries()).sort((a, b) => b[1].count - a[1].count);
+    const suggestionIsPlayed = suggestion && children.some(([san]) => san === suggestion.san);
+
+    if (children.length === 0 && !suggestion) {
         if (tableWrapper) tableWrapper.classList.add('hidden');
         if (emptyEl) {
             emptyEl.classList.remove('hidden');
@@ -586,12 +731,31 @@ function renderExplorerMovesTable(node) {
             ? `<a href="${lichessAnalysisUrl(candidate.fen)}" target="_blank" rel="noopener" title="Open this position on Lichess analysis" class="text-gray-400 hover:text-white">↗</a>`
             : '';
 
+        let qualityBadge = '';
+        if (child.cpLossCount > 0) {
+            const avgCpLoss = Math.round(child.cpLossSum / child.cpLossCount);
+            const worst = ['blunder', 'mistake', 'inaccuracy'].find(j => child.judgmentCounts[j] > 0);
+            const color = worst === 'blunder' ? 'text-red-400' : worst === 'mistake' ? 'text-orange-400' : worst === 'inaccuracy' ? 'text-yellow-400' : 'text-emerald-400';
+            const worstNote = worst ? `, ${worst} in ${child.judgmentCounts[worst]}/${child.cpLossCount}` : '';
+            qualityBadge = `
+                <span class="text-[9px] font-mono whitespace-nowrap block ${color}" title="Avg cp loss on ${san} across ${child.cpLossCount} analyzed game${child.cpLossCount === 1 ? '' : 's'}${worstNote}">
+                    avg ${avgCpLoss}cp loss
+                </span>
+            `;
+        }
+        const engineTag = suggestion && san === suggestion.san
+            ? `<span class="text-[9px] font-mono whitespace-nowrap block text-emerald-400" title="Engine's top pick in ${suggestion.count}/${suggestion.samples} analyzed positions here">🤖 engine's pick</span>`
+            : '';
+
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-gray-700 cursor-pointer';
+        tr.dataset.san = san;
         tr.innerHTML = `
             <td class="px-2 py-1.5 font-mono text-gray-200 whitespace-nowrap">
                 <span class="inline-block w-2 h-2 rounded-full border ${dotBorder} mr-1.5 align-middle" style="background-color: ${dotColor}"></span>${san}
+                ${engineTag}
                 ${moverBadge}
+                ${qualityBadge}
             </td>
             <td class="px-2 py-1.5 text-center">
                 <button class="explorer-games-toggle text-gray-400 hover:text-white underline decoration-dotted cursor-pointer" title="See the actual games and jump to one on Lichess">${child.count}</button>
@@ -610,22 +774,11 @@ function renderExplorerMovesTable(node) {
                 <div class="text-[9px] text-gray-500 mt-0.5">game result</div>
             </td>
         `;
-        tr.addEventListener('click', () => {
-            const top = explorerState.forwardStack[explorerState.forwardStack.length - 1];
-            if (top && top.san === san) explorerState.forwardStack.pop();
-            else explorerState.forwardStack = [];
-            explorerState.path.push({ san, node: child });
-            renderExplorer();
-        });
+        tr.addEventListener('click', () => explorerProceedWithMove(san));
         const lichessLink = tr.querySelector('a');
         if (lichessLink) lichessLink.addEventListener('click', e => e.stopPropagation());
-        tr.addEventListener('mouseenter', () => {
-            const candidate = resolveCandidateMove(san);
-            if (candidate) drawExplorerArrows(candidate);
-        });
-        tr.addEventListener('mouseleave', () => {
-            drawExplorerArrows(null);
-        });
+        tr.addEventListener('mouseenter', () => drawExplorerArrows(san));
+        tr.addEventListener('mouseleave', () => drawExplorerArrows(null));
         tbody.appendChild(tr);
 
         const gamesToggle = tr.querySelector('.explorer-games-toggle');
@@ -640,6 +793,42 @@ function renderExplorerMovesTable(node) {
             tr.after(buildExplorerGamesRow(child));
         });
     });
+
+    // Engine suggests a move nobody in our history has actually played here —
+    // show it as its own row so it's visible in the moves list either way.
+    if (suggestion && !suggestionIsPlayed) {
+        // node's own eval (the position BEFORE this move) is exactly the
+        // search value that made this the engine's top pick, so it doubles
+        // as "eval if this move is played" — same meaning as the eval column
+        // on the played-move rows above.
+        let suggestionEvalCell = '<span class="text-gray-600">—</span>';
+        if (node.evalCount > 0) {
+            const avgCp = node.evalSum / node.evalCount;
+            suggestionEvalCell = `<span class="font-mono font-semibold text-gray-400" title="Engine eval of this position, from ${node.evalCount} analyzed game${node.evalCount === 1 ? '' : 's'} — this is the value that made ${suggestion.san} the top pick">${formatEvalPawns(avgCp)}</span>`;
+        }
+
+        const suggestionCandidate = resolveCandidateMove(suggestion.san);
+        const suggestionLichessCell = suggestionCandidate
+            ? `<a href="${lichessAnalysisUrl(suggestionCandidate.fen)}" target="_blank" rel="noopener" title="Open this position on Lichess analysis" class="text-gray-400 hover:text-white">↗</a>`
+            : '';
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-700 opacity-70';
+        tr.dataset.san = suggestion.san;
+        tr.innerHTML = `
+            <td class="px-2 py-1.5 font-mono text-gray-200 whitespace-nowrap">
+                <span class="inline-block w-2 h-2 rounded-full border ${dotBorder} mr-1.5 align-middle" style="background-color: ${dotColor}"></span>${suggestion.san}
+                <span class="text-[9px] font-mono whitespace-nowrap block text-emerald-400" title="Engine's top pick in ${suggestion.count}/${suggestion.samples} analyzed positions here">🤖 engine's pick <span class="text-gray-500">— never played</span></span>
+            </td>
+            <td class="px-2 py-1.5 text-center text-gray-600">0</td>
+            <td class="px-2 py-1.5 text-center whitespace-nowrap">${suggestionEvalCell}</td>
+            <td class="px-2 py-1.5 text-center w-6">${suggestionLichessCell}</td>
+            <td class="px-2 py-1.5 text-gray-600 text-[10px]">no games played</td>
+        `;
+        tr.addEventListener('mouseenter', () => drawExplorerArrows(suggestion.san));
+        tr.addEventListener('mouseleave', () => drawExplorerArrows(null));
+        tbody.appendChild(tr);
+    }
 }
 
 // Expandable row listing the actual games behind a candidate move, each
