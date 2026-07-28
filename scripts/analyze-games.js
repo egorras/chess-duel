@@ -227,7 +227,8 @@ async function analyzeGame(engine, Chess, game) {
 async function main() {
     const monthFiles = fs.readdirSync(DATA_DIR)
         .filter(f => /^\d{4}-\d{2}\.json$/.test(f))
-        .sort();
+        .sort()
+        .reverse(); // most recent month first
 
     if (monthFiles.length === 0) {
         console.log('No game data files found, nothing to analyze.');
@@ -251,7 +252,8 @@ async function main() {
             const games = JSON.parse(fs.readFileSync(filePath, 'utf8'));
             let fileChanged = false;
 
-            for (const game of games) {
+            // Games within a month file are stored oldest-first; walk newest-first.
+            for (const game of [...games].reverse()) {
                 if (analyzedCount >= LIMIT) break;
                 if (isAlreadyAnalyzed(game)) continue;
 

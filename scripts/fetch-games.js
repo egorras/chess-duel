@@ -158,6 +158,24 @@ function saveGames(monthFile, games) {
   }
 }
 
+// Small index of which months actually have data, so the frontend can learn
+// the full available range (for selectors/navigation) without fetching every
+// month's much heavier game data up front.
+function writeManifest() {
+  const months = fs.readdirSync(DATA_DIR)
+    .filter(f => /^\d{4}-\d{2}\.json$/.test(f))
+    .map(f => f.replace('.json', ''))
+    .filter(monthKey => {
+      const games = loadExistingGames(path.join(DATA_DIR, `${monthKey}.json`));
+      return games.length > 0;
+    })
+    .sort();
+
+  const manifestPath = path.join(DATA_DIR, 'manifest.json');
+  fs.writeFileSync(manifestPath, JSON.stringify({ months, generatedAt: Date.now() }, null, 2));
+  console.log(`Wrote manifest.json (${months.length} months)`);
+}
+
 function mergeGames(existingGames, newGames) {
   const gameMap = new Map();
 
@@ -238,6 +256,8 @@ async function main() {
 
     console.log(`\nFetched: ${totalFetched} games from API`);
     console.log(`Total saved: ${totalSaved} games (${totalNew} new)`);
+
+    writeManifest();
   } catch (error) {
     console.error('Error fetching games:', error.message);
     process.exit(1);

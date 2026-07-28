@@ -1,42 +1,66 @@
-// Load all game data from monthly JSON files (blitz only)
-async function loadAllGames() {
-    const gamesByMonth = {};
+// Pure fallback range (no fetch) used only if the manifest can't be loaded —
+// keeps the app working even if manifest.json is missing or stale.
+function computeMonthKeyRange() {
     const startYear = 2024;
     const startMonth = 7;
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth() + 1;
 
+    const months = [];
     let year = startYear;
     let month = startMonth;
-
     while (year < currentYear || (year === currentYear && month <= currentMonth)) {
-        const monthStr = String(month).padStart(2, '0');
-        const monthKey = `${year}-${monthStr}`;
-        const fileName = `data/games/${monthKey}.json`;
-
-        try {
-            const response = await fetch(fileName);
-            if (response.ok) {
-                const monthGames = await response.json();
-                // Filter for blitz games only
-                const blitzGames = monthGames.filter(game => game.speed === 'blitz');
-                if (blitzGames.length > 0) {
-                    gamesByMonth[monthKey] = blitzGames;
-                }
-            }
-        } catch (error) {
-            // File doesn't exist or couldn't be loaded, skip
-        }
-
+        months.push(`${year}-${String(month).padStart(2, '0')}`);
         month++;
-        if (month > 12) {
-            month = 1;
-            year++;
-        }
+        if (month > 12) { month = 1; year++; }
     }
+    return months;
+}
 
-    return gamesByMonth;
+// Lightweight index of which months actually have data, so selectors/nav can
+// know the full range without fetching every month's (much heavier) game data.
+async function loadManifest() {
+    try {
+        const response = await fetch('data/games/manifest.json');
+        if (!response.ok) throw new Error('manifest not found');
+        const data = await response.json();
+        if (Array.isArray(data.months) && data.months.length > 0) {
+            return data.months.slice().sort();
+        }
+        throw new Error('manifest empty');
+    } catch (error) {
+        return computeMonthKeyRange();
+    }
+}
+
+async function fetchMonthGames(monthKey) {
+    try {
+        const response = await fetch(`data/games/${monthKey}.json`);
+        if (!response.ok) return null;
+        const games = await response.json();
+        return games.filter(game => game.speed === 'blitz');
+    } catch (error) {
+        return null;
+    }
+}
+
+// Fetches only the month keys not already present in gamesByMonth, mutating
+// it in place (so existing references / closures keep seeing updates).
+// Returns the list of month keys that were newly added.
+async function ensureMonthsLoaded(gamesByMonth, monthKeys) {
+    const missing = [...new Set(monthKeys)].filter(key => !(key in gamesByMonth));
+    if (missing.length === 0) return [];
+
+    const results = await Promise.all(missing.map(async key => [key, await fetchMonthGames(key)]));
+    const added = [];
+    results.forEach(([key, games]) => {
+        if (games && games.length > 0) {
+            gamesByMonth[key] = games;
+            added.push(key);
+        }
+    });
+    return added;
 }
 
 function getPlayerNames(gamesByMonth) {

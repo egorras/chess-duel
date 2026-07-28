@@ -1,7 +1,19 @@
 // Global state
 let globalGamesByMonth = {};
 let globalPlayerNames = [];
+let manifestMonths = []; // full list of month keys that have data, independent of what's been fetched
 window.globalGamesByMonth = globalGamesByMonth; // Expose for calendar
+
+// Month keys that must be loaded to render a given route (year/month), against
+// the known manifest range. year === 'all' needs everything; month === 'all'
+// needs the whole year; otherwise just the one month.
+function getRequiredMonthKeys(route, months) {
+    const { year, month } = route;
+    if (year === 'all') return months.slice();
+    if (month === 'all') return months.filter(key => key.startsWith(`${year}-`));
+    const key = `${year}-${month}`;
+    return months.includes(key) ? [key] : [];
+}
 
 // Cache for filtered games to avoid repeated filtering (LRU cache with max 20 entries)
 let filteredGamesCache = null;
@@ -50,22 +62,22 @@ function displayStatsWithChart(gamesByMonth) {
 }
 
 function setupDateRangeSelectors() {
-    // Get all unique years and months from game data
+    // Get all unique years and months from the manifest (the full known
+    // range), not from whatever's been fetched so far — selectors and
+    // navigation need to work even for months not loaded yet.
     const years = new Set();
     const monthsByYear = {};
-    const allMonthKeys = [];
 
-    Object.keys(globalGamesByMonth).forEach(monthKey => {
+    manifestMonths.forEach(monthKey => {
         const [year, month] = monthKey.split('-');
         years.add(year);
-        allMonthKeys.push(monthKey);
         if (!monthsByYear[year]) {
             monthsByYear[year] = new Set();
         }
         monthsByYear[year].add(month);
     });
 
-    const sortedMonthKeys = allMonthKeys.sort();
+    const sortedMonthKeys = manifestMonths.slice().sort();
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
                        'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -245,7 +257,7 @@ function setupDateRangeSelectors() {
     };
 
     // Handle URL hash routing
-    const updateFromHash = () => {
+    const updateFromHash = async () => {
         const route = Router.getCurrentRoute();
         const { year, month, day } = route;
 
@@ -258,6 +270,14 @@ function setupDateRangeSelectors() {
         updateQuickFilterButtons(year, month);
         updateNavigationButtons(year, month);
 
+        // Fetch whatever months this route (and the calendar's own year,
+        // which can differ from the route) need but aren't loaded yet.
+        const calendarYearSelect = document.getElementById('calendar-year-select');
+        const calendarYear = calendarYearSelect ? parseInt(calendarYearSelect.value) : (year !== 'all' ? parseInt(year) : new Date().getFullYear());
+        const neededKeys = getRequiredMonthKeys(route, manifestMonths)
+            .concat(manifestMonths.filter(key => key.startsWith(`${calendarYear}-`)));
+        await ensureMonthsLoaded(globalGamesByMonth, neededKeys);
+
         // Recalculate stats and render chart (with caching)
         const cacheKey = `${year}-${month}-${day || 'all'}`;
         let filteredGames = filteredGamesCache.get(cacheKey);
@@ -269,8 +289,6 @@ function setupDateRangeSelectors() {
 
         // Update calendar if it exists (keep showing full year view)
         if (typeof displayCalendar === 'function') {
-            const calendarYearSelect = document.getElementById('calendar-year-select');
-            const calendarYear = calendarYearSelect ? parseInt(calendarYearSelect.value) : (year !== 'all' ? parseInt(year) : new Date().getFullYear());
             const calendarGames = filterGamesByDateRange(globalGamesByMonth, calendarYear.toString(), 'all', 'all');
             displayCalendar(calendarGames, calendarYear);
         }
@@ -651,8 +669,21 @@ function displayLastFetchedTime(gamesByMonth) {
 
 async function init() {
     try {
-        globalGamesByMonth = await loadAllGames();
+        manifestMonths = await loadManifest();
+        window.manifestMonths = manifestMonths; // Expose for calendar
+
+        // Only fetch what the initial route (plus the calendar's default
+        // year) actually needs — not all history. Broader views (a
+        // different year, "All Time", switching the calendar's year) fetch
+        // their missing months on demand when requested.
+        const initialRoute = Router.getCurrentRoute();
+        const currentYear = new Date().getFullYear().toString();
+        const initialKeys = getRequiredMonthKeys(initialRoute, manifestMonths)
+            .concat(manifestMonths.filter(key => key.startsWith(`${currentYear}-`)));
+
+        globalGamesByMonth = {};
         window.globalGamesByMonth = globalGamesByMonth; // Expose for calendar
+        await ensureMonthsLoaded(globalGamesByMonth, initialKeys);
         globalPlayerNames = getPlayerNames(globalGamesByMonth);
 
         setupDateRangeSelectors();

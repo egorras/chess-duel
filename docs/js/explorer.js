@@ -283,9 +283,19 @@ function renderExplorerSideToMove() {
     const isWhiteToMove = explorerState.path.length % 2 === 0;
     const dotColor = isWhiteToMove ? '#ffffff' : '#0a0a0a';
     const dotBorder = isWhiteToMove ? 'border-gray-500' : 'border-gray-700';
+
+    let colorMapping = '';
+    if (explorerState.colorFilter === 'white') {
+        colorMapping = ` <span class="text-gray-600">·</span> <span class="text-red-400">${explorerState.player1Name}</span> plays White, <span class="text-blue-400">${explorerState.player2Name}</span> plays Black`;
+    } else if (explorerState.colorFilter === 'black') {
+        colorMapping = ` <span class="text-gray-600">·</span> <span class="text-red-400">${explorerState.player1Name}</span> plays Black, <span class="text-blue-400">${explorerState.player2Name}</span> plays White`;
+    } else {
+        colorMapping = ` <span class="text-gray-600">·</span> <span class="text-gray-500">colors vary by game — filter to White/Black above to fix them</span>`;
+    }
+
     el.innerHTML = `
         <span class="inline-block w-2.5 h-2.5 rounded-full border ${dotBorder}" style="background-color: ${dotColor}"></span>
-        <span>${isWhiteToMove ? 'White' : 'Black'} to move</span>
+        <span>${isWhiteToMove ? 'White' : 'Black'} to move</span>${colorMapping}
     `;
 }
 

@@ -255,14 +255,16 @@ function displayCalendar(gamesByMonth, selectedYear) {
 function setupCalendarYearSelector(gamesByMonth) {
     const yearSelect = document.getElementById('calendar-year-select');
     if (!yearSelect) return;
-    
-    // Get all available years
+
+    // Get all available years from the manifest (the full known range) so
+    // the dropdown is complete even before every year's data is fetched.
+    const manifestMonths = (typeof window !== 'undefined' && window.manifestMonths) || Object.keys(gamesByMonth);
     const years = new Set();
-    Object.keys(gamesByMonth).forEach(monthKey => {
+    manifestMonths.forEach(monthKey => {
         const [year] = monthKey.split('-');
         years.add(parseInt(year));
     });
-    
+
     yearSelect.innerHTML = '';
     Array.from(years).sort().reverse().forEach(year => {
         const option = document.createElement('option');
@@ -270,7 +272,7 @@ function setupCalendarYearSelector(gamesByMonth) {
         option.textContent = year;
         yearSelect.appendChild(option);
     });
-    
+
     // Set current year as default
     const currentYear = new Date().getFullYear();
     if (years.has(currentYear)) {
@@ -278,10 +280,14 @@ function setupCalendarYearSelector(gamesByMonth) {
     } else {
         yearSelect.value = Math.max(...Array.from(years));
     }
-    
+
     // Update calendar when year changes
-    yearSelect.addEventListener('change', () => {
+    yearSelect.addEventListener('change', async () => {
         const selectedYear = parseInt(yearSelect.value);
+        if (typeof ensureMonthsLoaded === 'function' && typeof window !== 'undefined' && window.manifestMonths) {
+            const neededKeys = window.manifestMonths.filter(key => key.startsWith(`${selectedYear}-`));
+            await ensureMonthsLoaded(gamesByMonth, neededKeys);
+        }
         const filteredGames = filterGamesByDateRange(gamesByMonth, selectedYear.toString(), 'all');
         displayCalendar(filteredGames, selectedYear);
     });
