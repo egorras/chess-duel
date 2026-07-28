@@ -466,13 +466,17 @@
                         <button data-color="black" class="explorer-color-btn flex-1 px-2 py-1 rounded text-xs font-medium cursor-pointer border border-gray-600">
                             <span id="explorer-p1-label-black">P1</span> as Black
                         </button>
+                        <button id="explorer-flip" title="Flip board" class="px-2 py-1 rounded text-xs font-medium cursor-pointer border border-gray-600 bg-gray-700 hover:bg-gray-600 text-white flex-shrink-0">⇅</button>
                     </div>
                     <div class="flex gap-2 items-stretch">
-                        <div id="explorer-eval-bar" class="w-4 sm:w-5 rounded overflow-hidden border border-gray-700 flex flex-col-reverse flex-shrink-0">
-                            <div id="explorer-eval-bar-white" class="w-full bg-gray-200" style="height: 50%"></div>
+                        <div id="explorer-eval-bar" class="w-8 sm:w-9 rounded overflow-hidden border border-gray-700 flex flex-col-reverse flex-shrink-0 relative">
+                            <div id="explorer-eval-bar-white" class="w-full bg-gray-200" style="height: 50%; transition: height 0.35s ease"></div>
+                            <div id="explorer-eval-bar-number" class="absolute inset-x-0 text-[9px] sm:text-[10px] font-mono font-bold text-center leading-tight pointer-events-none" style="transition: bottom 0.35s ease"></div>
                         </div>
+                        <div id="explorer-board-ranks" class="flex flex-col flex-shrink-0 text-[10px] sm:text-xs text-gray-400 font-mono w-3 sm:w-4"></div>
                         <div class="flex-1 min-w-0">
                             <div id="explorer-board" class="aspect-square w-full max-w-md mx-auto select-none relative"></div>
+                            <div id="explorer-board-files" class="flex w-full max-w-md mx-auto text-[10px] sm:text-xs text-gray-400 font-mono mt-0.5"></div>
                         </div>
                     </div>
                     <div id="explorer-eval-label" class="text-xs text-gray-400 mt-2 text-center font-mono"></div>
@@ -497,7 +501,9 @@
                                 <tr class="border-b border-gray-700 bg-gray-900 text-gray-400">
                                     <th class="px-2 py-2 text-left font-semibold">Move</th>
                                     <th class="px-2 py-2 text-center font-semibold">Games</th>
+                                    <th class="px-2 py-2 text-center font-semibold">Eval</th>
                                     <th class="px-2 py-2 text-left font-semibold">Result <span class="font-normal text-gray-500">(P1/P2, regardless of color)</span></th>
+                                    <th class="px-2 py-2 text-center font-semibold"></th>
                                 </tr>
                             </thead>
                             <tbody id="explorer-moves-table" class="divide-y divide-gray-700"></tbody>

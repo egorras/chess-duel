@@ -3,7 +3,7 @@
 // counts — and, where we have computer analysis, average eval — at every
 // position, and lets you click through it move by move.
 
-const EXPLORER_MAX_PLY = 20; // ~10 moves each side; deep enough for repertoire study, shallow enough to stay fast
+const EXPLORER_MAX_PLY = Infinity; // no cap; walk full game length
 
 // Solid glyph set for both colors — the "white" outline glyphs (♔♕♖...) are
 // hollow by design and let the square show through no matter what fill color
@@ -24,12 +24,16 @@ const explorerState = {
     treeKey: null, // `${scopeKey}::${colorFilter}` — rebuild the tree only when this changes
     colorFilter: 'all', // 'all' | 'white' | 'black' — restricted to player1's color
     path: [], // [{ san, node }]
+    forwardStack: [], // steps popped by ArrowLeft, replayable with ArrowRight until a different move is chosen
     player1Name: '',
     player2Name: '',
     gamesByMonth: null, // most recent games for the active scope, kept fresh on every initExplorer call
     scopeKey: null,
     currentChess: null, // chess.js instance at the current path (for hover-move previews)
-    lastMove: null // verbose move object for the last move in the path, or null at start
+    lastMove: null, // verbose move object for the last move in the path, or null at start
+    renderedSanPath: null, // SAN path currently reflected in the piece layer, for step animation
+    pieceEls: new Map(), // square -> piece element currently on the board
+    flipped: false // true = black on bottom
 };
 
 function explorerCreateNode() {
@@ -38,7 +42,7 @@ function explorerCreateNode() {
     // needed because in the "All" color filter, p1 may be either color from
     // game to game, so outcome color alone can't tell you whose preference
     // a given move reflects.
-    return { count: 0, p1: 0, p2: 0, draw: 0, moverP1: 0, moverP2: 0, evalSum: 0, evalCount: 0, children: new Map() };
+    return { count: 0, p1: 0, p2: 0, draw: 0, moverP1: 0, moverP2: 0, evalSum: 0, evalCount: 0, children: new Map(), games: [] };
 }
 
 function explorerApplyResult(node, result) {
@@ -127,6 +131,8 @@ function buildMoveTree(gamesByMonth, player1Name, colorFilter) {
                 node.evalSum += whiteEval;
                 node.evalCount++;
             }
+
+            node.games.push({ id: game.id, ply: i + 1, createdAt: game.createdAt, mover: moverIsP1 ? 'p1' : 'p2', result });
         }
     });
 
@@ -152,6 +158,171 @@ function replayPath(sanPath) {
 }
 
 // --- Board rendering ---------------------------------------------------------
+// Squares are a static background grid (built once). Pieces live in their own
+// absolutely-positioned layer so a single ply's change can move/add/remove
+// just the affected elements with a CSS transition, instead of a full redraw.
+
+// Row/col in board-display space (0,0 = top-left as drawn), honoring flip.
+function squareRowCol(square) {
+    const file = square.charCodeAt(0) - 97; // 'a' -> 0
+    const rank = parseInt(square[1], 10); // 1-8
+    const row = 8 - rank; // 0 = rank 8 .. 7 = rank 1, white-at-bottom orientation
+    const col = file;
+    if (!explorerState.flipped) return { row, col };
+    return { row: 7 - row, col: 7 - col };
+}
+
+function pieceStyleFor(square) {
+    const { row, col } = squareRowCol(square);
+    return { left: `${col * 12.5}%`, top: `${row * 12.5}%` };
+}
+
+function stylePieceGlyph(el, color) {
+    if (color === 'w') {
+        el.style.color = '#ffffff';
+        // Poor-man's stroke (multi-direction shadow) so the solid glyph reads
+        // as a piece, not a blob, on either square shade.
+        el.style.textShadow = [
+            '-1px -1px 0 #000', '1px -1px 0 #000',
+            '-1px 1px 0 #000', '1px 1px 0 #000',
+            '0 0 3px rgba(0,0,0,0.6)'
+        ].join(', ');
+    } else {
+        el.style.color = '#0a0a0a';
+        el.style.textShadow = [
+            '-1px -1px 0 #fff', '1px -1px 0 #fff',
+            '-1px 1px 0 #fff', '1px 1px 0 #fff',
+            '0 0 3px rgba(255,255,255,0.5)'
+        ].join(', ');
+    }
+}
+
+function createPieceEl(type, color, square) {
+    const el = document.createElement('div');
+    el.className = 'absolute flex items-center justify-center text-2xl sm:text-3xl';
+    el.style.width = '12.5%';
+    el.style.height = '12.5%';
+    el.style.transition = 'left 0.28s ease, top 0.28s ease';
+    const pos = pieceStyleFor(square);
+    el.style.left = pos.left;
+    el.style.top = pos.top;
+    el.textContent = PIECE_UNICODE[type];
+    stylePieceGlyph(el, color);
+    return el;
+}
+
+function buildExplorerBoardSquares(squaresEl) {
+    squaresEl.innerHTML = '';
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const isLight = (r + c) % 2 === 0;
+            const cell = document.createElement('div');
+            cell.style.backgroundColor = isLight ? SQUARE_LIGHT : SQUARE_DARK;
+            squaresEl.appendChild(cell);
+        }
+    }
+}
+
+function renderExplorerCoordinates() {
+    const filesEl = document.getElementById('explorer-board-files');
+    const ranksEl = document.getElementById('explorer-board-ranks');
+    if (!filesEl || !ranksEl) return;
+
+    const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    const ranks = ['8', '7', '6', '5', '4', '3', '2', '1'];
+    const orderedFiles = explorerState.flipped ? [...files].reverse() : files;
+    const orderedRanks = explorerState.flipped ? [...ranks].reverse() : ranks;
+
+    filesEl.innerHTML = orderedFiles.map(f => `<span class="flex-1 text-center">${f}</span>`).join('');
+    ranksEl.innerHTML = orderedRanks.map(r => `<span class="flex-1 flex items-center">${r}</span>`).join('');
+}
+
+function rebuildExplorerBoardPieces(piecesEl, chess) {
+    piecesEl.innerHTML = '';
+    explorerState.pieceEls = new Map();
+    const board = chess.board();
+    for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+            const sq = board[r][c];
+            if (!sq) continue;
+            const el = createPieceEl(sq.type, sq.color, sq.square);
+            piecesEl.appendChild(el);
+            explorerState.pieceEls.set(sq.square, el);
+        }
+    }
+}
+
+const EXPLORER_CASTLE_ROOK_SQUARES = {
+    w: { k: ['h1', 'f1'], q: ['a1', 'd1'] },
+    b: { k: ['h8', 'f8'], q: ['a8', 'd8'] }
+};
+
+// Animates exactly one ply's worth of change (forward or undo) by moving,
+// adding, or removing only the affected piece elements. `longerPath` is
+// whichever of the before/after SAN sequences is one ply longer; replaying it
+// gives us the verbose move (from/to/captured/flags) describing the diff.
+function animateExplorerBoardStep(piecesEl, longerPath, forward) {
+    const chess = new window.Chess();
+    for (let i = 0; i < longerPath.length - 1; i++) chess.move(longerPath[i]);
+    const move = chess.move(longerPath[longerPath.length - 1]);
+    if (!move) return false;
+
+    const pieceEls = explorerState.pieceEls;
+
+    const movePieceEl = (from, to) => {
+        const el = pieceEls.get(from);
+        if (!el) return;
+        pieceEls.delete(from);
+        const pos = pieceStyleFor(to);
+        el.style.left = pos.left;
+        el.style.top = pos.top;
+        pieceEls.set(to, el);
+    };
+    const removePieceEl = (square) => {
+        const el = pieceEls.get(square);
+        if (!el) return;
+        pieceEls.delete(square);
+        el.remove();
+    };
+    const addPieceEl = (type, color, square) => {
+        const el = createPieceEl(type, color, square);
+        piecesEl.appendChild(el);
+        pieceEls.set(square, el);
+    };
+    const castleSide = move.flags.includes('k') ? 'k' : move.flags.includes('q') ? 'q' : null;
+    const epSquare = move.to[0] + move.from[1];
+
+    if (forward) {
+        if (move.flags.includes('e')) removePieceEl(epSquare);
+        else if (move.captured) removePieceEl(move.to);
+
+        movePieceEl(move.from, move.to);
+        if (castleSide) {
+            const [rFrom, rTo] = EXPLORER_CASTLE_ROOK_SQUARES[move.color][castleSide];
+            movePieceEl(rFrom, rTo);
+        }
+        if (move.promotion) {
+            const el = pieceEls.get(move.to);
+            if (el) el.textContent = PIECE_UNICODE[move.promotion];
+        }
+    } else {
+        if (castleSide) {
+            const [rFrom, rTo] = EXPLORER_CASTLE_ROOK_SQUARES[move.color][castleSide];
+            movePieceEl(rTo, rFrom);
+        }
+        if (move.promotion) {
+            const el = pieceEls.get(move.to);
+            if (el) el.textContent = PIECE_UNICODE.p;
+        }
+        movePieceEl(move.to, move.from);
+
+        const capturedColor = move.color === 'w' ? 'b' : 'w';
+        if (move.flags.includes('e')) addPieceEl('p', capturedColor, epSquare);
+        else if (move.captured) addPieceEl(move.captured, capturedColor, move.to);
+    }
+    return true;
+}
+
 function renderExplorerBoard(sanPath) {
     const boardEl = document.getElementById('explorer-board');
     if (!boardEl) return;
@@ -162,57 +333,45 @@ function renderExplorerBoard(sanPath) {
 
     if (!chess) {
         boardEl.innerHTML = '<div class="text-xs text-gray-500 flex items-center justify-center h-full">Board unavailable.</div>';
+        boardEl.dataset.skeleton = '';
+        explorerState.renderedSanPath = null;
         return;
     }
 
-    boardEl.className = 'aspect-square w-full max-w-md mx-auto select-none relative';
-    boardEl.innerHTML = `
-        <div id="explorer-board-grid" class="absolute inset-0 grid grid-cols-8 grid-rows-8 rounded overflow-hidden border border-gray-700"></div>
-        <svg id="explorer-arrows" class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 8 8" preserveAspectRatio="none"></svg>
-    `;
-
-    const gridEl = document.getElementById('explorer-board-grid');
-    const board = chess.board();
-
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const square = board[r][c];
-            const isLight = (r + c) % 2 === 0;
-            const cell = document.createElement('div');
-            cell.className = 'flex items-center justify-center text-2xl sm:text-3xl';
-            cell.style.backgroundColor = isLight ? SQUARE_LIGHT : SQUARE_DARK;
-            if (square) {
-                cell.textContent = PIECE_UNICODE[square.type];
-                if (square.color === 'w') {
-                    cell.style.color = '#ffffff';
-                    // Poor-man's stroke (multi-direction shadow) so the solid
-                    // glyph reads as a piece, not a blob, on either square shade.
-                    cell.style.textShadow = [
-                        '-1px -1px 0 #000', '1px -1px 0 #000',
-                        '-1px 1px 0 #000', '1px 1px 0 #000',
-                        '0 0 3px rgba(0,0,0,0.6)'
-                    ].join(', ');
-                } else {
-                    cell.style.color = '#0a0a0a';
-                    cell.style.textShadow = [
-                        '-1px -1px 0 #fff', '1px -1px 0 #fff',
-                        '-1px 1px 0 #fff', '1px 1px 0 #fff',
-                        '0 0 3px rgba(255,255,255,0.5)'
-                    ].join(', ');
-                }
-            }
-            gridEl.appendChild(cell);
-        }
+    if (boardEl.dataset.skeleton !== 'true') {
+        boardEl.className = 'aspect-square w-full max-w-md mx-auto select-none relative';
+        boardEl.innerHTML = `
+            <div id="explorer-board-squares" class="absolute inset-0 grid grid-cols-8 grid-rows-8 rounded overflow-hidden border border-gray-700"></div>
+            <div id="explorer-board-pieces" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+            <svg id="explorer-arrows" class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 8 8" preserveAspectRatio="none"></svg>
+        `;
+        boardEl.dataset.skeleton = 'true';
+        buildExplorerBoardSquares(document.getElementById('explorer-board-squares'));
+        explorerState.renderedSanPath = null; // force a full piece rebuild below
     }
 
+    const piecesEl = document.getElementById('explorer-board-pieces');
+    const prevPath = explorerState.renderedSanPath;
+    const isStepForward = !!prevPath && sanPath.length === prevPath.length + 1 &&
+        prevPath.every((san, i) => san === sanPath[i]);
+    const isStepBackward = !!prevPath && sanPath.length === prevPath.length - 1 &&
+        sanPath.every((san, i) => san === prevPath[i]);
+
+    let animated = false;
+    if (isStepForward) animated = animateExplorerBoardStep(piecesEl, sanPath, true);
+    else if (isStepBackward) animated = animateExplorerBoardStep(piecesEl, prevPath, false);
+
+    if (!animated) rebuildExplorerBoardPieces(piecesEl, chess);
+
+    explorerState.renderedSanPath = sanPath.slice();
+    renderExplorerCoordinates();
     drawExplorerArrows(null);
 }
 
 // --- Arrows ------------------------------------------------------------------
 function squareToCoord(square) {
-    const file = square.charCodeAt(0) - 97; // 'a' -> 0
-    const rank = parseInt(square[1], 10); // 1-8
-    return { x: file + 0.5, y: (8 - rank) + 0.5 };
+    const { row, col } = squareRowCol(square);
+    return { x: col + 0.5, y: row + 0.5 };
 }
 
 function buildArrowMarkup(from, to, color, strokeWidth, markerId) {
@@ -259,17 +418,31 @@ function resolveCandidateMove(san) {
     if (!explorerState.currentChess) return null;
     const clone = new window.Chess(explorerState.currentChess.fen());
     const move = clone.move(san);
-    return move ? { from: move.from, to: move.to } : null;
+    return move ? { from: move.from, to: move.to, fen: clone.fen() } : null;
+}
+
+// Lichess's analysis board takes a FEN with spaces swapped for underscores.
+function lichessAnalysisUrl(fen) {
+    return `https://lichess.org/analysis/standard/${fen.replace(/ /g, '_')}`;
 }
 
 // --- Eval bar ------------------------------------------------------------
+function formatEvalPawns(avgCp) {
+    if (Math.abs(avgCp) >= 1000) return avgCp > 0 ? 'M' : '-M'; // mate, sentinel-encoded as ±1000cp
+    const pawns = (avgCp / 100).toFixed(1);
+    const sign = avgCp > 0 ? '+' : '';
+    return `${sign}${pawns}`;
+}
+
 function renderExplorerEvalBar(node) {
     const fillEl = document.getElementById('explorer-eval-bar-white');
+    const numberEl = document.getElementById('explorer-eval-bar-number');
     const labelEl = document.getElementById('explorer-eval-label');
     if (!fillEl || !labelEl) return;
 
     if (!node || node.evalCount === 0) {
         fillEl.style.height = '50%';
+        if (numberEl) numberEl.textContent = '';
         labelEl.textContent = explorerState.path.length === 0
             ? ''
             : 'No engine data for this position yet';
@@ -279,6 +452,17 @@ function renderExplorerEvalBar(node) {
     const avgCp = node.evalSum / node.evalCount;
     const whitePct = evalWinPercent(avgCp);
     fillEl.style.height = `${whitePct.toFixed(1)}%`;
+
+    if (numberEl) {
+        // Sits right on the white/black boundary of the bar, readable against either fill.
+        numberEl.textContent = formatEvalPawns(avgCp);
+        numberEl.style.bottom = `${whitePct}%`;
+        numberEl.style.transform = 'translateY(50%)';
+        numberEl.style.color = avgCp >= 0 ? '#111827' : '#f3f4f6';
+        numberEl.style.textShadow = avgCp >= 0
+            ? '0 0 2px #fff, 0 0 2px #fff'
+            : '0 0 2px #111827, 0 0 2px #111827';
+    }
 
     const pawns = (avgCp / 100).toFixed(2);
     const sign = avgCp > 0 ? '+' : '';
@@ -321,6 +505,7 @@ function renderExplorerBreadcrumb() {
     startBtn.className = 'cursor-pointer hover:text-white underline decoration-dotted';
     startBtn.addEventListener('click', () => {
         explorerState.path = [];
+        explorerState.forwardStack = [];
         renderExplorer();
     });
     el.appendChild(startBtn);
@@ -338,6 +523,7 @@ function renderExplorerBreadcrumb() {
         label.className = 'cursor-pointer hover:text-white underline decoration-dotted';
         label.addEventListener('click', () => {
             explorerState.path = explorerState.path.slice(0, i + 1);
+            explorerState.forwardStack = [];
             renderExplorer();
         });
         el.appendChild(label);
@@ -360,7 +546,7 @@ function renderExplorerMovesTable(node) {
             emptyEl.classList.remove('hidden');
             emptyEl.textContent = explorerState.path.length === 0
                 ? 'No games recorded yet.'
-                : `No games in our history go beyond this point (end of the line, or past the tracked ${EXPLORER_MAX_PLY}-ply depth).`;
+                : 'No games in our history go beyond this point (end of the line).';
         }
         return;
     }
@@ -387,6 +573,19 @@ function renderExplorerMovesTable(node) {
             </span>
         ` : '';
 
+        let evalCell = '<span class="text-gray-600">—</span>';
+        if (child.evalCount > 0) {
+            const avgCp = child.evalSum / child.evalCount;
+            const pawns = formatEvalPawns(avgCp);
+            const evalColor = avgCp > 20 ? 'text-gray-200' : avgCp < -20 ? 'text-gray-400' : 'text-gray-400';
+            evalCell = `<span class="font-mono font-semibold ${evalColor}" title="Avg engine eval after ${san}, from ${child.evalCount} analyzed game${child.evalCount === 1 ? '' : 's'}">${pawns}</span>`;
+        }
+
+        const candidate = resolveCandidateMove(san);
+        const lichessCell = candidate
+            ? `<a href="${lichessAnalysisUrl(candidate.fen)}" target="_blank" rel="noopener" title="Open this position on Lichess analysis" class="text-gray-400 hover:text-white">↗</a>`
+            : '';
+
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-gray-700 cursor-pointer';
         tr.innerHTML = `
@@ -394,7 +593,11 @@ function renderExplorerMovesTable(node) {
                 <span class="inline-block w-2 h-2 rounded-full border ${dotBorder} mr-1.5 align-middle" style="background-color: ${dotColor}"></span>${san}
                 ${moverBadge}
             </td>
-            <td class="px-2 py-1.5 text-center text-gray-400">${child.count}</td>
+            <td class="px-2 py-1.5 text-center">
+                <button class="explorer-games-toggle text-gray-400 hover:text-white underline decoration-dotted cursor-pointer" title="See the actual games and jump to one on Lichess">${child.count}</button>
+            </td>
+            <td class="px-2 py-1.5 text-center whitespace-nowrap">${evalCell}</td>
+            <td class="px-2 py-1.5 text-center">${lichessCell}</td>
             <td class="px-2 py-1.5">
                 <div class="flex items-center gap-1.5">
                     <div class="flex-1 h-3 rounded overflow-hidden flex bg-gray-700 min-w-[60px]">
@@ -408,9 +611,14 @@ function renderExplorerMovesTable(node) {
             </td>
         `;
         tr.addEventListener('click', () => {
+            const top = explorerState.forwardStack[explorerState.forwardStack.length - 1];
+            if (top && top.san === san) explorerState.forwardStack.pop();
+            else explorerState.forwardStack = [];
             explorerState.path.push({ san, node: child });
             renderExplorer();
         });
+        const lichessLink = tr.querySelector('a');
+        if (lichessLink) lichessLink.addEventListener('click', e => e.stopPropagation());
         tr.addEventListener('mouseenter', () => {
             const candidate = resolveCandidateMove(san);
             if (candidate) drawExplorerArrows(candidate);
@@ -419,7 +627,46 @@ function renderExplorerMovesTable(node) {
             drawExplorerArrows(null);
         });
         tbody.appendChild(tr);
+
+        const gamesToggle = tr.querySelector('.explorer-games-toggle');
+        gamesToggle.addEventListener('click', e => {
+            e.stopPropagation();
+            const existing = tr.nextElementSibling;
+            if (existing && existing.classList.contains('explorer-games-row')) {
+                existing.remove();
+                return;
+            }
+            document.querySelectorAll('.explorer-games-row').forEach(row => row.remove());
+            tr.after(buildExplorerGamesRow(child));
+        });
     });
+}
+
+// Expandable row listing the actual games behind a candidate move, each
+// linking to that exact game on Lichess, jumped to the ply it reached here.
+function buildExplorerGamesRow(child) {
+    const row = document.createElement('tr');
+    row.className = 'explorer-games-row bg-gray-900';
+    const sorted = [...child.games].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    const items = sorted.map(g => {
+        const date = g.createdAt ? new Date(g.createdAt).toLocaleDateString() : '';
+        const who = g.mover === 'p1' ? explorerState.player1Name : explorerState.player2Name;
+        const whoColor = g.mover === 'p1' ? 'text-red-400' : 'text-blue-400';
+        const resultLabel = g.result === 'draw' ? 'draw' : g.result === 'p1' ? `${explorerState.player1Name} won` : `${explorerState.player2Name} won`;
+        return `
+            <a href="https://lichess.org/${g.id}#${g.ply}" target="_blank" rel="noopener"
+               class="flex items-center justify-between gap-2 px-2 py-1 rounded hover:bg-gray-700 text-gray-300">
+                <span>${date} <span class="${whoColor}">· played by ${who}</span></span>
+                <span class="text-gray-500">${resultLabel} ↗</span>
+            </a>
+        `;
+    }).join('');
+    row.innerHTML = `
+        <td colspan="5" class="px-2 py-2">
+            <div class="flex flex-col gap-0.5 max-h-48 overflow-y-auto text-xs font-mono">${items}</div>
+        </td>
+    `;
+    return row;
 }
 
 function renderExplorerPositionSummary(node) {
@@ -482,6 +729,7 @@ function initExplorer(gamesByMonth, player1Name, player2Name, scopeKey) {
         resetBtn.dataset.bound = 'true';
         resetBtn.addEventListener('click', () => {
             explorerState.path = [];
+            explorerState.forwardStack = [];
             renderExplorer();
         });
     }
@@ -490,7 +738,17 @@ function initExplorer(gamesByMonth, player1Name, player2Name, scopeKey) {
     if (backBtn && !backBtn.dataset.bound) {
         backBtn.dataset.bound = 'true';
         backBtn.addEventListener('click', () => {
-            explorerState.path = explorerState.path.slice(0, -1);
+            if (explorerState.path.length === 0) return;
+            explorerState.forwardStack.push(explorerState.path.pop());
+            renderExplorer();
+        });
+    }
+
+    const flipBtn = document.getElementById('explorer-flip');
+    if (flipBtn && !flipBtn.dataset.bound) {
+        flipBtn.dataset.bound = 'true';
+        flipBtn.addEventListener('click', () => {
+            explorerState.flipped = !explorerState.flipped;
             renderExplorer();
         });
     }
@@ -501,10 +759,48 @@ function initExplorer(gamesByMonth, player1Name, player2Name, scopeKey) {
         btn.addEventListener('click', () => {
             explorerState.colorFilter = btn.dataset.color;
             rebuildExplorerTree(explorerState.gamesByMonth, explorerState.scopeKey);
+            explorerState.forwardStack = [];
             renderExplorerColorButtons();
             renderExplorer();
         });
     });
+
+    if (!document.body.dataset.explorerKeysBound) {
+        document.body.dataset.explorerKeysBound = 'true';
+        document.addEventListener('keydown', handleExplorerKeydown);
+    }
+}
+
+// Left = back one ply (remembered on forwardStack). Right = redo that step if
+// available, else step into the most-played next move (top table row).
+function handleExplorerKeydown(e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const explorerPane = document.querySelector('[data-tab-content="explorer"]');
+    if (!explorerPane || !explorerPane.classList.contains('active')) return;
+
+    const tag = document.activeElement && document.activeElement.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+    if (e.key === 'ArrowLeft') {
+        if (explorerState.path.length === 0) return;
+        e.preventDefault();
+        explorerState.forwardStack.push(explorerState.path.pop());
+        renderExplorer();
+    } else {
+        if (explorerState.forwardStack.length > 0) {
+            e.preventDefault();
+            explorerState.path.push(explorerState.forwardStack.pop());
+            renderExplorer();
+            return;
+        }
+        const node = explorerCurrentNode();
+        if (!node.children.size) return;
+        const [topSan, topChild] = Array.from(node.children.entries())
+            .sort((a, b) => b[1].count - a[1].count)[0];
+        e.preventDefault();
+        explorerState.path.push({ san: topSan, node: topChild });
+        renderExplorer();
+    }
 }
 
 window.initExplorer = initExplorer;
