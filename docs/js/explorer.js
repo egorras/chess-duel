@@ -597,7 +597,7 @@ function renderExplorerMovesTable(node) {
                 <button class="explorer-games-toggle text-gray-400 hover:text-white underline decoration-dotted cursor-pointer" title="See the actual games and jump to one on Lichess">${child.count}</button>
             </td>
             <td class="px-2 py-1.5 text-center whitespace-nowrap">${evalCell}</td>
-            <td class="px-2 py-1.5 text-center">${lichessCell}</td>
+            <td class="px-2 py-1.5 text-center w-6">${lichessCell}</td>
             <td class="px-2 py-1.5">
                 <div class="flex items-center gap-1.5">
                     <div class="flex-1 h-3 rounded overflow-hidden flex bg-gray-700 min-w-[60px]">
