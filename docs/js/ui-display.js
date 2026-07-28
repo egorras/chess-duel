@@ -1047,13 +1047,13 @@ function displayGames(gamesByMonth, player1Name, player2Name) {
                 comparison = movesA - movesB;
                 break;
             case 'whiteAcc':
-                const whiteAccA = a.players.white.analysis?.accuracy || 0;
-                const whiteAccB = b.players.white.analysis?.accuracy || 0;
+                const whiteAccA = a.players.white.analysis?.accuracy || a.stockfishAnalysis?.summary?.w?.accuracy || 0;
+                const whiteAccB = b.players.white.analysis?.accuracy || b.stockfishAnalysis?.summary?.w?.accuracy || 0;
                 comparison = whiteAccA - whiteAccB;
                 break;
             case 'blackAcc':
-                const blackAccA = a.players.black.analysis?.accuracy || 0;
-                const blackAccB = b.players.black.analysis?.accuracy || 0;
+                const blackAccA = a.players.black.analysis?.accuracy || a.stockfishAnalysis?.summary?.b?.accuracy || 0;
+                const blackAccB = b.players.black.analysis?.accuracy || b.stockfishAnalysis?.summary?.b?.accuracy || 0;
                 comparison = blackAccA - blackAccB;
                 break;
             case 'status':
@@ -1095,8 +1095,8 @@ function displayGames(gamesByMonth, player1Name, player2Name) {
                 whitePlayer: game.players.white.user.name,
                 blackPlayer: game.players.black.user.name,
                 openingName: game.opening?.name || 'Unknown',
-                whiteAcc: game.players.white.analysis?.accuracy || '-',
-                blackAcc: game.players.black.analysis?.accuracy || '-'
+                whiteAcc: game.players.white.analysis?.accuracy || game.stockfishAnalysis?.summary?.w?.accuracy || '-',
+                blackAcc: game.players.black.analysis?.accuracy || game.stockfishAnalysis?.summary?.b?.accuracy || '-'
             };
         }
         return game;

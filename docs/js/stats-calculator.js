@@ -187,9 +187,9 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
                 stats.player2.draws++;
             }
 
-            // Collect accuracy and error stats
-            const whiteAnalysis = game.players?.white?.analysis;
-            const blackAnalysis = game.players?.black?.analysis;
+            // Collect accuracy and error stats (prefer Lichess analysis, fall back to our own Stockfish analysis)
+            const whiteAnalysis = game.players?.white?.analysis || game.stockfishAnalysis?.summary?.w;
+            const blackAnalysis = game.players?.black?.analysis || game.stockfishAnalysis?.summary?.b;
 
             if (isPlayer1White && whiteAnalysis) {
                 if (whiteAnalysis.accuracy) {
