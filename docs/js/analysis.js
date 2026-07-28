@@ -94,6 +94,199 @@ function computeStreakTimeline(allGames, player1Name) {
     return runs;
 }
 
+// --- Game character: blunders, thrown wins, comebacks, back-and-forth games -
+// Reuses whatever per-ply eval we have (Lichess's own analysis, or our
+// Stockfish supplement) to characterize *how* games were won/lost, not just
+// who won. All evals below are centipawns from White's perspective, flipped
+// to "player1's perspective" for comparison against a fixed threshold.
+const GAME_CHARACTER_LEAD_CP = 150; // magnitude needed to count as "someone's ahead" (ignores near-equal noise)
+const GAME_CHARACTER_WINNING_CP = 300; // magnitude needed to call a position "winning" for thrown/comeback purposes
+
+function gameEvalByPlyP1Perspective(game, isP1White) {
+    let whiteEvals = null;
+    if (Array.isArray(game.analysis) && game.analysis.length > 0) {
+        whiteEvals = game.analysis.map(entry => {
+            if (!entry) return null;
+            if (typeof entry.eval === 'number') return entry.eval;
+            if (typeof entry.mate === 'number') return entry.mate > 0 ? 1000 : -1000;
+            return null;
+        });
+    } else if (game.stockfishAnalysis && Array.isArray(game.stockfishAnalysis.positions) && game.stockfishAnalysis.positions.length > 1) {
+        const positions = game.stockfishAnalysis.positions;
+        whiteEvals = [];
+        for (let ply = 1; ply < positions.length; ply++) {
+            const pos = positions[ply];
+            if (!pos) { whiteEvals.push(null); continue; }
+            const sideToMoveIsWhite = ply % 2 === 0;
+            let cp = null;
+            if (pos.mate !== null && pos.mate !== undefined) cp = pos.mate > 0 ? 1000 : -1000;
+            else if (typeof pos.cp === 'number') cp = pos.cp;
+            whiteEvals.push(cp === null ? null : (sideToMoveIsWhite ? cp : -cp));
+        }
+    }
+    if (!whiteEvals) return null;
+    return whiteEvals.map(cp => (cp === null ? null : (isP1White ? cp : -cp)));
+}
+
+function computeGameCharacter(allGames, player1Name) {
+    const result = {
+        p1: { blunders: 0, mistakes: 0, inaccuracies: 0, accuracySum: 0, accuracyCount: 0 },
+        p2: { blunders: 0, mistakes: 0, inaccuracies: 0, accuracySum: 0, accuracyCount: 0 },
+        analyzedGames: 0,
+        backAndForthGames: 0,
+        thrownByP1: [], // p1 had a winning position but didn't win
+        thrownByP2: [],
+        comebackByP1: [], // p1 was losing badly but won anyway
+        comebackByP2: []
+    };
+
+    allGames.forEach(game => {
+        const isP1White = game.players.white.user.name === player1Name;
+        const whiteAnalysis = game.players?.white?.analysis || game.stockfishAnalysis?.summary?.w;
+        const blackAnalysis = game.players?.black?.analysis || game.stockfishAnalysis?.summary?.b;
+        const p1Analysis = isP1White ? whiteAnalysis : blackAnalysis;
+        const p2Analysis = isP1White ? blackAnalysis : whiteAnalysis;
+
+        if (p1Analysis) {
+            result.p1.blunders += p1Analysis.blunder || 0;
+            result.p1.mistakes += p1Analysis.mistake || 0;
+            result.p1.inaccuracies += p1Analysis.inaccuracy || 0;
+            if (p1Analysis.accuracy) { result.p1.accuracySum += p1Analysis.accuracy; result.p1.accuracyCount++; }
+        }
+        if (p2Analysis) {
+            result.p2.blunders += p2Analysis.blunder || 0;
+            result.p2.mistakes += p2Analysis.mistake || 0;
+            result.p2.inaccuracies += p2Analysis.inaccuracy || 0;
+            if (p2Analysis.accuracy) { result.p2.accuracySum += p2Analysis.accuracy; result.p2.accuracyCount++; }
+        }
+
+        const p1Evals = gameEvalByPlyP1Perspective(game, isP1White);
+        if (!p1Evals || p1Evals.every(e => e === null)) return;
+        result.analyzedGames++;
+
+        let winner; // 'p1' | 'p2' | 'draw'
+        if (!game.winner) winner = 'draw';
+        else if ((game.winner === 'white' && isP1White) || (game.winner === 'black' && !isP1White)) winner = 'p1';
+        else winner = 'p2';
+
+        let leader = null; // 'p1' | 'p2' | null
+        let leadChanges = 0;
+        let peakP1Lead = 0;
+        let peakP2Lead = 0;
+
+        p1Evals.forEach(cp => {
+            if (cp === null) return;
+            if (cp > peakP1Lead) peakP1Lead = cp;
+            if (-cp > peakP2Lead) peakP2Lead = -cp;
+
+            let currentLeader = null;
+            if (cp >= GAME_CHARACTER_LEAD_CP) currentLeader = 'p1';
+            else if (cp <= -GAME_CHARACTER_LEAD_CP) currentLeader = 'p2';
+            else return; // near-equal — doesn't count as holding (or losing) the lead
+
+            if (leader && currentLeader !== leader) leadChanges++;
+            leader = currentLeader;
+        });
+
+        if (leadChanges >= 2) result.backAndForthGames++;
+
+        const gameRef = { id: game.id, date: game.createdAt, peakLead: null };
+        if (peakP1Lead >= GAME_CHARACTER_WINNING_CP && winner !== 'p1') {
+            result.thrownByP1.push({ ...gameRef, peakLead: peakP1Lead });
+        }
+        if (peakP2Lead >= GAME_CHARACTER_WINNING_CP && winner !== 'p2') {
+            result.thrownByP2.push({ ...gameRef, peakLead: peakP2Lead });
+        }
+        if (peakP2Lead >= GAME_CHARACTER_WINNING_CP && winner === 'p1') {
+            result.comebackByP1.push({ ...gameRef, peakLead: peakP2Lead });
+        }
+        if (peakP1Lead >= GAME_CHARACTER_WINNING_CP && winner === 'p2') {
+            result.comebackByP2.push({ ...gameRef, peakLead: peakP1Lead });
+        }
+    });
+
+    result.thrownByP1.sort((a, b) => b.peakLead - a.peakLead);
+    result.thrownByP2.sort((a, b) => b.peakLead - a.peakLead);
+    result.comebackByP1.sort((a, b) => b.peakLead - a.peakLead);
+    result.comebackByP2.sort((a, b) => b.peakLead - a.peakLead);
+
+    return result;
+}
+
+function renderGameCharacterGameList(container, games, colorClass) {
+    if (games.length === 0) {
+        container.innerHTML = '<div class="text-[10px] text-gray-600">None in this range.</div>';
+        return;
+    }
+    const fmtDate = t => new Date(t).toISOString().slice(0, 10);
+    container.innerHTML = games.slice(0, 5).map(g => `
+        <a href="https://lichess.org/${g.id}" target="_blank" rel="noopener" class="flex items-center justify-between gap-2 text-[10px] hover:bg-gray-700 rounded px-1.5 py-1">
+            <span class="text-gray-500">${fmtDate(g.date)}</span>
+            <span class="${colorClass} font-mono">was +${(g.peakLead / 100).toFixed(1)}</span>
+        </a>
+    `).join('');
+}
+
+function displayGameCharacter(allGames, player1Name, player2Name) {
+    const container = document.getElementById('analysis-character');
+    if (!container) return;
+
+    const gc = computeGameCharacter(allGames, player1Name);
+    if (gc.analyzedGames === 0) {
+        container.innerHTML = '<div class="text-xs text-gray-500">No computer-analyzed games in this range — analyze games (see the Stats tab) to unlock this.</div>';
+        return;
+    }
+
+    const p1AvgAcc = gc.p1.accuracyCount > 0 ? (gc.p1.accuracySum / gc.p1.accuracyCount).toFixed(1) : null;
+    const p2AvgAcc = gc.p2.accuracyCount > 0 ? (gc.p2.accuracySum / gc.p2.accuracyCount).toFixed(1) : null;
+
+    container.innerHTML = `
+        <p class="text-[10px] text-gray-500 mb-3">Based on ${gc.analyzedGames} computer-analyzed game${gc.analyzedGames === 1 ? '' : 's'} in this range. "Thrown" = held a ${(GAME_CHARACTER_WINNING_CP/100).toFixed(1)}+ pawn advantage at some point but didn't win; "comeback" = won despite being down that much at some point.</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+            <div class="bg-gray-900 rounded p-2 border border-gray-700 text-center">
+                <div class="text-[10px] text-gray-500 mb-1">Blunders</div>
+                <div class="text-base font-bold"><span class="text-red-400">${gc.p1.blunders}</span><span class="text-gray-600 text-xs"> / </span><span class="text-blue-400">${gc.p2.blunders}</span></div>
+            </div>
+            <div class="bg-gray-900 rounded p-2 border border-gray-700 text-center">
+                <div class="text-[10px] text-gray-500 mb-1">Mistakes</div>
+                <div class="text-base font-bold"><span class="text-red-400">${gc.p1.mistakes}</span><span class="text-gray-600 text-xs"> / </span><span class="text-blue-400">${gc.p2.mistakes}</span></div>
+            </div>
+            <div class="bg-gray-900 rounded p-2 border border-gray-700 text-center">
+                <div class="text-[10px] text-gray-500 mb-1">Avg. Accuracy</div>
+                <div class="text-base font-bold"><span class="text-red-400">${p1AvgAcc ?? '–'}</span><span class="text-gray-600 text-xs"> / </span><span class="text-blue-400">${p2AvgAcc ?? '–'}</span></div>
+            </div>
+            <div class="bg-gray-900 rounded p-2 border border-gray-700 text-center">
+                <div class="text-[10px] text-gray-500 mb-1">Back-and-forth games</div>
+                <div class="text-base font-bold text-gray-300">${gc.backAndForthGames}</div>
+                <div class="text-[9px] text-gray-600">${(gc.backAndForthGames / gc.analyzedGames * 100).toFixed(0)}% of analyzed</div>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <div class="text-red-400 text-xs font-semibold mb-1">${player1Name} threw (${gc.thrownByP1.length})</div>
+                <div id="analysis-character-thrown-p1" class="space-y-0.5"></div>
+            </div>
+            <div>
+                <div class="text-blue-400 text-xs font-semibold mb-1">${player2Name} threw (${gc.thrownByP2.length})</div>
+                <div id="analysis-character-thrown-p2" class="space-y-0.5"></div>
+            </div>
+            <div>
+                <div class="text-red-400 text-xs font-semibold mb-1">${player1Name}'s comebacks (${gc.comebackByP1.length})</div>
+                <div id="analysis-character-comeback-p1" class="space-y-0.5"></div>
+            </div>
+            <div>
+                <div class="text-blue-400 text-xs font-semibold mb-1">${player2Name}'s comebacks (${gc.comebackByP2.length})</div>
+                <div id="analysis-character-comeback-p2" class="space-y-0.5"></div>
+            </div>
+        </div>
+    `;
+
+    renderGameCharacterGameList(document.getElementById('analysis-character-thrown-p1'), gc.thrownByP1, 'text-red-400');
+    renderGameCharacterGameList(document.getElementById('analysis-character-thrown-p2'), gc.thrownByP2, 'text-blue-400');
+    renderGameCharacterGameList(document.getElementById('analysis-character-comeback-p1'), gc.comebackByP1, 'text-red-400');
+    renderGameCharacterGameList(document.getElementById('analysis-character-comeback-p2'), gc.comebackByP2, 'text-blue-400');
+}
+
 // Stacked bar: player1 win % — draw % — player2 win %, always shown side by side.
 function renderMatchupBar(container, label, p1, draw, p2, extra) {
     const n = p1 + draw + p2;
@@ -120,7 +313,7 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
     const monthly = computeMonthlySummary(gamesByMonth, player1Name);
     const allGames = Object.values(gamesByMonth).flat();
     if (allGames.length === 0) {
-        ['analysis-hero', 'analysis-openings', 'analysis-splits', 'analysis-streaks', 'analysis-reco'].forEach(id => {
+        ['analysis-hero', 'analysis-character', 'analysis-openings', 'analysis-splits', 'analysis-streaks', 'analysis-reco'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.innerHTML = '<div class="text-xs text-gray-500">No games in this range.</div>';
         });
@@ -344,6 +537,9 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
             if (total > 0) renderMatchupBar(splitsContainer, dayNames[i], bucket.w, bucket.d, bucket.l);
         });
     }
+
+    // Game character: blunders, thrown wins, comebacks, back-and-forth games
+    displayGameCharacter(allGames, player1Name, player2Name);
 
     // Streak timeline
     const streakContainer = document.getElementById('analysis-streaks');
