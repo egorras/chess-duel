@@ -19,13 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Only cleanup charts when tabs are being hidden (not when switching to them)
             if (wasActive && tabName !== targetTab) {
-                if (tabName === 'overview' && window.pointsChart) {
-                    // Destroy points chart when overview tab is hidden
+                if (tabName === 'overview') {
+                    // Destroy overview + analysis charts when overview tab is hidden
                     try {
-                        window.pointsChart.destroy();
-                        window.pointsChart = null;
+                        if (window.pointsChart) { window.pointsChart.destroy(); window.pointsChart = null; }
+                        if (window.analysisWinrateChart) { window.analysisWinrateChart.destroy(); window.analysisWinrateChart = null; }
+                        if (window.analysisRatingChart) { window.analysisRatingChart.destroy(); window.analysisRatingChart = null; }
                     } catch (e) {
-                        console.warn('Error destroying points chart:', e);
+                        console.warn('Error destroying overview charts:', e);
                     }
                 }
                 if (tabName === 'monthly' && window.monthlyWinrateChart) {
@@ -35,15 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.monthlyWinrateChart = null;
                     } catch (e) {
                         console.warn('Error destroying monthly chart:', e);
-                    }
-                }
-                if (tabName === 'analysis') {
-                    // Destroy analysis charts when analysis tab is hidden
-                    try {
-                        if (window.analysisWinrateChart) { window.analysisWinrateChart.destroy(); window.analysisWinrateChart = null; }
-                        if (window.analysisRatingChart) { window.analysisRatingChart.destroy(); window.analysisRatingChart = null; }
-                    } catch (e) {
-                        console.warn('Error destroying analysis charts:', e);
                     }
                 }
             }
@@ -84,10 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Use requestAnimationFrame to ensure DOM is ready
                     requestAnimationFrame(() => {
                         renderPointsChart(filteredGames, player1Name, player2Name);
+                        if (typeof displayAnalysisTab === 'function') {
+                            displayAnalysisTab(filteredGames, player1Name, player2Name);
+                        }
                     });
                 }
             }
-            
+
             if (targetTab === 'monthly' && typeof renderMonthlyWinrateChart === 'function') {
                 // Get current stats
                 const route = typeof Router !== 'undefined' ? Router.getCurrentRoute() : {};
@@ -117,15 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            if (targetTab === 'analysis' && typeof displayAnalysisTab === 'function') {
-                if (typeof window !== 'undefined' && window.globalGamesByMonth && typeof getPlayerNames === 'function') {
-                    const [player1Name, player2Name] = getPlayerNames(window.globalGamesByMonth);
-                    requestAnimationFrame(() => {
-                        displayAnalysisTab(window.globalGamesByMonth, player1Name, player2Name);
-                    });
-                }
-            }
-
             if (targetTab === 'fun' && typeof displayInterestingGames === 'function') {
                 // Get current filtered games
                 const route = typeof Router !== 'undefined' ? Router.getCurrentRoute() : {};

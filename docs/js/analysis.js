@@ -1,4 +1,6 @@
-// Analysis tab: deep-dive learnings — rating gap, opening win rates, splits, streak timeline
+// Analysis & Learnings section (lives inside the Overview tab) — rating gap,
+// opening win rates, streaks, and splits, compared side by side for both players.
+// Respects whatever date range is currently selected.
 
 function computeMonthlySummary(gamesByMonth, player1Name) {
     const months = Object.keys(gamesByMonth).sort();
@@ -92,27 +94,24 @@ function computeStreakTimeline(allGames, player1Name) {
     return runs;
 }
 
-function winRatePct(bucket) {
-    const total = bucket.w + bucket.l + bucket.d;
-    return total > 0 ? bucket.w / total : 0;
-}
-
-function renderDivergingBar(container, label, wr, n, extra) {
-    const isGood = wr >= 0.5;
-    const pctFromMid = Math.abs(wr - 0.5) * 2;
-    const widthPct = (pctFromMid * 50).toFixed(1);
-    const leftPct = isGood ? 50 : (50 - widthPct);
-    const colorClass = isGood ? 'bg-red-400' : 'bg-blue-400';
+// Stacked bar: player1 win % — draw % — player2 win %, always shown side by side.
+function renderMatchupBar(container, label, p1, draw, p2, extra) {
+    const n = p1 + draw + p2;
+    if (n === 0) return;
+    const p1Pct = (p1 / n * 100);
+    const drawPct = (draw / n * 100);
+    const p2Pct = (p2 / n * 100);
 
     const row = document.createElement('div');
     row.className = 'flex items-center gap-2 mb-1.5';
     row.innerHTML = `
         <div class="w-40 sm:w-56 text-right text-xs text-gray-400 truncate" title="${label}${extra ? ' — ' + extra : ''}">${label}${extra ? ` <span class="text-gray-600">(${extra})</span>` : ''}</div>
-        <div class="flex-1 relative h-4 bg-gray-700 rounded">
-            <div class="absolute -top-0.5 -bottom-0.5 w-px bg-gray-500" style="left:50%"></div>
-            <div class="absolute top-0 bottom-0 rounded ${colorClass}" style="left:${leftPct}%;width:${widthPct}%"></div>
+        <div class="flex-1 h-4 rounded overflow-hidden flex bg-gray-700">
+            <div class="h-full bg-red-400" style="width:${p1Pct}%" title="P1: ${p1}/${n} (${p1Pct.toFixed(1)}%)"></div>
+            <div class="h-full bg-gray-500" style="width:${drawPct}%" title="Draws: ${draw}/${n}"></div>
+            <div class="h-full bg-blue-400" style="width:${p2Pct}%" title="P2: ${p2}/${n} (${p2Pct.toFixed(1)}%)"></div>
         </div>
-        <div class="w-24 flex-none text-xs text-gray-400 font-mono">${(wr * 100).toFixed(1)}% (n=${n})</div>
+        <div class="w-40 flex-none text-xs text-gray-400 font-mono">${p1Pct.toFixed(0)}% / ${p2Pct.toFixed(0)}% (n=${n})</div>
     `;
     container.appendChild(row);
 }
@@ -120,7 +119,13 @@ function renderDivergingBar(container, label, wr, n, extra) {
 function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
     const monthly = computeMonthlySummary(gamesByMonth, player1Name);
     const allGames = Object.values(gamesByMonth).flat();
-    if (allGames.length === 0) return;
+    if (allGames.length === 0) {
+        ['analysis-hero', 'analysis-openings', 'analysis-splits', 'analysis-streaks', 'analysis-reco'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = '<div class="text-xs text-gray-500">No games in this range.</div>';
+        });
+        return;
+    }
 
     const totalP1 = monthly.reduce((s, m) => s + m.p1, 0);
     const totalP2 = monthly.reduce((s, m) => s + m.p2, 0);
@@ -134,23 +139,21 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
     if (heroEl) {
         heroEl.innerHTML = `
             <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 text-center">
-                <div class="text-xs text-gray-400 mb-1">Overall Record</div>
+                <div class="text-xs text-gray-400 mb-1">Record (P1–P2–Draw)</div>
                 <div class="text-lg font-bold text-white">${totalP1}–${totalP2}–${totalDraw}</div>
-                <div class="text-xs text-yellow-400 mt-1">${totalGames > 0 ? (totalP1 / totalGames * 100).toFixed(1) : 0}% win rate</div>
+                <div class="text-xs mt-1"><span class="text-red-400">${totalGames > 0 ? (totalP1 / totalGames * 100).toFixed(1) : 0}%</span> <span class="text-gray-600">/</span> <span class="text-blue-400">${totalGames > 0 ? (totalP2 / totalGames * 100).toFixed(1) : 0}%</span></div>
             </div>
             <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 text-center">
                 <div class="text-xs text-gray-400 mb-1">Months Won</div>
-                <div class="text-lg font-bold text-red-400">${monthsWonP1}</div>
-                <div class="text-xs text-gray-500 mt-1">vs ${monthsWonP2} for ${player2Name}, of ${monthly.length}</div>
+                <div class="text-lg font-bold"><span class="text-red-400">${monthsWonP1}</span><span class="text-gray-500 text-sm"> / </span><span class="text-blue-400">${monthsWonP2}</span></div>
+                <div class="text-xs text-gray-500 mt-1">of ${monthly.length} months</div>
             </div>
-            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 text-center" id="analysis-hero-streaks">
-            </div>
-            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 text-center" id="analysis-hero-rating">
-            </div>
+            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 text-center" id="analysis-hero-streaks"></div>
+            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 text-center" id="analysis-hero-rating"></div>
         `;
     }
 
-    // Monthly win-rate chart
+    // Monthly win-rate chart — both players
     const winrateCanvas = document.getElementById('analysis-monthly-winrate-chart');
     if (winrateCanvas && typeof Chart !== 'undefined') {
         if (window.analysisWinrateChart) {
@@ -163,9 +166,17 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
                 datasets: [
                     {
                         label: `${player1Name} win rate`,
-                        data: monthly.map(m => (m.winRate * 100).toFixed(1)),
+                        data: monthly.map(m => m.n > 0 ? (m.p1 / m.n * 100).toFixed(1) : 0),
                         borderColor: 'rgb(248, 113, 113)',
                         backgroundColor: 'rgba(248, 113, 113, 0.1)',
+                        tension: 0.2,
+                        pointRadius: 3
+                    },
+                    {
+                        label: `${player2Name} win rate`,
+                        data: monthly.map(m => m.n > 0 ? (m.p2 / m.n * 100).toFixed(1) : 0),
+                        borderColor: 'rgb(96, 165, 250)',
+                        backgroundColor: 'rgba(96, 165, 250, 0.1)',
                         tension: 0.2,
                         pointRadius: 3
                     },
@@ -237,55 +248,79 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
         const heroRating = document.getElementById('analysis-hero-rating');
         if (heroRating) {
             heroRating.innerHTML = `
-                <div class="text-xs text-gray-400 mb-1">Current Rating Gap</div>
+                <div class="text-xs text-gray-400 mb-1">Rating Gap (latest)</div>
                 <div class="text-lg font-bold text-white">${Math.abs(lastGap)}</div>
-                <div class="text-xs text-gray-500 mt-1">${lastGap > 0 ? player2Name : player1Name} ahead</div>
+                <div class="text-xs mt-1">${lastGap > 0 ? `<span class="text-blue-400">${player2Name}</span>` : `<span class="text-red-400">${player1Name}</span>`} ahead</div>
             `;
         }
+    } else {
+        const heroRating = document.getElementById('analysis-hero-rating');
+        if (heroRating) heroRating.innerHTML = `<div class="text-xs text-gray-400 mb-1">Rating Gap</div><div class="text-lg font-bold text-gray-600">–</div>`;
     }
 
-    // Opening win rates (min 15 games)
+    // Opening matchups (min 15 games), both players side by side, sorted by player1 win rate
     const openingsContainer = document.getElementById('analysis-openings');
+    let openingRowsForReco = [];
     if (openingsContainer && typeof calculateOpeningStats === 'function') {
         openingsContainer.innerHTML = '';
         const openings = calculateOpeningStats(gamesByMonth, player1Name, player2Name);
         const rows = Object.entries(openings)
             .map(([name, s]) => {
                 const n = s.games;
-                const wr = n > 0 ? s.player1Wins / n : 0;
-                const asColor = s.player1WhiteGames >= s.player1BlackGames ? 'White' : 'Black';
-                return { name, n, wr, asColor };
+                const asColor = s.player1WhiteGames >= s.player1BlackGames ? `${player1Name} as White` : `${player1Name} as Black`;
+                return { name, n, p1: s.player1Wins, p2: s.player2Wins, draw: s.draws, wr: n > 0 ? s.player1Wins / n : 0, asColor };
             })
             .filter(o => o.n >= 15)
             .sort((a, b) => b.wr - a.wr);
 
+        openingRowsForReco = rows;
+
         if (rows.length === 0) {
-            openingsContainer.innerHTML = '<div class="text-xs text-gray-500">Not enough games in this range for opening breakdown (need 15+ per opening).</div>';
+            openingsContainer.innerHTML = '<div class="text-xs text-gray-500">Not enough games in this range for an opening breakdown (need 15+ per opening).</div>';
         } else {
-            rows.forEach(o => renderDivergingBar(openingsContainer, o.name, o.wr, o.n, `as ${o.asColor}`));
+            const legend = document.createElement('div');
+            legend.className = 'flex items-center gap-4 text-[10px] text-gray-500 mb-2';
+            legend.innerHTML = `
+                <span class="flex items-center gap-1"><span class="w-2 h-2 bg-red-400 inline-block rounded-sm"></span>${player1Name}</span>
+                <span class="flex items-center gap-1"><span class="w-2 h-2 bg-gray-500 inline-block rounded-sm"></span>draw</span>
+                <span class="flex items-center gap-1"><span class="w-2 h-2 bg-blue-400 inline-block rounded-sm"></span>${player2Name}</span>
+            `;
+            openingsContainer.appendChild(legend);
+            rows.forEach(o => renderMatchupBar(openingsContainer, o.name, o.p1, o.draw, o.p2, o.asColor));
         }
     }
 
-    // Splits: color / length / day of week
+    // Splits: color / length / day of week — both players side by side
     const splitsContainer = document.getElementById('analysis-splits');
+    let splitsForReco = null;
     if (splitsContainer) {
         splitsContainer.innerHTML = '';
         const { byColor, byLength, byDow } = computeSplits(allGames, player1Name);
+        splitsForReco = { byColor, byLength, byDow };
+
+        const legend = document.createElement('div');
+        legend.className = 'flex items-center gap-4 text-[10px] text-gray-500 mb-2';
+        legend.innerHTML = `
+            <span class="flex items-center gap-1"><span class="w-2 h-2 bg-red-400 inline-block rounded-sm"></span>${player1Name}</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 bg-gray-500 inline-block rounded-sm"></span>draw</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 bg-blue-400 inline-block rounded-sm"></span>${player2Name}</span>
+        `;
+        splitsContainer.appendChild(legend);
 
         const colorHeader = document.createElement('div');
         colorHeader.className = 'text-xs font-semibold text-gray-400 mb-2 mt-1';
-        colorHeader.textContent = 'By color';
+        colorHeader.textContent = `By color (${player1Name}'s perspective)`;
         splitsContainer.appendChild(colorHeader);
-        renderDivergingBar(splitsContainer, 'As White', winRatePct(byColor.p1White), byColor.p1White.w + byColor.p1White.l + byColor.p1White.d);
-        renderDivergingBar(splitsContainer, 'As Black', winRatePct(byColor.p1Black), byColor.p1Black.w + byColor.p1Black.l + byColor.p1Black.d);
+        renderMatchupBar(splitsContainer, `${player1Name} plays White`, byColor.p1White.w, byColor.p1White.d, byColor.p1White.l);
+        renderMatchupBar(splitsContainer, `${player1Name} plays Black`, byColor.p1Black.w, byColor.p1Black.d, byColor.p1Black.l);
 
         const lengthHeader = document.createElement('div');
         lengthHeader.className = 'text-xs font-semibold text-gray-400 mb-2 mt-4';
         lengthHeader.textContent = 'By game length';
         splitsContainer.appendChild(lengthHeader);
-        renderDivergingBar(splitsContainer, 'Short (<30 ply)', winRatePct(byLength.short), byLength.short.w + byLength.short.l + byLength.short.d);
-        renderDivergingBar(splitsContainer, 'Medium (30–60 ply)', winRatePct(byLength.medium), byLength.medium.w + byLength.medium.l + byLength.medium.d);
-        renderDivergingBar(splitsContainer, 'Long (>60 ply)', winRatePct(byLength.long), byLength.long.w + byLength.long.l + byLength.long.d);
+        renderMatchupBar(splitsContainer, 'Short (<30 ply)', byLength.short.w, byLength.short.d, byLength.short.l);
+        renderMatchupBar(splitsContainer, 'Medium (30–60 ply)', byLength.medium.w, byLength.medium.d, byLength.medium.l);
+        renderMatchupBar(splitsContainer, 'Long (>60 ply)', byLength.long.w, byLength.long.d, byLength.long.l);
 
         const dowHeader = document.createElement('div');
         dowHeader.className = 'text-xs font-semibold text-gray-400 mb-2 mt-4';
@@ -294,7 +329,7 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
         const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         byDow.forEach((bucket, i) => {
             const total = bucket.w + bucket.l + bucket.d;
-            if (total > 0) renderDivergingBar(splitsContainer, dayNames[i], winRatePct(bucket), total);
+            if (total > 0) renderMatchupBar(splitsContainer, dayNames[i], bucket.w, bucket.d, bucket.l);
         });
     }
 
@@ -315,7 +350,6 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
             `;
         }
 
-        // Only show runs of length >= 2 as segments worth labeling; render every run in the strip
         const fmtDate = t => new Date(t).toISOString().slice(0, 10);
         let stripHtml = '<div class="flex w-full h-6 rounded overflow-hidden border border-gray-700">';
         runs.forEach(r => {
@@ -327,7 +361,6 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
         });
         stripHtml += '</div>';
 
-        // Top streak call-outs
         const topRuns = [...runs].filter(r => r.result !== 'draw').sort((a, b) => b.length - a.length).slice(0, 8);
         let listHtml = '<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3">';
         topRuns.forEach(r => {
@@ -358,30 +391,45 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
         `;
     }
 
-    // Recommendations (computed dynamically from openings/splits above)
+    // Recommendations — best/worst matchups for BOTH players side by side
     const recoContainer = document.getElementById('analysis-reco');
-    if (recoContainer && typeof calculateOpeningStats === 'function') {
-        const openings = calculateOpeningStats(gamesByMonth, player1Name, player2Name);
-        const openingRows = Object.entries(openings)
-            .map(([name, s]) => ({ name, n: s.games, wr: s.games > 0 ? s.player1Wins / s.games : 0 }))
-            .filter(o => o.n >= 15)
-            .sort((a, b) => b.wr - a.wr);
+    if (recoContainer) {
+        const rows = openingRowsForReco;
+        const bestForP1 = rows.slice(0, 2);
+        const bestForP2 = [...rows].sort((a, b) => a.wr - b.wr).slice(0, 2);
+        const { byColor, byLength, byDow } = splitsForReco || {};
 
-        const best = openingRows.slice(0, 2);
-        const worst = openingRows.slice(-2).reverse();
-        const { byColor, byLength, byDow } = computeSplits(allGames, player1Name);
-        const wrWhite = winRatePct(byColor.p1White), wrBlack = winRatePct(byColor.p1Black);
-        const wrShort = winRatePct(byLength.short), wrLong = winRatePct(byLength.long);
-        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const bestDayIdx = byDow.map((b, i) => ({ i, wr: winRatePct(b), n: b.w + b.l + b.d })).filter(d => d.n >= 10).sort((a, b) => b.wr - a.wr)[0];
+        let html = '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-gray-400">';
 
-        let html = '<ul class="text-xs text-gray-400 space-y-2 list-disc pl-4">';
-        if (best.length) html += `<li><span class="text-white font-semibold">Best openings:</span> ${best.map(o => `${o.name} (${(o.wr*100).toFixed(0)}%, n=${o.n})`).join(', ')} — lean into these.</li>`;
-        if (worst.length) html += `<li><span class="text-white font-semibold">Worst openings:</span> ${worst.map(o => `${o.name} (${(o.wr*100).toFixed(0)}%, n=${o.n})`).join(', ')} — biggest lever to cut from the rotation.</li>`;
-        html += `<li><span class="text-white font-semibold">Color:</span> ${(wrWhite*100).toFixed(1)}% as White vs ${(wrBlack*100).toFixed(1)}% as Black.</li>`;
-        html += `<li><span class="text-white font-semibold">Game length:</span> ${(wrShort*100).toFixed(1)}% in short games (&lt;30 ply) vs ${(wrLong*100).toFixed(1)}% in long games (&gt;60 ply) — play for longer, less forcing positions if the short-game number is lower.</li>`;
-        if (bestDayIdx) html += `<li><span class="text-white font-semibold">Best day:</span> ${dayNames[bestDayIdx.i]} (${(bestDayIdx.wr*100).toFixed(1)}% win rate, n=${bestDayIdx.n}).</li>`;
-        html += '</ul>';
+        html += `<div><div class="text-red-400 font-semibold mb-1">${player1Name}'s strengths</div><ul class="space-y-1.5 list-disc pl-4">`;
+        if (bestForP1.length) html += `<li>Best openings: ${bestForP1.map(o => `${o.name} (${(o.wr*100).toFixed(0)}%, n=${o.n})`).join(', ')}</li>`;
+        if (byColor) {
+            const wrWhite = byColor.p1White.w / Math.max(1, byColor.p1White.w + byColor.p1White.l + byColor.p1White.d);
+            const wrBlack = byColor.p1Black.w / Math.max(1, byColor.p1Black.w + byColor.p1Black.l + byColor.p1Black.d);
+            html += `<li>Stronger as ${wrWhite >= wrBlack ? 'White' : 'Black'} (${(Math.max(wrWhite, wrBlack)*100).toFixed(1)}%)</li>`;
+        }
+        if (byDow) {
+            const best = byDow.map((b, i) => ({ i, wr: b.w / Math.max(1, b.w+b.l+b.d), n: b.w+b.l+b.d })).filter(d => d.n >= 10).sort((a,b) => b.wr - a.wr)[0];
+            const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            if (best) html += `<li>Best day: ${dayNames[best.i]} (${(best.wr*100).toFixed(1)}%, n=${best.n})</li>`;
+        }
+        html += '</ul></div>';
+
+        html += `<div><div class="text-blue-400 font-semibold mb-1">${player2Name}'s strengths</div><ul class="space-y-1.5 list-disc pl-4">`;
+        if (bestForP2.length) html += `<li>Best openings: ${bestForP2.map(o => `${o.name} (${((1-o.wr)*100).toFixed(0)}%, n=${o.n})`).join(', ')}</li>`;
+        if (byColor) {
+            const wrWhiteP2 = byColor.p1Black.l / Math.max(1, byColor.p1Black.w + byColor.p1Black.l + byColor.p1Black.d);
+            const wrBlackP2 = byColor.p1White.l / Math.max(1, byColor.p1White.w + byColor.p1White.l + byColor.p1White.d);
+            html += `<li>Stronger as ${wrWhiteP2 >= wrBlackP2 ? 'White' : 'Black'} (${(Math.max(wrWhiteP2, wrBlackP2)*100).toFixed(1)}%)</li>`;
+        }
+        if (byDow) {
+            const best = byDow.map((b, i) => ({ i, wr: b.l / Math.max(1, b.w+b.l+b.d), n: b.w+b.l+b.d })).filter(d => d.n >= 10).sort((a,b) => b.wr - a.wr)[0];
+            const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            if (best) html += `<li>Best day: ${dayNames[best.i]} (${(best.wr*100).toFixed(1)}%, n=${best.n})</li>`;
+        }
+        html += '</ul></div>';
+
+        html += '</div>';
         recoContainer.innerHTML = html;
     }
 }

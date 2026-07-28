@@ -27,6 +27,9 @@ function displayStatsWithChart(gamesByMonth) {
         
         if (overviewTab && overviewTab.classList.contains('active')) {
             renderPointsChart(gamesByMonth, player1Name, player2Name);
+            if (typeof displayAnalysisTab === 'function') {
+                displayAnalysisTab(gamesByMonth, player1Name, player2Name);
+            }
         }
         
         if (monthlyTab && monthlyTab.classList.contains('active')) {
