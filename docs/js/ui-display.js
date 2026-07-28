@@ -26,6 +26,7 @@ function displayStats(stats) {
             totalGames: 0,
             player1: { wins: 0, losses: 0, draws: 0, bestStreak: 0, avgAccuracy: 0, blunders: 0, mistakes: 0 },
             player2: { wins: 0, losses: 0, draws: 0, bestStreak: 0, avgAccuracy: 0, blunders: 0, mistakes: 0 },
+            drawStreak: { current: 0, best: 0 },
             avgGameLength: '-',
             longestGame: '-',
             shortestGame: '-',
@@ -57,6 +58,10 @@ function displayStats(stats) {
     // Draws (single element, same for both players)
     const draws = document.getElementById('draws');
     if (draws) draws.textContent = stats.player1.draws;
+
+    // Draw streak (shared, since draws involve both players)
+    const drawStreakEl = document.getElementById('draw-streak');
+    if (drawStreakEl) drawStreakEl.textContent = stats.drawStreak?.best || 0;
 
     // Win rates (ignoring draws: wins / (wins + losses))
     const p1Winrate = document.getElementById('player1-winrate');
@@ -216,6 +221,14 @@ function displayPlayerComparisonStats(stats) {
                         <td class="px-2 py-2 font-semibold text-gray-300">Best Streak</td>
                         <td class="px-2 py-2 text-center text-red-400 font-bold">${stats.player1.bestStreak}</td>
                         <td class="px-2 py-2 text-center text-blue-400 font-bold">${stats.player2.bestStreak}</td>
+                    </tr>
+                    <tr class="hover:bg-gray-700">
+                        <td class="px-2 py-2 font-semibold text-gray-300">Current Draw Streak</td>
+                        <td class="px-2 py-2 text-center text-gray-400 font-bold" colspan="2">${stats.drawStreak?.current || 0}</td>
+                    </tr>
+                    <tr class="hover:bg-gray-700">
+                        <td class="px-2 py-2 font-semibold text-gray-300">Best Draw Streak</td>
+                        <td class="px-2 py-2 text-center text-gray-400 font-bold" colspan="2">${stats.drawStreak?.best || 0}</td>
                     </tr>
     `;
 

@@ -39,6 +39,30 @@ function calculateStreaks(games, player1Name) {
     return { player1: maxPlayer1Streak, player2: maxPlayer2Streak };
 }
 
+function calculateDrawStreaks(games) {
+    let best = 0;
+    let running = 0;
+    games.forEach(game => {
+        if (game.winner === 'draw') {
+            running++;
+            best = Math.max(best, running);
+        } else {
+            running = 0;
+        }
+    });
+
+    let current = 0;
+    for (let i = games.length - 1; i >= 0; i--) {
+        if (games[i].winner === 'draw') {
+            current++;
+        } else {
+            break;
+        }
+    }
+
+    return { current, best };
+}
+
 function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
     if (Object.keys(gamesByMonth).length === 0) {
         return null;
@@ -68,6 +92,7 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
             byTermination: {}
         },
         byTermination: {},
+        drawStreak: { current: 0, best: 0 },
         monthlyStats: {},
         gameLengths: [],
         openingCounts: {},
@@ -82,7 +107,10 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
     const overallStreaks = calculateStreaks(allGames, player1Name);
     stats.player1.bestStreak = overallStreaks.player1;
     stats.player2.bestStreak = overallStreaks.player2;
-    
+
+    // Calculate draw streaks (shared, since draws involve both players)
+    stats.drawStreak = calculateDrawStreaks(allGames);
+
     // Calculate current streak
     let currentStreak = 0;
     let currentPlayer = null;
