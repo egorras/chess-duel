@@ -33,7 +33,12 @@ const explorerState = {
 };
 
 function explorerCreateNode() {
-    return { count: 0, p1: 0, p2: 0, draw: 0, evalSum: 0, evalCount: 0, children: new Map() };
+    // p1/p2/draw = game OUTCOME after reaching this node (who won the game).
+    // moverP1/moverP2 = who actually PLAYED the move that led to this node —
+    // needed because in the "All" color filter, p1 may be either color from
+    // game to game, so outcome color alone can't tell you whose preference
+    // a given move reflects.
+    return { count: 0, p1: 0, p2: 0, draw: 0, moverP1: 0, moverP2: 0, evalSum: 0, evalCount: 0, children: new Map() };
 }
 
 function explorerApplyResult(node, result) {
@@ -110,6 +115,12 @@ function buildMoveTree(gamesByMonth, player1Name, colorFilter) {
             if (!node.children.has(san)) node.children.set(san, explorerCreateNode());
             node = node.children.get(san);
             explorerApplyResult(node, result);
+
+            // Ply i (0-indexed) is White's move when i is even.
+            const moveIsWhite = i % 2 === 0;
+            const moverIsP1 = moveIsWhite === isP1White;
+            if (moverIsP1) node.moverP1++;
+            else node.moverP2++;
 
             const whiteEval = evalByPly && evalByPly[i] != null ? evalByPly[i] : null;
             if (whiteEval !== null) {
@@ -290,7 +301,7 @@ function renderExplorerSideToMove() {
     } else if (explorerState.colorFilter === 'black') {
         colorMapping = ` <span class="text-gray-600">·</span> <span class="text-red-400">${explorerState.player1Name}</span> plays Black, <span class="text-blue-400">${explorerState.player2Name}</span> plays White`;
     } else {
-        colorMapping = ` <span class="text-gray-600">·</span> <span class="text-gray-500">colors vary by game — filter to White/Black above to fix them</span>`;
+        colorMapping = ` <span class="text-gray-600">·</span> <span class="text-gray-500">colors vary by game — see "played by" under each move below for who made it</span>`;
     }
 
     el.innerHTML = `
@@ -361,27 +372,39 @@ function renderExplorerMovesTable(node) {
     const dotColor = isWhiteToMove ? '#ffffff' : '#0a0a0a';
     const dotBorder = isWhiteToMove ? 'border-gray-500' : 'border-gray-700';
 
+    const showMoverSplit = explorerState.colorFilter === 'all';
+
     children.forEach(([san, child]) => {
         const p1Pct = (child.p1 / child.count * 100).toFixed(0);
         const p2Pct = (child.p2 / child.count * 100).toFixed(0);
         const drawPct = (child.draw / child.count * 100).toFixed(0);
+
+        const moverP1Pct = (child.moverP1 / child.count * 100).toFixed(0);
+        const moverP2Pct = (child.moverP2 / child.count * 100).toFixed(0);
+        const moverBadge = showMoverSplit ? `
+            <span class="text-[9px] font-mono whitespace-nowrap block text-gray-500" title="Who actually played ${san}: ${explorerState.player1Name} in ${child.moverP1}/${child.count}, ${explorerState.player2Name} in ${child.moverP2}/${child.count}">
+                played by <span class="text-red-400">${explorerState.player1Name} ${moverP1Pct}%</span> <span class="text-gray-600">/</span> <span class="text-blue-400">${explorerState.player2Name} ${moverP2Pct}%</span>
+            </span>
+        ` : '';
 
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-gray-700 cursor-pointer';
         tr.innerHTML = `
             <td class="px-2 py-1.5 font-mono text-gray-200 whitespace-nowrap">
                 <span class="inline-block w-2 h-2 rounded-full border ${dotBorder} mr-1.5 align-middle" style="background-color: ${dotColor}"></span>${san}
+                ${moverBadge}
             </td>
             <td class="px-2 py-1.5 text-center text-gray-400">${child.count}</td>
             <td class="px-2 py-1.5">
                 <div class="flex items-center gap-1.5">
                     <div class="flex-1 h-3 rounded overflow-hidden flex bg-gray-700 min-w-[60px]">
-                        <div class="h-full bg-red-400" style="width:${p1Pct}%" title="${explorerState.player1Name}: ${child.p1}/${child.count}"></div>
+                        <div class="h-full bg-red-400" style="width:${p1Pct}%" title="${explorerState.player1Name} won: ${child.p1}/${child.count}"></div>
                         <div class="h-full bg-gray-500" style="width:${drawPct}%" title="Draws: ${child.draw}/${child.count}"></div>
-                        <div class="h-full bg-blue-400" style="width:${p2Pct}%" title="${explorerState.player2Name}: ${child.p2}/${child.count}"></div>
+                        <div class="h-full bg-blue-400" style="width:${p2Pct}%" title="${explorerState.player2Name} won: ${child.p2}/${child.count}"></div>
                     </div>
                     <span class="text-[10px] font-mono whitespace-nowrap"><span class="text-red-400">${p1Pct}</span><span class="text-gray-500">/</span><span class="text-blue-400">${p2Pct}</span></span>
                 </div>
+                <div class="text-[9px] text-gray-500 mt-0.5">game result</div>
             </td>
         `;
         tr.addEventListener('click', () => {
