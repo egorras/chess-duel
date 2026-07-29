@@ -98447,5 +98447,226 @@
       "middle": 12,
       "end": 39
     }
+  },
+  {
+    "id": "ex0eovSy",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1785325034325,
+    "lastMoveAt": 1785325255906,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1824
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1657
+      }
+    },
+    "fullId": "ex0eovSyzlLe",
+    "winner": "black",
+    "opening": {
+      "eco": "B22",
+      "name": "Sicilian Defense: Alapin Variation",
+      "ply": 3
+    },
+    "moves": "e4 c5 c3 Nc6 d4 cxd4 cxd4 d6 d5 Ne5 f4 Ng6 f5 Ne5 Bf4 Nf6 Nc3 g6 Bxe5 dxe5 Nf3 Nd7 fxg6 hxg6 Bb5 a6 Bxd7+ Bxd7 Nxe5 Bg7 Nf3 Qb6 b3 Bxc3+ Ke2 Bxa1 Qxa1 Bb5+ Kd2 O-O Ng5 Qf2+ Kc1 Qxg2 Rd1 Qxg5+ Kb2 Qg2+ Ka3 Qxh2 Rh1 Qd6+ b4 f6 Qg1 g5 Qg4 a5 Qh5 Qxb4#",
+    "clocks": [
+      30003,
+      30003,
+      29771,
+      29883,
+      29683,
+      29691,
+      29579,
+      29619,
+      29363,
+      29499,
+      29267,
+      29243,
+      29179,
+      29147,
+      28971,
+      28675,
+      28459,
+      28051,
+      28131,
+      28035,
+      27419,
+      27859,
+      26859,
+      27859,
+      26499,
+      27187,
+      26395,
+      27187,
+      26267,
+      26411,
+      25027,
+      25715,
+      24331,
+      25539,
+      24187,
+      25451,
+      24035,
+      25299,
+      23699,
+      24099,
+      23443,
+      23363,
+      23027,
+      23123,
+      21659,
+      22979,
+      21547,
+      22763,
+      21459,
+      22611,
+      21131,
+      21539,
+      21003,
+      20883,
+      20107,
+      20091,
+      19947,
+      19491,
+      19805,
+      19303
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 25,
+      "end": 46
+    }
+  },
+  {
+    "id": "TcefFr5e",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1785325257695,
+    "lastMoveAt": 1785325468207,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1657
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1824
+      }
+    },
+    "fullId": "TcefFr5ewwr1",
+    "winner": "white",
+    "opening": {
+      "eco": "D00",
+      "name": "Queen's Pawn Game: Accelerated London System, Steinitz Countergambit",
+      "ply": 4
+    },
+    "moves": "d4 d5 Bf4 c5 e3 Nc6 Nf3 Bf5 Bd3 Bxd3 cxd3 e6 O-O Qb6 Qb3 cxd4 Qxb6 axb6 Nxd4 Bc5 Nb5 e5 Nc7+ Kd7 Nxa8 exf4 d4 Bb4 a3 Ba5 b4 Bxb4 axb4 fxe3 Nxb6+ Kc7 Nxd5+ Kd6 Nxe3 Nf6 Rd1 Nxb4 Nc3 Rc8 Nb5+ Ke6 f4 Ne4 f5+ Kf6 g4 Kg5 h3 Kh4 Kg2 Re8 Nf1 Ng5 d5 Nxh3 Ng3 Nf4+ Kf3 Nh3 Rh1 Re5 Rxh3+ Kxh3 Rh1#",
+    "clocks": [
+      30003,
+      30003,
+      29955,
+      29907,
+      29883,
+      29859,
+      29787,
+      29779,
+      29667,
+      29507,
+      29443,
+      29459,
+      29227,
+      29051,
+      28923,
+      28923,
+      27835,
+      28683,
+      27691,
+      28355,
+      27243,
+      27667,
+      27067,
+      27435,
+      26955,
+      27379,
+      26707,
+      26595,
+      26547,
+      26427,
+      26459,
+      25955,
+      26379,
+      25907,
+      26211,
+      25779,
+      26139,
+      25739,
+      25939,
+      25419,
+      25555,
+      25131,
+      25059,
+      24723,
+      24891,
+      24515,
+      24267,
+      24171,
+      24131,
+      24035,
+      23491,
+      23819,
+      22723,
+      23371,
+      22275,
+      23219,
+      21811,
+      23075,
+      21179,
+      22051,
+      20539,
+      21803,
+      20379,
+      21203,
+      20203,
+      20651,
+      20059,
+      20542,
+      19345
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 18,
+      "end": 67
+    }
   }
 ]
