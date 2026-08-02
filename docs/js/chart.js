@@ -95,6 +95,7 @@ function renderPointsChart(gamesByMonth, player1Name, player2Name) {
     lastPointsChartData = chartData;
     lastPointsChartKey = dataKey;
 
+    const chartTheme = getChartThemeColors();
     const ctx = canvas.getContext('2d');
     pointsChart = new Chart(ctx, {
         type: 'line',
@@ -127,7 +128,7 @@ function renderPointsChart(gamesByMonth, player1Name, player2Name) {
             plugins: {
                 legend: {
                     labels: {
-                        color: 'rgb(209, 213, 219)',
+                        color: chartTheme.legend,
                         font: {
                             family: "'Fira Code', monospace"
                         }
@@ -141,7 +142,7 @@ function renderPointsChart(gamesByMonth, player1Name, player2Name) {
             scales: {
                 x: {
                     ticks: {
-                        color: 'rgb(156, 163, 175)',
+                        color: chartTheme.ticks,
                         font: {
                             family: "'Fira Code', monospace"
                         },
@@ -150,18 +151,18 @@ function renderPointsChart(gamesByMonth, player1Name, player2Name) {
                         maxTicksLimit: 10
                     },
                     grid: {
-                        color: 'rgba(75, 85, 99, 0.3)'
+                        color: chartTheme.grid
                     }
                 },
                 y: {
                     ticks: {
-                        color: 'rgb(156, 163, 175)',
+                        color: chartTheme.ticks,
                         font: {
                             family: "'Fira Code', monospace"
                         }
                     },
                     grid: {
-                        color: 'rgba(75, 85, 99, 0.3)'
+                        color: chartTheme.grid
                     }
                 }
             }
@@ -336,6 +337,7 @@ function renderMonthlyWinrateChart(stats, player1Name, player2Name, metric = 'wi
     lastMonthlyChartKey = dataKey;
     currentMonthlyMetric = metric;
 
+    const chartTheme = getChartThemeColors();
     const ctx = canvas.getContext('2d');
     monthlyWinrateChart = new Chart(ctx, {
         type: 'line',
@@ -372,7 +374,7 @@ function renderMonthlyWinrateChart(stats, player1Name, player2Name, metric = 'wi
             plugins: {
                 legend: {
                     labels: {
-                        color: 'rgb(209, 213, 219)',
+                        color: chartTheme.legend,
                         font: {
                             family: "'Fira Code', monospace"
                         }
@@ -398,7 +400,7 @@ function renderMonthlyWinrateChart(stats, player1Name, player2Name, metric = 'wi
             scales: {
                 x: {
                     ticks: {
-                        color: 'rgb(156, 163, 175)',
+                        color: chartTheme.ticks,
                         font: {
                             family: "'Fira Code', monospace"
                         },
@@ -406,21 +408,21 @@ function renderMonthlyWinrateChart(stats, player1Name, player2Name, metric = 'wi
                         autoSkip: true
                     },
                     grid: {
-                        color: 'rgba(75, 85, 99, 0.3)'
+                        color: chartTheme.grid
                     }
                 },
                 y: {
                     min: yAxisMin,
                     max: yAxisMax,
                     ticks: {
-                        color: 'rgb(156, 163, 175)',
+                        color: chartTheme.ticks,
                         font: {
                             family: "'Fira Code', monospace"
                         },
                         callback: yAxisCallback
                     },
                     grid: {
-                        color: 'rgba(75, 85, 99, 0.3)'
+                        color: chartTheme.grid
                     }
                 }
             }

@@ -337,6 +337,50 @@ function renderGameTableHeader(options = {}) {
     
     headerHTML += '<th class="px-2 py-2 text-center">Link</th>';
     headerHTML += '</tr>';
-    
+
     return headerHTML;
 }
+
+/**
+ * Theme (light/dark)
+ * The `light` class on <html> is applied inline in <head> (before this
+ * script loads) to avoid a flash of the wrong theme; this just wires up
+ * the toggle button and keeps Chart.js canvases in sync.
+ */
+const THEME_STORAGE_KEY = 'chess-duel-theme';
+
+function isLightTheme() {
+    return document.documentElement.classList.contains('light');
+}
+
+function getChartThemeColors() {
+    return isLightTheme()
+        ? { legend: 'rgb(51, 65, 85)', ticks: 'rgb(100, 116, 139)', grid: 'rgba(100, 116, 139, 0.2)' }
+        : { legend: 'rgb(209, 213, 219)', ticks: 'rgb(156, 163, 175)', grid: 'rgba(75, 85, 99, 0.3)' };
+}
+
+function setTheme(light) {
+    document.documentElement.classList.toggle('light', light);
+    localStorage.setItem(THEME_STORAGE_KEY, light ? 'light' : 'dark');
+
+    // Chart.js draws to canvas, so existing charts don't pick up the new
+    // palette on their own. Destroying the cached instances and replaying
+    // the current route forces whichever charts are visible to redraw.
+    if (window.pointsChart) {
+        window.pointsChart.destroy();
+        window.pointsChart = null;
+    }
+    if (window.monthlyWinrateChart) {
+        window.monthlyWinrateChart.destroy();
+        window.monthlyWinrateChart = null;
+    }
+    window.dispatchEvent(new Event('hashchange'));
+}
+
+function initThemeToggle() {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', () => setTheme(!isLightTheme()));
+}
+
+initThemeToggle();
