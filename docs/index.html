@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess Duel Stats - Blitz</title>
+    <script>
+        // Applied before first paint so the page never flashes the wrong theme.
+        (function () {
+            var saved = localStorage.getItem('chess-duel-theme');
+            var light = saved ? saved === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
+            if (light) document.documentElement.classList.add('light');
+        })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
@@ -55,6 +63,83 @@
         .session-details.expanded {
             display: table-row;
         }
+
+        /* ============================================================
+           Light theme
+           The app is built dark-first with hardcoded Tailwind gray/white
+           utility classes throughout the static markup and JS-generated
+           HTML. Rather than thread dark:/light: variants through every
+           call site, we re-skin those exact utility classes when the
+           `light` class is present on <html> — same selectors app-wide,
+           higher specificity than Tailwind's single-class rules so no
+           !important is needed.
+           ============================================================ */
+        html.light body { background-color: #f8fafc; }
+
+        html.light .bg-gray-900 { background-color: #f8fafc; }
+        html.light .bg-gray-800 { background-color: #ffffff; }
+        html.light .bg-gray-700 { background-color: #f1f5f9; }
+        html.light .bg-gray-600 { background-color: #e2e8f0; }
+        html.light .bg-gray-500 { background-color: #cbd5e1; }
+
+        html.light .hover\:bg-gray-800:hover { background-color: #f1f5f9; }
+        html.light .hover\:bg-gray-700:hover { background-color: #e2e8f0; }
+        html.light .hover\:bg-gray-600:hover { background-color: #cbd5e1; }
+
+        html.light .text-white { color: #0f172a; }
+        html.light .hover\:text-white:hover { color: #0f172a; }
+        html.light .text-gray-100 { color: #0f172a; }
+        html.light .text-gray-200 { color: #1e293b; }
+        html.light .text-gray-300 { color: #334155; }
+        html.light .text-gray-400 { color: #475569; }
+        html.light .text-gray-500 { color: #64748b; }
+        html.light .text-gray-600 { color: #94a3b8; }
+
+        html.light .hover\:text-gray-200:hover { color: #0f172a; }
+        html.light .hover\:text-gray-300:hover { color: #1e293b; }
+
+        html.light .border-gray-700 { border-color: #e2e8f0; }
+        html.light .border-gray-600 { border-color: #cbd5e1; }
+        html.light .border-gray-500 { border-color: #94a3b8; }
+        html.light .border-gray-400 { border-color: #64748b; }
+        html.light .divide-gray-700 > :not([hidden]) ~ :not([hidden]) { border-color: #e2e8f0; }
+
+        html.light .focus\:ring-gray-400:focus { --tw-ring-color: #64748b; }
+
+        html.light #error.bg-red-900\/50 { background-color: #fee2e2; }
+        html.light #error.text-red-200 { color: #991b1b; }
+
+        /* Raw-CSS component rules below (not Tailwind utility classes) mirror
+           the gray-800/700/600/400/300 values they were hardcoded from. */
+        html.light .quick-filter-btn.active {
+            background-color: #e2e8f0;
+            border-color: #64748b;
+            color: #0f172a;
+        }
+        html.light .explorer-color-btn {
+            background-color: #f1f5f9;
+            color: #64748b;
+        }
+        html.light .explorer-color-btn.active {
+            background-color: #e2e8f0;
+            border-color: #64748b;
+            color: #0f172a;
+        }
+        html.light .tab-button.active,
+        html.light .fun-category-tab.active {
+            border-color: #64748b;
+            color: #1e293b;
+        }
+        html.light .sort-indicator.asc::after,
+        html.light .sort-indicator.desc::after {
+            color: #1e293b;
+        }
+
+        /* Theme toggle icon swap */
+        #theme-toggle .icon-sun { display: none; }
+        #theme-toggle .icon-moon { display: inline; }
+        html.light #theme-toggle .icon-sun { display: inline; }
+        html.light #theme-toggle .icon-moon { display: none; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen p-2 sm:p-4 md:p-8">
@@ -82,13 +167,25 @@
                             <span id="load-recent-games-text">Load Recent Games</span>
                         </button>
                     </div>
-                    <a href="https://github.com/egorras/chess-duel" target="_blank" rel="noopener noreferrer" 
-                       class="inline-flex items-center gap-2 text-gray-400 hover:text-gray-300 transition-colors text-sm">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="hidden sm:inline">View on GitHub</span>
-                    </a>
+                    <div class="flex items-center gap-3">
+                        <button id="theme-toggle" title="Toggle light/dark theme" aria-label="Toggle light/dark theme"
+                                class="inline-flex items-center justify-center w-8 h-8 rounded text-gray-400 hover:text-gray-300 hover:bg-gray-800 transition-colors">
+                            <svg class="icon-sun w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path stroke-linecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+                            </svg>
+                            <svg class="icon-moon w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M21.64 13.65a9 9 0 11-11.3-11.3 7 7 0 0011.3 11.3z"></path>
+                            </svg>
+                        </button>
+                        <a href="https://github.com/egorras/chess-duel" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center gap-2 text-gray-400 hover:text-gray-300 transition-colors text-sm">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="hidden sm:inline">View on GitHub</span>
+                        </a>
+                    </div>
                 </div>
                 <!-- Activity Calendar and Date Selector Container -->
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-3">

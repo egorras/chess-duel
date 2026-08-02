@@ -355,6 +355,7 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
         if (window.analysisWinrateChart) {
             try { window.analysisWinrateChart.destroy(); } catch (e) {}
         }
+        const winrateChartTheme = getChartThemeColors();
         window.analysisWinrateChart = new Chart(winrateCanvas.getContext('2d'), {
             type: 'line',
             data: {
@@ -389,10 +390,10 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
                 responsive: true,
                 maintainAspectRatio: false,
                 interaction: { mode: 'index', intersect: false },
-                plugins: { legend: { labels: { color: 'rgb(209, 213, 219)', font: { size: 10 } } } },
+                plugins: { legend: { labels: { color: winrateChartTheme.legend, font: { size: 10 } } } },
                 scales: {
-                    x: { offset: true, ticks: { color: 'rgb(156, 163, 175)', font: { size: 9 } }, grid: { color: 'rgba(75, 85, 99, 0.3)' } },
-                    y: { min: 0, max: 100, ticks: { color: 'rgb(156, 163, 175)', font: { size: 9 }, callback: v => v + '%' }, grid: { color: 'rgba(75, 85, 99, 0.3)' } }
+                    x: { offset: true, ticks: { color: winrateChartTheme.ticks, font: { size: 9 } }, grid: { color: winrateChartTheme.grid } },
+                    y: { min: 0, max: 100, ticks: { color: winrateChartTheme.ticks, font: { size: 9 }, callback: v => v + '%' }, grid: { color: winrateChartTheme.grid } }
                 }
             }
         });
@@ -410,6 +411,7 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
         if (window.analysisRatingChart) {
             try { window.analysisRatingChart.destroy(); } catch (e) {}
         }
+        const ratingChartTheme = getChartThemeColors();
         window.analysisRatingChart = new Chart(ratingCanvas.getContext('2d'), {
             type: 'line',
             data: {
@@ -437,10 +439,10 @@ function displayAnalysisTab(gamesByMonth, player1Name, player2Name) {
                 responsive: true,
                 maintainAspectRatio: false,
                 interaction: { mode: 'index', intersect: false },
-                plugins: { legend: { labels: { color: 'rgb(209, 213, 219)', font: { size: 10 } } } },
+                plugins: { legend: { labels: { color: ratingChartTheme.legend, font: { size: 10 } } } },
                 scales: {
-                    x: { offset: true, ticks: { color: 'rgb(156, 163, 175)', font: { size: 9 } }, grid: { color: 'rgba(75, 85, 99, 0.3)' } },
-                    y: { ticks: { color: 'rgb(156, 163, 175)', font: { size: 9 } }, grid: { color: 'rgba(75, 85, 99, 0.3)' } }
+                    x: { offset: true, ticks: { color: ratingChartTheme.ticks, font: { size: 9 } }, grid: { color: ratingChartTheme.grid } },
+                    y: { ticks: { color: ratingChartTheme.ticks, font: { size: 9 } }, grid: { color: ratingChartTheme.grid } }
                 }
             }
         });
