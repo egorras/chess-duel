@@ -68,6 +68,123 @@ function countKingMovesCached(movesString, gameId) {
     return result;
 }
 
+// Memoized queen-blunder detection - cache results per game, since it
+// requires a full chess.js replay (comparatively expensive vs. the other
+// cached calculations here).
+const queenBlunderCache = new Map();
+
+// A "queen blunder" is a queen captured on the move immediately after its
+// owner made a move judged 'blunder' - i.e. they hung it. Judgment comes
+// from Lichess's own analysis when present, else our Stockfish re-analysis
+// (same preference order used in stats-calculator.js).
+function judgmentAtPly(game, plyIndex) {
+    const lichessEntry = Array.isArray(game.analysis) ? game.analysis[plyIndex] : null;
+    if (lichessEntry && lichessEntry.judgment && lichessEntry.judgment.name) {
+        return lichessEntry.judgment.name.toLowerCase();
+    }
+    const sfEntry = game.stockfishAnalysis && game.stockfishAnalysis.moves
+        ? game.stockfishAnalysis.moves[plyIndex]
+        : null;
+    return sfEntry ? sfEntry.judgment : null;
+}
+
+function computeQueenBlunders(game) {
+    const sanMoves = game.moves ? game.moves.split(' ').filter(Boolean) : [];
+    const hasAnalysis = (Array.isArray(game.analysis) && game.analysis.length > 0) ||
+        !!(game.stockfishAnalysis && game.stockfishAnalysis.moves);
+    if (sanMoves.length === 0 || !hasAnalysis) {
+        return { white: 0, black: 0 };
+    }
+
+    const chess = new window.Chess();
+    let white = 0;
+    let black = 0;
+    let prevMoverColor = null;
+
+    for (let i = 0; i < sanMoves.length; i++) {
+        let move;
+        try {
+            move = chess.move(sanMoves[i]);
+        } catch (e) {
+            break; // malformed/truncated move list - stop rather than mis-attribute the rest
+        }
+        if (!move) break;
+
+        if (move.captured === 'q' && prevMoverColor && judgmentAtPly(game, i - 1) === 'blunder') {
+            if (prevMoverColor === 'w') white++;
+            else black++;
+        }
+        prevMoverColor = move.color;
+    }
+
+    return { white, black };
+}
+
+// A chess.js replay of every game in view (the default route is "All
+// Time", i.e. every game ever played) is too slow to do inline - it's a
+// full legal-move-generating replay per game, and there can be thousands.
+// So countQueenBlundersCached() never blocks: it returns cached results
+// immediately and otherwise answers 0 while quietly working through
+// whatever isn't cached yet in idle-time slices, then asks the UI to
+// redraw once so it can pick the real numbers up.
+const queenBlunderQueue = [];
+const queenBlunderQueued = new Set();
+let queenBlunderProcessing = false;
+
+function scheduleQueenBlunderSlice() {
+    if (typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(processQueenBlunderQueue, { timeout: 500 });
+    } else {
+        setTimeout(() => processQueenBlunderQueue(), 16);
+    }
+}
+
+function processQueenBlunderQueue(deadline) {
+    const sliceStart = Date.now();
+    const timeLeft = () => (deadline && typeof deadline.timeRemaining === 'function')
+        ? deadline.timeRemaining()
+        : 16 - (Date.now() - sliceStart);
+
+    while (queenBlunderQueue.length > 0 && timeLeft() > 0) {
+        const game = queenBlunderQueue.shift();
+        const cacheKey = game.id || game.moves;
+        queenBlunderQueued.delete(cacheKey);
+        queenBlunderCache.set(cacheKey, computeQueenBlunders(game));
+    }
+
+    if (queenBlunderQueue.length > 0) {
+        scheduleQueenBlunderSlice();
+    } else {
+        queenBlunderProcessing = false;
+        // One redraw once the backlog is fully cleared, rather than after
+        // every slice - stats-calculator.js re-derives everything from
+        // scratch on each render, so there's no point refreshing mid-drain.
+        window.dispatchEvent(new Event('hashchange'));
+    }
+}
+
+function countQueenBlundersCached(game) {
+    if (!game || !game.moves) return { white: 0, black: 0 };
+
+    const cacheKey = game.id || game.moves;
+    if (queenBlunderCache.has(cacheKey)) {
+        return queenBlunderCache.get(cacheKey);
+    }
+
+    // chess.js loads via a deferred module script (see index.html) and may
+    // not be ready yet on the very first render.
+    if (typeof window !== 'undefined' && typeof window.Chess === 'function' && !queenBlunderQueued.has(cacheKey)) {
+        queenBlunderQueued.add(cacheKey);
+        queenBlunderQueue.push(game);
+        if (!queenBlunderProcessing) {
+            queenBlunderProcessing = true;
+            scheduleQueenBlunderSlice();
+        }
+    }
+
+    return { white: 0, black: 0 };
+}
+
 // Memoized move count calculation
 const moveCountCache = new Map();
 function getMoveCountCached(movesString, gameId) {
@@ -141,6 +258,7 @@ function clearCaches() {
     kingMovesCache.clear();
     moveCountCache.clear();
     calculationCache.clear();
+    queenBlunderCache.clear();
 }
 
 // Memory cleanup utilities
@@ -154,6 +272,9 @@ function cleanupMemory() {
     }
     if (calculationCache.size > 1000) {
         calculationCache.clear();
+    }
+    if (queenBlunderCache.size > 10000) {
+        queenBlunderCache.clear();
     }
     
     // Force garbage collection hint (if available)
@@ -220,6 +341,7 @@ function estimateMemoryUsage(obj) {
 if (typeof window !== 'undefined') {
     window.optimizations = {
         countKingMovesCached,
+        countQueenBlundersCached,
         getMoveCountCached,
         precomputeGameMetadata,
         debounce,

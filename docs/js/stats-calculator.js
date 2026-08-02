@@ -75,17 +75,17 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
         player1Name,
         player2Name,
         totalGames: allGames.length,
-        player1: { 
+        player1: {
             wins: 0, losses: 0, draws: 0, bestStreak: 0, currentStreak: 0,
-            accuracy: [], blunders: 0, mistakes: 0, inaccuracies: 0,
+            accuracy: [], blunders: 0, mistakes: 0, inaccuracies: 0, queensBlundered: 0,
             winsAsWhite: 0, winsAsBlack: 0, gamesAsWhite: 0, gamesAsBlack: 0,
             kingWalks: [], fastestWin: Infinity, fastestWinId: null,
             firstMoves: {}, avgTimeRemaining: [], timePressureWins: 0,
             byTermination: {}
         },
-        player2: { 
+        player2: {
             wins: 0, losses: 0, draws: 0, bestStreak: 0, currentStreak: 0,
-            accuracy: [], blunders: 0, mistakes: 0, inaccuracies: 0,
+            accuracy: [], blunders: 0, mistakes: 0, inaccuracies: 0, queensBlundered: 0,
             winsAsWhite: 0, winsAsBlack: 0, gamesAsWhite: 0, gamesAsBlack: 0,
             kingWalks: [], fastestWin: Infinity, fastestWinId: null,
             firstMoves: {}, avgTimeRemaining: [], timePressureWins: 0,
@@ -294,6 +294,18 @@ function calculateStats(gamesByMonth, globalGamesByMonth, getPlayerNames) {
                     stats.player2.kingWalks.push(kingMoves.white);
                     monthStat.player1KingMoves.push(kingMoves.black);
                     monthStat.player2KingMoves.push(kingMoves.white);
+                }
+
+                // Count queen blunders (use cached version if available)
+                const queenBlunders = typeof window !== 'undefined' && window.optimizations && window.optimizations.countQueenBlundersCached
+                    ? window.optimizations.countQueenBlundersCached(game)
+                    : { white: 0, black: 0 };
+                if (isPlayer1White) {
+                    stats.player1.queensBlundered += queenBlunders.white;
+                    stats.player2.queensBlundered += queenBlunders.black;
+                } else {
+                    stats.player1.queensBlundered += queenBlunders.black;
+                    stats.player2.queensBlundered += queenBlunders.white;
                 }
 
                 // Track first move (only when player is white)

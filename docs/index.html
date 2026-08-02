@@ -832,6 +832,10 @@
     <script type="module">
         import { Chess } from 'https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js';
         window.Chess = Chess;
+        // This module script is deferred and loads after main.js has already
+        // run its first render, so anything gated on window.Chess (e.g. the
+        // queen-blunder stat) needs a nudge to recompute once it's ready.
+        window.dispatchEvent(new Event('chess-ready'));
     </script>
     <script src="js/explorer.js"></script>
     <script src="js/main.js"></script>

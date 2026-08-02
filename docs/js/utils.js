@@ -384,3 +384,8 @@ function initThemeToggle() {
 }
 
 initThemeToggle();
+
+// chess.js (used for the queens-blundered stat) loads via a deferred module
+// script and isn't ready for the very first stats render - once it is,
+// replay the current route so stats pick up the numbers it was missing.
+window.addEventListener('chess-ready', () => window.dispatchEvent(new Event('hashchange')), { once: true });

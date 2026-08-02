@@ -357,6 +357,11 @@ function displayPlayerComparisonStats(stats) {
                         <td class="px-2 py-2 text-center text-blue-400 font-bold">${stats.player2.blunders}</td>
                     </tr>
                     <tr class="hover:bg-gray-700">
+                        <td class="px-2 py-2 font-semibold text-gray-300" title="Queen captured on the move right after a blunder - i.e. it was hung">Queens Blundered</td>
+                        <td class="px-2 py-2 text-center text-red-400 font-bold">${stats.player1.queensBlundered}</td>
+                        <td class="px-2 py-2 text-center text-blue-400 font-bold">${stats.player2.queensBlundered}</td>
+                    </tr>
+                    <tr class="hover:bg-gray-700">
                         <td class="px-2 py-2 font-semibold text-gray-300">Mistakes</td>
                         <td class="px-2 py-2 text-center text-red-400 font-bold">${stats.player1.mistakes}</td>
                         <td class="px-2 py-2 text-center text-blue-400 font-bold">${stats.player2.mistakes}</td>
