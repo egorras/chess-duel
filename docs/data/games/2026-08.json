@@ -18658,5 +18658,58 @@
         }
       }
     }
+  },
+  {
+    "id": "GN99l9XP",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1785839058059,
+    "lastMoveAt": 1785839074758,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1829
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1719
+      }
+    },
+    "fullId": "GN99l9XPDY5f",
+    "winner": "white",
+    "opening": {
+      "eco": "B01",
+      "name": "Scandinavian Defense: Mieses-Kotroc Variation",
+      "ply": 4
+    },
+    "moves": "e4 d5 exd5 Qxd5 Nc3 Qc6 d4 Nf6 Bb5",
+    "clocks": [
+      30003,
+      30003,
+      29867,
+      29955,
+      29819,
+      29851,
+      29627,
+      29779,
+      29373,
+      28909
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {}
   }
 ]
