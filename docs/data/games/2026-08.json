@@ -24560,5 +24560,317 @@
         }
       }
     }
+  },
+  {
+    "id": "BjazmsMX",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1785931405395,
+    "lastMoveAt": 1785931628633,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1829
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1728
+      }
+    },
+    "fullId": "BjazmsMXfIPd",
+    "winner": "white",
+    "opening": {
+      "eco": "B13",
+      "name": "Caro-Kann Defense: Exchange Variation",
+      "ply": 5
+    },
+    "moves": "e4 c6 d4 d5 exd5 Qxd5 Nc3 Qe6+ Be2 Nf6 Nf3 Nbd7 O-O h6 Re1 Qd6 Be3 g5 Ne5 Nxe5 dxe5 Qxe5 Qd2 Bd7 Rad1 O-O-O Bd4 Qf5 Bxa7 e6 Qe3 Be7 Qb6 Qxc2 Ba6 Nd5 Qxb7#",
+    "clocks": [
+      30003,
+      30003,
+      29811,
+      29923,
+      29563,
+      29683,
+      29219,
+      29459,
+      28651,
+      29339,
+      28515,
+      29051,
+      28387,
+      28915,
+      28283,
+      28659,
+      26651,
+      26563,
+      26051,
+      26363,
+      25795,
+      25923,
+      25595,
+      25299,
+      25427,
+      25083,
+      24715,
+      23843,
+      23803,
+      23155,
+      23195,
+      21731,
+      22971,
+      19003,
+      21347,
+      18296,
+      21147
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 23
+    }
+  },
+  {
+    "id": "80B4ZQKq",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1785931630087,
+    "lastMoveAt": 1785931641574,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1728
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1829
+      }
+    },
+    "fullId": "80B4ZQKqHY7C",
+    "winner": "black",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense: Hillbilly Attack",
+      "ply": 3
+    },
+    "moves": "e4 c6 Bc4 d5 exd5 cxd5 Bb3 Nc6 d3 Nf6 Be3 Bg4 Nd2 Bxd1",
+    "clocks": [
+      30003,
+      30003,
+      29955,
+      29939,
+      29955,
+      29907,
+      29939,
+      29835,
+      29867,
+      29675,
+      29819,
+      29531,
+      29771,
+      29402,
+      29566
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {}
+  },
+  {
+    "id": "QKqh1r80",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1785931644973,
+    "lastMoveAt": 1785932212853,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1829
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1728
+      }
+    },
+    "fullId": "QKqh1r80gv6x",
+    "winner": "black",
+    "opening": {
+      "eco": "B01",
+      "name": "Scandinavian Defense: Main Line",
+      "ply": 6
+    },
+    "moves": "e4 d5 exd5 Qxd5 Nc3 Qa5 g3 Nf6 Bg2 c6 Nge2 Bf5 d4 e6 O-O Bd6 Bd2 Nbd7 Ne4 Qc7 Nxf6+ Nxf6 c4 h5 h3 h4 Kh2 hxg3+ fxg3 Ng4+ Kg1 Bxg3 Nxg3 Qxg3 hxg4 Bxg4 Qe1 Qh2+ Kf2 Qg3+ Kg1 Qd3 Qf2 Rf8 b3 O-O-O Be3 Qg6 Qf4 Bh3 Qg5 Bxg2 Kxg2 Qxg5+ Bxg5 f6 Be3 f5 Rae1 Kd7 Bg5 Rde8 Kf3 Rh8 Ke3 Rh2 Rf2 Rh3+ Kd2 Rg3 Bf4 Rg4 Be3 g5 Kd3 f4 Bd2 Rg3+ Kc2 Rh8 Rfe2 Rh6 d5 f3 dxe6+ Ke7 Rf2 Rg6 Re4 g4 Bf4 Rg1 Rd2 g3 Rd7+ Ke8 Red4 f2 Rd8+ Ke7 R4d7+ Kxe6 Rd6+ Kf5 Rf8+ Ke4 Bxg3 f1=Q Re6+ Kd4 Rd8+ Kc5 Re5+ Kb6 a4 Qc1+ Kd3 R1xg3+ Ke4 Qe3+ Kf5 Qg5+ Ke4 Re3+ Kd4 Qxe5#",
+    "clocks": [
+      30003,
+      30003,
+      29867,
+      30003,
+      29779,
+      29947,
+      29667,
+      29899,
+      29619,
+      29787,
+      29483,
+      29731,
+      29419,
+      29627,
+      29379,
+      29403,
+      29331,
+      29227,
+      29123,
+      29043,
+      28947,
+      29043,
+      28635,
+      28787,
+      28291,
+      28507,
+      27915,
+      28091,
+      27915,
+      27651,
+      27291,
+      26643,
+      26419,
+      25843,
+      25347,
+      25539,
+      24355,
+      23987,
+      24259,
+      23883,
+      24091,
+      22731,
+      23363,
+      21355,
+      23011,
+      21035,
+      22027,
+      20075,
+      21443,
+      19699,
+      18571,
+      18163,
+      17595,
+      17859,
+      17595,
+      17771,
+      17379,
+      17363,
+      17075,
+      17107,
+      16859,
+      16883,
+      16395,
+      16515,
+      15851,
+      16179,
+      15555,
+      15883,
+      15227,
+      15651,
+      14755,
+      15555,
+      14459,
+      15035,
+      12827,
+      14811,
+      12387,
+      14259,
+      12211,
+      13139,
+      11963,
+      12939,
+      11251,
+      11299,
+      10827,
+      11163,
+      10107,
+      10939,
+      8523,
+      10683,
+      8187,
+      9763,
+      7307,
+      8867,
+      7035,
+      8635,
+      6451,
+      7875,
+      6195,
+      7779,
+      5371,
+      7531,
+      5315,
+      7371,
+      4675,
+      6827,
+      4315,
+      5667,
+      3643,
+      5459,
+      3211,
+      5283,
+      2763,
+      4995,
+      1283,
+      4843,
+      1107,
+      4395,
+      870,
+      4235,
+      704,
+      4099,
+      585,
+      3899,
+      440,
+      3774
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 18,
+      "end": 54
+    }
   }
 ]
