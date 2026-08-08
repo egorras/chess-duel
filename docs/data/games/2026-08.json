@@ -52659,5 +52659,232 @@
         }
       }
     }
+  },
+  {
+    "id": "Mb8gpuP5",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1786188188693,
+    "lastMoveAt": 1786188640658,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1829
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1717
+      }
+    },
+    "fullId": "Mb8gpuP5qISh",
+    "winner": "black",
+    "opening": {
+      "eco": "B12",
+      "name": "Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense",
+      "ply": 6
+    },
+    "moves": "e4 c6 d4 d5 e5 c5 dxc5 e6 b4 Nc6 a3 Bd7 Nf3 g6 Bg5 Qc7 Bf4 Bg7 Qe2 Nge7 b5 Nd8 Qe3 Nf5 Qc3 Rc8 Bd3 Qxc5 Qxc5 Rxc5 a4 O-O O-O h5 Bd2 b6 Bb4 Nb7 Bxc5 Nxc5 Nbd2 Rc8 Rac1 Nxa4 Bxf5 exf5 c4 dxc4 Rxc4 Nc5 Rd1 Bxb5 Rc3 Re8 Re3 Ne6 Ne1 a5 g3 Bc6 f4 b5 Nb3 a4 Na5 Be4 Rc1 b4 Nc2 b3 Nb4 b2 Rce1 b1=Q Rxb1 Bxb1 Ra3 Be4 Rxa4 Rd8 Ra1 Bf8 Na6 Nd4 Nc7 Nf3+ Kf2 Rd2+ Ke3 Bc5#",
+    "clocks": [
+      30003,
+      30003,
+      29875,
+      29891,
+      29515,
+      29811,
+      28947,
+      29707,
+      28747,
+      29363,
+      28403,
+      28891,
+      28163,
+      28755,
+      27931,
+      28339,
+      27035,
+      28227,
+      24723,
+      27979,
+      23699,
+      26875,
+      22283,
+      26179,
+      21187,
+      25259,
+      19907,
+      24811,
+      19379,
+      24811,
+      19003,
+      24035,
+      18699,
+      23427,
+      18587,
+      22491,
+      18435,
+      21931,
+      18299,
+      21931,
+      17955,
+      21515,
+      17579,
+      20139,
+      17371,
+      19755,
+      16955,
+      18915,
+      16427,
+      18683,
+      15779,
+      18475,
+      15139,
+      17883,
+      13643,
+      16723,
+      12915,
+      16211,
+      12659,
+      15827,
+      12291,
+      15043,
+      12147,
+      14859,
+      11963,
+      14547,
+      10931,
+      14035,
+      10667,
+      13891,
+      10227,
+      13555,
+      9443,
+      13379,
+      9355,
+      13347,
+      8659,
+      12691,
+      8395,
+      12203,
+      7947,
+      11435,
+      7579,
+      11075,
+      6059,
+      10891,
+      5763,
+      10787,
+      5544,
+      10441
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 20
+    }
+  },
+  {
+    "id": "RJruX5Sl",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1786188643763,
+    "lastMoveAt": 1786188832663,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1717
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1829
+      }
+    },
+    "fullId": "RJruX5SlVonK",
+    "winner": "white",
+    "opening": {
+      "eco": "B27",
+      "name": "Sicilian Defense",
+      "ply": 3
+    },
+    "moves": "e4 c5 Nf3 d5 exd5 Qxd5 Nc3 Qd8 Bc4 Nc6 Ng5 e6 d3 g6 Be3 Bg7 O-O b6 Qf3 Nf6 Qxc6+ Bd7 Qf3 O-O Nce4 Nh5 c3 Rc8 Nd6 Bc6 Qf4 Nxf4 Bxf4 Ra8 Rfe1 f6 Nxe6 Qd7 Nxf8+ Kh8 Nxd7 Bxd7 Nf7+ Kg8 Nh6+ Kf8 Bd6#",
+    "clocks": [
+      30003,
+      30003,
+      29971,
+      29803,
+      29971,
+      29619,
+      29827,
+      29451,
+      29691,
+      29371,
+      29515,
+      29107,
+      29251,
+      28787,
+      28947,
+      28715,
+      28635,
+      28539,
+      28299,
+      27307,
+      28115,
+      26691,
+      27859,
+      26579,
+      27331,
+      26115,
+      26707,
+      25947,
+      26275,
+      25043,
+      24987,
+      23163,
+      24435,
+      21931,
+      23379,
+      21435,
+      23179,
+      20731,
+      22995,
+      20291,
+      22531,
+      20291,
+      22211,
+      20131,
+      21915,
+      20134,
+      21709
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 19
+    }
   }
 ]
