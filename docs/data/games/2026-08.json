@@ -59505,5 +59505,298 @@
     "division": {
       "middle": 24
     }
+  },
+  {
+    "id": "xAMwEObK",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1786297404704,
+    "lastMoveAt": 1786297636956,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1712
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1829
+      }
+    },
+    "fullId": "xAMwEObKBJ9Y",
+    "winner": "white",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense: Hillbilly Attack",
+      "ply": 3
+    },
+    "moves": "e4 c6 Bc4 d5 exd5 cxd5 Bb3 Nc6 d3 Nf6 Nf3 Bg4 h3 Bh5 Bg5 e6 Nbd2 Be7 c3 O-O d4 Qb6 Qc2 Bg6 Qd1 Bh5 g4 Bg6 O-O Rac8 Ne5 h6 Bxf6 Bxf6 Nd7 Qc7 Nxf8 Rxf8 Qf3 Re8 Ba4 Qd6 Bxc6 bxc6 Rfe1 Qb8 Nb3 Bd8 h4 Qd6 h5 Be4 Qg3 Qd7 f3 Bc7 Qh3 Bd3 Nc5 Bc4 Nxd7",
+    "clocks": [
+      30003,
+      30003,
+      29891,
+      30003,
+      29771,
+      30003,
+      29683,
+      29955,
+      29555,
+      29819,
+      29459,
+      29747,
+      29251,
+      29643,
+      28939,
+      29507,
+      28611,
+      29331,
+      28107,
+      29139,
+      27763,
+      28947,
+      27299,
+      28803,
+      27051,
+      28515,
+      26851,
+      28387,
+      24571,
+      28219,
+      22691,
+      26859,
+      22451,
+      26243,
+      21851,
+      26011,
+      21563,
+      25859,
+      21203,
+      25203,
+      20915,
+      24899,
+      20747,
+      24899,
+      20083,
+      24347,
+      19875,
+      23779,
+      19643,
+      23363,
+      19211,
+      23267,
+      18531,
+      23131,
+      18019,
+      22683,
+      17115,
+      22043,
+      16803,
+      21475,
+      16641,
+      21181
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 15
+    }
+  },
+  {
+    "id": "53zCU6IN",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1786297641432,
+    "lastMoveAt": 1786297729643,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1829
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1712
+      }
+    },
+    "fullId": "53zCU6INc2e8",
+    "winner": "black",
+    "opening": {
+      "eco": "B12",
+      "name": "Caro-Kann Defense: Advance Variation",
+      "ply": 5
+    },
+    "moves": "e4 c6 d4 d5 e5 Bf5 Bd3 Bg6 Bxg6 hxg6 Nf3 e6 Bg5 Be7 Qd2 Nd7 Qf4 Qb6 Bxe7 Nxe7 Ng5 Nf5 b3 Qxd4 Nd2 Qxa1+",
+    "clocks": [
+      30003,
+      30003,
+      29891,
+      29947,
+      29891,
+      29747,
+      29747,
+      29595,
+      29603,
+      29595,
+      29547,
+      29547,
+      29315,
+      29451,
+      29091,
+      28619,
+      28851,
+      27011,
+      28555,
+      27011,
+      28355,
+      25187,
+      27691,
+      25019,
+      26803,
+      24828,
+      26457
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 20
+    }
+  },
+  {
+    "id": "45qjb3sD",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1786297734879,
+    "lastMoveAt": 1786297987783,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1712
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1829
+      }
+    },
+    "fullId": "45qjb3sDyVTB",
+    "winner": "black",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense",
+      "ply": 2
+    },
+    "moves": "e4 c6 Nf3 d5 e5 c5 d4 Nc6 Bb5 Bg4 Be3 e6 h3 Bxf3 gxf3 Qb6 a4 a6 Bxc6+ bxc6 b3 Qb4+ c3 Qb6 Rg1 Ne7 Qc2 Nf5 dxc5 Bxc5 Bxc5 Qxc5 b4 Qb6 Nd2 O-O O-O-O Qc7 f4 c5 Rg5 cxb4 cxb4 Qe7 Qb3 Rfc8+ Kb1 Rab8 Rc1 h6 Rxc8+ Rxc8 Rg1 Nd4 Qd3 Qxb4+ Ka2 Qxa4+ Kb1 Qb4+ Ka1 Rc2 Rxg7+ Kxg7 Qg3+ Kf8 Nb1 Qb2#",
+    "clocks": [
+      30003,
+      30003,
+      29827,
+      30003,
+      29763,
+      29923,
+      29651,
+      29875,
+      29491,
+      29803,
+      29355,
+      29699,
+      29259,
+      29579,
+      28979,
+      29451,
+      28779,
+      29107,
+      28595,
+      29027,
+      28427,
+      28251,
+      28195,
+      27883,
+      27235,
+      27683,
+      26451,
+      27499,
+      25507,
+      27275,
+      25355,
+      27163,
+      25011,
+      26851,
+      24395,
+      26539,
+      23723,
+      26131,
+      23571,
+      25467,
+      22275,
+      25155,
+      22035,
+      24587,
+      21147,
+      24371,
+      20827,
+      24259,
+      19923,
+      24011,
+      19659,
+      23851,
+      19459,
+      23075,
+      19099,
+      22667,
+      18867,
+      21891,
+      18723,
+      20627,
+      18475,
+      20051,
+      17187,
+      19763,
+      16603,
+      19651,
+      16097,
+      19502
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 15,
+      "end": 52
+    }
   }
 ]
