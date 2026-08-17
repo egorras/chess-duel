@@ -90847,5 +90847,215 @@
     "division": {
       "middle": 27
     }
+  },
+  {
+    "id": "Kk8Lq6s6",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1786965352291,
+    "lastMoveAt": 1786965783517,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1706
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1843
+      }
+    },
+    "fullId": "Kk8Lq6s6sxYX",
+    "winner": "black",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense",
+      "ply": 2
+    },
+    "moves": "e4 c6 Nf3 d5 e5 Bg4 d4 c5 Be2 e6 h3 Bxf3 Bxf3 cxd4 Qxd4 Nc6 Qa4 Ne7 Bg5 Qb6 b3 Ng6 Be3 Bc5 Bxc5 Qxc5 c3 Nxe5 Be2 O-O O-O a6 b4 Qe7 Qc2 Rac8 Re1 Nxb4 Qb2 Nbc6 Nd2 b5 a4 Nc4 Nxc4 bxc4 Bf3 Na5 Qb6 Nb3 Rab1 a5 Bxd5 Qc5 Qxc5 Rxc5 Bxc4 Nd2 Rb5 Rxc4 Rxa5 g6 Rb5 Rfc8 Ra1 Rxc3 a5 Nb3 Ra2 Nd4 Rb7 Ra8 a6 Nc6 Rc7 Nb4 Rxc3 Nxa2 Ra3 Nb4 a7 Nc6",
+    "clocks": [
+      30003,
+      30003,
+      29835,
+      30003,
+      29723,
+      29803,
+      29587,
+      29683,
+      29459,
+      29515,
+      28819,
+      29387,
+      23979,
+      29251,
+      23859,
+      29059,
+      23675,
+      28291,
+      23467,
+      27995,
+      22299,
+      27579,
+      21283,
+      27043,
+      20451,
+      26907,
+      19259,
+      26339,
+      18675,
+      25459,
+      18515,
+      24627,
+      18435,
+      24371,
+      17979,
+      23763,
+      17627,
+      23395,
+      17243,
+      22579,
+      17123,
+      21963,
+      17003,
+      21603,
+      16851,
+      21603,
+      15779,
+      21123,
+      15371,
+      19891,
+      15131,
+      18835,
+      14371,
+      16739,
+      13107,
+      16739,
+      12779,
+      15995,
+      11051,
+      15467,
+      10931,
+      14987,
+      10371,
+      14859,
+      10131,
+      14547,
+      10035,
+      14059,
+      9683,
+      13651,
+      9459,
+      13003,
+      9291,
+      12579,
+      8827,
+      11331,
+      7651,
+      11211,
+      7627,
+      11059,
+      7515,
+      10963,
+      7143
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 22,
+      "end": 56
+    }
+  },
+  {
+    "id": "fuiPT4UN",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1786965788452,
+    "lastMoveAt": 1786965932862,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1843
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1706
+      }
+    },
+    "fullId": "fuiPT4UNghHv",
+    "winner": "white",
+    "opening": {
+      "eco": "C40",
+      "name": "King's Pawn Game: Gunderam Gambit",
+      "ply": 4
+    },
+    "moves": "e4 e5 Nf3 c6 d4 d6 dxe5 dxe5 Qxd8+ Kxd8 Nxe5 Be6 Nc3 Bb4 Bd2 Ne7 O-O-O Ng6 Bg5+ Kc7 Nxg6 hxg6 Ne2 Nd7 g3 Nc5 Bg2 f6 a3 fxg5 axb4 Nd7 Nd4 a5 Nxe6+",
+    "clocks": [
+      30003,
+      30003,
+      29907,
+      29963,
+      29827,
+      29843,
+      29723,
+      29691,
+      29627,
+      29691,
+      29555,
+      29203,
+      29403,
+      28987,
+      29227,
+      28691,
+      29011,
+      28579,
+      28659,
+      27683,
+      27355,
+      27243,
+      26563,
+      25443,
+      26059,
+      25187,
+      25851,
+      24051,
+      25779,
+      22651,
+      25547,
+      22315,
+      25003,
+      21267,
+      24852,
+      21142
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 19
+    }
   }
 ]
