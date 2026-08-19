@@ -101676,5 +101676,212 @@
         }
       }
     }
+  },
+  {
+    "id": "pTAANrGh",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1787126117382,
+    "lastMoveAt": 1787126474772,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1843
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1723
+      }
+    },
+    "fullId": "pTAANrGhkzJb",
+    "winner": "white",
+    "opening": {
+      "eco": "B13",
+      "name": "Caro-Kann Defense: Exchange Variation",
+      "ply": 6
+    },
+    "moves": "e4 c6 d4 d5 exd5 cxd5 Bd3 Nc6 c3 Nf6 Nd2 Bg4 Ngf3 e6 O-O Bd6 Re1 Qc7 h3 Bh5 Nb3 h6 Nc5 Bxc5 dxc5 Nd7 b4 Ne7 Bb2 Rg8 c4 O-O-O Qa4 Kb8 Nd4 g5 Nb5 Qc6 Qxa7+ Kc8 Nd6+ Kc7 Bd4 Ra8 b5 Rxa7 bxc6 bxc6 cxd5 cxd5 Nb5+ Kb7 Nxa7 Kxa7 c6+ Kb8 cxd7 Kc7 Bb5 Nf5 Bf6 Nd6 d8=Q+ Rxd8 Bxd8+ Kxd8 a4 Ne4 a5 f5 a6 f4 a7",
+    "clocks": [
+      30003,
+      30003,
+      29755,
+      29875,
+      29755,
+      29707,
+      29707,
+      29123,
+      29027,
+      28723,
+      28571,
+      28659,
+      28323,
+      28571,
+      28267,
+      28483,
+      28155,
+      28339,
+      28003,
+      27907,
+      27651,
+      27515,
+      26739,
+      25323,
+      26635,
+      24507,
+      26387,
+      23939,
+      26059,
+      23291,
+      24411,
+      22723,
+      23171,
+      21939,
+      21043,
+      20123,
+      20931,
+      19403,
+      20267,
+      19299,
+      17907,
+      18547,
+      17075,
+      17771,
+      15803,
+      16843,
+      15691,
+      16483,
+      15203,
+      15731,
+      14955,
+      15611,
+      14867,
+      15515,
+      14771,
+      15427,
+      14699,
+      15347,
+      14075,
+      14963,
+      13595,
+      14379,
+      12891,
+      14339,
+      12771,
+      14339,
+      12635,
+      14139,
+      11787,
+      14003,
+      11699,
+      13723,
+      11472,
+      13492
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 18,
+      "end": 65
+    }
+  },
+  {
+    "id": "KFcgAHcu",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1787126478232,
+    "lastMoveAt": 1787126597488,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1723
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1843
+      }
+    },
+    "fullId": "KFcgAHculArW",
+    "winner": "white",
+    "opening": {
+      "eco": "B20",
+      "name": "Sicilian Defense: Bowdler Attack",
+      "ply": 3
+    },
+    "moves": "e4 c5 Bc4 Nc6 Nf3 g6 d3 Bg7 c3 Nf6 Bg5 h6 Bh4 O-O h3 d5 e5 dxc4 exf6 exf6 dxc4 Qxd1+ Kxd1 f5 Kc2 Be6 b3 Rad8 Nbd2 a6 Bxd8 Rxd8 Rad1 b5 cxb5 axb5 c4 b4 Rhe1 Rd3 Kxd3",
+    "clocks": [
+      30003,
+      30003,
+      29899,
+      29875,
+      29619,
+      29811,
+      29515,
+      29739,
+      29307,
+      29171,
+      28395,
+      29011,
+      28283,
+      28939,
+      27987,
+      28835,
+      27675,
+      28643,
+      27563,
+      28251,
+      26395,
+      27979,
+      26395,
+      27571,
+      26115,
+      27387,
+      25939,
+      27059,
+      25683,
+      26827,
+      25547,
+      26595,
+      25203,
+      26291,
+      24315,
+      26139,
+      24059,
+      25931,
+      23547,
+      25803,
+      23223,
+      25303
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 23
+    }
   }
 ]
