@@ -106263,5 +106263,130 @@
         }
       }
     }
+  },
+  {
+    "id": "TKfC1Ubb",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1787309320062,
+    "lastMoveAt": 1787309682024,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1843
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1723
+      }
+    },
+    "fullId": "TKfC1UbbWnew",
+    "winner": "white",
+    "opening": {
+      "eco": "B01",
+      "name": "Scandinavian Defense: Main Line, Mieses Variation",
+      "ply": 8
+    },
+    "moves": "e4 d5 exd5 Nf6 d4 Qxd5 Nc3 Qa5 g3 Bf5 Bg2 c6 Ne2 e6 O-O Bd6 Bf4 Qc7 Bxd6 Qxd6 Re1 Nbd7 Nf4 h6 Nce2 O-O-O c3 g5 Nh3 Bg6 Qa4 a6 b4 Nb6 Qa5 Qc7 Qc5 Nfd5 a4 Nd7 Qc4 N7b6 Qc5 Nd7 Qc4 g4 Nhf4 Nxf4 Nxf4 h5 Nxg6 fxg6 Qxe6 h4 Qxg6 Rdg8 Qe6 hxg3 fxg3 Kb8 Re4 Re8 Qxg4 Nf6 Rxe8+ Rxe8 Qg6 Qe7 h4 Qe3+ Kh2 Qxc3 Qxf6 Qxa1 Qd6+ Kc8 Bh3+ Re6 Bxe6#",
+    "clocks": [
+      30003,
+      30003,
+      29891,
+      29915,
+      29619,
+      29771,
+      29323,
+      29643,
+      29139,
+      29427,
+      29035,
+      29307,
+      28883,
+      28939,
+      28771,
+      28491,
+      28531,
+      28275,
+      28371,
+      28275,
+      28163,
+      28075,
+      27899,
+      26947,
+      27683,
+      26651,
+      27427,
+      26195,
+      26675,
+      25427,
+      26203,
+      25131,
+      25347,
+      24851,
+      25139,
+      24467,
+      21531,
+      24051,
+      21139,
+      23635,
+      20475,
+      23387,
+      20339,
+      23283,
+      20211,
+      21947,
+      19843,
+      21307,
+      19699,
+      20587,
+      17323,
+      20451,
+      17195,
+      19307,
+      16867,
+      19019,
+      15635,
+      18235,
+      15531,
+      17571,
+      14619,
+      17411,
+      14435,
+      16563,
+      14235,
+      16403,
+      13339,
+      16043,
+      12179,
+      15715,
+      11955,
+      15587,
+      11803,
+      15483,
+      11091,
+      14571,
+      10891,
+      14052,
+      10582
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 22,
+      "end": 66
+    }
   }
 ]
