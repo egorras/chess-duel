@@ -115333,5 +115333,198 @@
       "middle": 13,
       "end": 55
     }
+  },
+  {
+    "id": "1NylQwgo",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1787750361878,
+    "lastMoveAt": 1787750812680,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1843
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1723
+      }
+    },
+    "fullId": "1NylQwgoX1Wt",
+    "winner": "white",
+    "opening": {
+      "eco": "B22",
+      "name": "Sicilian Defense: Alapin Variation",
+      "ply": 3
+    },
+    "moves": "e4 c5 c3 Nc6 d4 d6 dxc5 dxc5 Qxd8+ Nxd8 Bc4 e6 Nf3 Bd6 O-O a6 Rd1 Be7 Ne5 b5 Bd3 c4 Bc2 Nf6 f3 O-O Bf4 Bc5+ Kh1 Nb7 Nd2 h6 a4 Nh5 Bg3 Nxg3+ hxg3 f6 Ng4 h5 Nh2 Nd6 axb5 Nxb5 Nxc4 Bb7 g4 hxg4 Nxg4 f5 exf5 exf5 Nge5 g5 Nd7 Rfc8 Bxf5 Kg7 Na3 Rh8+ Bh3 Bf2 Rd2 Rxh3+ gxh3 Bxf3+ Kh2 Be3 Rd3 Bf4+ Kg1 Be4 Rdd1 Rh8 Nxb5 Rxh3 Nd4 Be3+ Kf1 Rh1+ Ke2 Bf3+ Kxf3",
+    "clocks": [
+      30003,
+      30003,
+      28987,
+      29875,
+      28931,
+      29571,
+      28659,
+      29467,
+      28219,
+      29467,
+      28019,
+      29259,
+      27947,
+      28971,
+      27363,
+      28819,
+      27307,
+      27683,
+      27139,
+      27043,
+      26571,
+      26843,
+      26475,
+      26299,
+      26171,
+      26051,
+      25995,
+      25843,
+      25795,
+      23203,
+      25459,
+      22339,
+      25187,
+      19963,
+      24787,
+      19819,
+      24787,
+      18115,
+      24299,
+      17819,
+      23787,
+      17531,
+      23507,
+      17363,
+      23203,
+      16939,
+      22259,
+      16307,
+      22083,
+      16107,
+      21987,
+      15987,
+      21739,
+      13803,
+      21611,
+      13427,
+      21435,
+      12563,
+      20355,
+      12331,
+      19947,
+      11291,
+      18387,
+      10715,
+      18267,
+      10635,
+      17979,
+      10131,
+      17195,
+      9979,
+      16899,
+      7179,
+      15307,
+      6867,
+      14555,
+      6483,
+      13603,
+      5339,
+      13323,
+      3483,
+      13147,
+      3363,
+      12858,
+      3205
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 28,
+      "end": 83
+    }
+  },
+  {
+    "id": "HS1sJaDI",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1787750815334,
+    "lastMoveAt": 1787750875236,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1723
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1843
+      }
+    },
+    "fullId": "HS1sJaDIOnsD",
+    "winner": "black",
+    "opening": {
+      "eco": "B20",
+      "name": "Sicilian Defense: Bowdler Attack",
+      "ply": 3
+    },
+    "moves": "e4 c5 Bc4 Nc6 d3 Nf6 Be3 d5 Ne2 dxc4 dxc4 Nxe4 Qc1 g6 f3 Nf6 Bxc5 Qa5+ c3",
+    "clocks": [
+      30003,
+      30003,
+      29867,
+      29939,
+      29755,
+      29563,
+      29659,
+      29147,
+      29595,
+      29003,
+      29531,
+      28739,
+      29235,
+      26987,
+      29163,
+      26443,
+      29043,
+      26035,
+      28405,
+      25890
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {}
   }
 ]
