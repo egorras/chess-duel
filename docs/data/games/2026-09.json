@@ -2737,5 +2737,192 @@
         }
       }
     }
+  },
+  {
+    "id": "XMnVGK8W",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1788342329302,
+    "lastMoveAt": 1788342473184,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1843
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1723
+      }
+    },
+    "fullId": "XMnVGK8WlUiy",
+    "winner": "black",
+    "opening": {
+      "eco": "B12",
+      "name": "Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense",
+      "ply": 6
+    },
+    "moves": "e4 c6 d4 d5 e5 c5 Nf3 e6 Bd3 c4 Be2 b5 a4 b4 c3 b3 O-O Nc6 Bg5 Be7 Bxe7 Qxe7 Qd2 f6 exf6 Nxf6 Re1 O-O Ng5 Ne4 Qe3 Qxg5 Qxg5 Nxg5 Nd2 Ne4 Nxe4 dxe4 Bh5 g6 Bg4 e5 Rxe4 exd4 cxd4 Bxg4 Rae1 Bf5 Re7 Nxe7 Rxe7",
+    "clocks": [
+      30003,
+      30003,
+      29859,
+      29827,
+      29779,
+      29587,
+      29587,
+      29419,
+      29243,
+      29283,
+      29043,
+      29147,
+      28907,
+      28971,
+      28579,
+      28835,
+      27979,
+      28571,
+      27187,
+      28227,
+      26979,
+      28227,
+      26851,
+      27787,
+      26451,
+      27787,
+      26075,
+      27419,
+      25483,
+      27163,
+      25163,
+      26579,
+      24283,
+      26579,
+      23787,
+      26451,
+      23499,
+      26451,
+      23155,
+      26291,
+      23051,
+      26051,
+      22819,
+      25907,
+      22731,
+      25699,
+      22291,
+      25419,
+      21563,
+      25195,
+      21517,
+      25060
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 18,
+      "end": 46
+    }
+  },
+  {
+    "id": "vYExdjni",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1788342475762,
+    "lastMoveAt": 1788342694690,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1723
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1843
+      }
+    },
+    "fullId": "vYExdjniKfSI",
+    "winner": "black",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense: Hillbilly Attack",
+      "ply": 3
+    },
+    "moves": "e4 c6 Bc4 d5 exd5 cxd5 Bb3 Nc6 d3 Nf6 Bg5 Bg4 f3 Bh5 g4 Bg6 h4 e6 Nd2 h5 gxh5 Bxh5 Qe2 Be7 O-O-O Rc8 Nh3 a5 a3 b5 Nf4 Nd4 Qf2 Qb6 c3 Nxb3+ Nxb3 Qxf2 Nxa5 Bxa3 bxa3 Rxc3+ Kb1",
+    "clocks": [
+      30003,
+      30003,
+      29867,
+      30003,
+      29819,
+      29963,
+      29787,
+      29915,
+      29691,
+      29499,
+      29595,
+      29435,
+      29291,
+      28867,
+      29115,
+      28763,
+      29051,
+      27867,
+      28739,
+      26995,
+      28163,
+      26867,
+      27835,
+      26315,
+      27115,
+      26131,
+      26403,
+      25947,
+      26155,
+      25843,
+      25963,
+      25547,
+      24187,
+      23619,
+      18715,
+      23123,
+      18251,
+      23027,
+      18043,
+      21075,
+      17827,
+      20891,
+      17745,
+      20490
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 13
+    }
   }
 ]
