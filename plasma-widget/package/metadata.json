@@ -1,0 +1,13 @@
+{
+  "KPackageStructure": "Plasma/Applet",
+  "KPlugin": {
+    "Id": "org.egorras.chessduel",
+    "Name": "Chess Duel",
+    "Description": "Monthly Lichess duel score and one-click challenges",
+    "Icon": "knights",
+    "Version": "0.1.0",
+    "License": "MIT",
+    "Authors": [{ "Name": "egorras" }]
+  },
+  "X-Plasma-API-Minimum-Version": "6.0"
+}

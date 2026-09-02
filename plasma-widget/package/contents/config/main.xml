@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0">
+  <kcfgfile name=""/>
+  <group name="General">
+    <entry name="opponent" type="String"><default></default></entry>
+    <entry name="statsUrl" type="String"><default>https://egorras.github.io/chess-duel/</default></entry>
+    <entry name="timeControl" type="String"><default>5+0</default></entry>
+    <entry name="confirmChallenge" type="Bool"><default>true</default></entry>
+    <entry name="autoRefreshMinutes" type="Int"><default>0</default></entry>
+  </group>
+</kcfg>

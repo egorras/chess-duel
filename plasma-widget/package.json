@@ -1,0 +1,9 @@
+{
+  "name": "chess-duel-plasma-widget",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node helper/server.js",
+    "test": "node --test helper/test/*.test.js"
+  }
+}

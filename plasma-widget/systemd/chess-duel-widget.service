@@ -1,0 +1,11 @@
+[Unit]
+Description=Chess Duel Plasma widget helper
+After=network-online.target
+
+[Service]
+ExecStart=%h/.local/lib/chess-duel-widget/server.js
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
