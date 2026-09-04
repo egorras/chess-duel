@@ -13482,5 +13482,206 @@
         }
       }
     }
+  },
+  {
+    "id": "AQVQusOh",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1788528250356,
+    "lastMoveAt": 1788528325046,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1723
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1843
+      }
+    },
+    "fullId": "AQVQusOh0taF",
+    "winner": "black",
+    "opening": {
+      "eco": "A06",
+      "name": "Zukertort Opening: Tennison Gambit",
+      "ply": 3
+    },
+    "moves": "Nf3 d5 e4 dxe4 Ng5 Nc6 Bb5 e5 Nxe4 Nf6 Bxc6+ bxc6 Ng3 Be7 d3 O-O Be3 Bb7 Qe2 Qd5 O-O c5 Nc3 Qxg2#",
+    "clocks": [
+      30003,
+      30003,
+      29915,
+      29899,
+      29859,
+      29819,
+      29667,
+      29179,
+      29211,
+      28291,
+      28907,
+      28187,
+      28115,
+      27987,
+      27979,
+      27867,
+      27579,
+      27723,
+      27075,
+      27203,
+      26467,
+      26883,
+      26359,
+      26744
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 20
+    }
+  },
+  {
+    "id": "YduiL1P0",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1788528330181,
+    "lastMoveAt": 1788528667423,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1843
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1723
+      }
+    },
+    "fullId": "YduiL1P0FBpf",
+    "winner": "white",
+    "opening": {
+      "eco": "C62",
+      "name": "Ruy Lopez: Steinitz Defense",
+      "ply": 6
+    },
+    "moves": "e4 e5 Nf3 Nc6 Bb5 d6 d3 Bd7 Nc3 a6 Bxc6 Bxc6 Bd2 Qd7 O-O f5 Re1 f4 d4 Be7 dxe5 g5 exd6 Qxd6 Qe2 O-O-O e5 Qd7 Red1 g4 Ne1 f3 gxf3 gxf3 Nxf3 Bc5 Bf4 Ne7 Rxd7 Rhg8+ Kf1 Rxd7 Rd1 Rxd1+ Qxd1 Rd8 Qe2 b5 Bg3 b4 Nd1 Bb5 Qxb5 axb5 Ne3 Bxe3 fxe3 Rd1+ Ke2 Ra1 Nd2 Rxa2 Kd3 Rxb2 Ne4 b3 cxb3 Rxb3+ Kd4 Nc6+ Kd5 Kd7 Nc5+ Ke7 Nxb3 Nd8 Kc5 c6 Nd4 Kd7 h4 Ne6+ Nxe6 Kxe6 Kxc6",
+    "clocks": [
+      30003,
+      30003,
+      29803,
+      29963,
+      29747,
+      29715,
+      29643,
+      29619,
+      29571,
+      29515,
+      29483,
+      29515,
+      29363,
+      29251,
+      29091,
+      29035,
+      28771,
+      28835,
+      28243,
+      28595,
+      28099,
+      27923,
+      27819,
+      27539,
+      26643,
+      27067,
+      25387,
+      26619,
+      24771,
+      25899,
+      24371,
+      25163,
+      23379,
+      24635,
+      23331,
+      23083,
+      23051,
+      22627,
+      22875,
+      22179,
+      22595,
+      22003,
+      20883,
+      20939,
+      20275,
+      20715,
+      20011,
+      20227,
+      19587,
+      20139,
+      19243,
+      20035,
+      17883,
+      20035,
+      17675,
+      19067,
+      17531,
+      18867,
+      17411,
+      18131,
+      16811,
+      16835,
+      15867,
+      16579,
+      15739,
+      16147,
+      15619,
+      16067,
+      15403,
+      15651,
+      14683,
+      15531,
+      14459,
+      15203,
+      14371,
+      14931,
+      13931,
+      14779,
+      13835,
+      14499,
+      13427,
+      14187,
+      13251,
+      14147,
+      13187,
+      14076
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 25,
+      "end": 54
+    }
   }
 ]
