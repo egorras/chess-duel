@@ -50837,5 +50837,227 @@
       "middle": 15,
       "end": 41
     }
+  },
+  {
+    "id": "RLwzUCJm",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1789978493405,
+    "lastMoveAt": 1789978991086,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1714
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1840
+      }
+    },
+    "fullId": "RLwzUCJmWfFN",
+    "winner": "black",
+    "opening": {
+      "eco": "B10",
+      "name": "Caro-Kann Defense",
+      "ply": 2
+    },
+    "moves": "e4 c6 f4 d5 e5 c5 Nf3 Nc6 Bb5 Bf5 d3 d4 Bd2 e6 h3 h5 Qe2 Qb6 Na3 a6 Bxc6+ bxc6 Nc4 Qc7 Ba5 Qb7 Nh4 Bh7 g4 Ne7 g5 Nd5 Nf3 Nxf4 Qd2 Nd5 h4 Be7 Nd6+ Bxd6 exd6 Qxb2 O-O Nc3 Ne5 O-O d7 Qa3 Nxc6 Nd5 d8=Q Raxd8 Bxd8 Ne3 Rf2 Ng4 Be7 Re8 Rf3 Ne3 Bd6 Bf5 Rxe3 dxe3 Qxe3 Qc3 Qxc5 Qxa1+ Kf2 Qxa2 Ne7+ Kh7 Nxf5 exf5 Qxf5+ Kg8 Qc5 Qe6 Bf4 Qe2+ Kg3 Qg4+ Kf2 Qxf4+ Kg2",
+    "clocks": [
+      30003,
+      30003,
+      29811,
+      30003,
+      29723,
+      29923,
+      29659,
+      29843,
+      29491,
+      29779,
+      29355,
+      29427,
+      29219,
+      29027,
+      28995,
+      28627,
+      28667,
+      28395,
+      28483,
+      27547,
+      28379,
+      27491,
+      28227,
+      26723,
+      28099,
+      25595,
+      24739,
+      24963,
+      24187,
+      24555,
+      23987,
+      24371,
+      23219,
+      24155,
+      22451,
+      23387,
+      20979,
+      23019,
+      19411,
+      22747,
+      19411,
+      22203,
+      18891,
+      21019,
+      18467,
+      18667,
+      17787,
+      17795,
+      16899,
+      15459,
+      16243,
+      15299,
+      16011,
+      14907,
+      12755,
+      14483,
+      12307,
+      13571,
+      11387,
+      13067,
+      10219,
+      12379,
+      9499,
+      12259,
+      9027,
+      11787,
+      8483,
+      11611,
+      7939,
+      9643,
+      7619,
+      9427,
+      7443,
+      9347,
+      7259,
+      8963,
+      5843,
+      8803,
+      4091,
+      8059,
+      3915,
+      7939,
+      3795,
+      7795,
+      3659,
+      7704
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 16,
+      "end": 68
+    }
+  },
+  {
+    "id": "VFSgyPGu",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1789978993349,
+    "lastMoveAt": 1789979154173,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1840
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1714
+      }
+    },
+    "fullId": "VFSgyPGujTek",
+    "winner": "white",
+    "opening": {
+      "eco": "C44",
+      "name": "Scotch Game",
+      "ply": 5
+    },
+    "moves": "e4 e5 Nf3 Nc6 d4 Bb4+ c3 Ba5 dxe5 Qe7 Bf4 h6 Bc4 g5 Bg3 h5 h4 g4 Ng5 Nxe5 Bxe5 Qxe5 Bxf7+ Ke7 O-O Nf6 Re1 d6 Nd2 Bd7 Nc4 Qc5 Qb3 b6 Rad1 Raf8 Nxa5 Rxf7 Qxf7+ Kd8 Nb7+ Kc8 Nxc5 bxc5",
+    "clocks": [
+      30003,
+      30003,
+      29923,
+      29963,
+      29827,
+      29875,
+      29723,
+      29675,
+      29411,
+      29483,
+      29155,
+      29315,
+      28995,
+      29163,
+      28907,
+      28491,
+      28491,
+      28355,
+      28371,
+      28131,
+      28011,
+      27771,
+      27363,
+      27323,
+      26835,
+      26995,
+      26539,
+      26523,
+      26227,
+      25283,
+      26035,
+      24739,
+      24875,
+      23795,
+      24203,
+      23219,
+      23027,
+      22811,
+      22819,
+      22659,
+      22435,
+      22547,
+      22259,
+      22397,
+      22178
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 25
+    }
   }
 ]
