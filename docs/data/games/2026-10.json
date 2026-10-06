@@ -11772,6 +11772,995 @@
     "division": {
       "middle": 20,
       "end": 64
+    },
+    "stockfishAnalysis": {
+      "engine": "stockfish",
+      "depth": 12,
+      "generatedAt": 1791250166823,
+      "positions": [
+        {
+          "cp": 40,
+          "mate": null
+        },
+        {
+          "cp": -10,
+          "mate": null
+        },
+        {
+          "cp": 22,
+          "mate": null
+        },
+        {
+          "cp": -21,
+          "mate": null
+        },
+        {
+          "cp": 8,
+          "mate": null
+        },
+        {
+          "cp": 25,
+          "mate": null
+        },
+        {
+          "cp": -39,
+          "mate": null
+        },
+        {
+          "cp": 45,
+          "mate": null
+        },
+        {
+          "cp": -52,
+          "mate": null
+        },
+        {
+          "cp": 107,
+          "mate": null
+        },
+        {
+          "cp": -28,
+          "mate": null
+        },
+        {
+          "cp": 85,
+          "mate": null
+        },
+        {
+          "cp": -60,
+          "mate": null
+        },
+        {
+          "cp": 104,
+          "mate": null
+        },
+        {
+          "cp": -82,
+          "mate": null
+        },
+        {
+          "cp": 92,
+          "mate": null
+        },
+        {
+          "cp": -85,
+          "mate": null
+        },
+        {
+          "cp": 92,
+          "mate": null
+        },
+        {
+          "cp": -48,
+          "mate": null
+        },
+        {
+          "cp": 53,
+          "mate": null
+        },
+        {
+          "cp": -32,
+          "mate": null
+        },
+        {
+          "cp": 42,
+          "mate": null
+        },
+        {
+          "cp": -29,
+          "mate": null
+        },
+        {
+          "cp": 28,
+          "mate": null
+        },
+        {
+          "cp": -43,
+          "mate": null
+        },
+        {
+          "cp": 69,
+          "mate": null
+        },
+        {
+          "cp": -60,
+          "mate": null
+        },
+        {
+          "cp": 172,
+          "mate": null
+        },
+        {
+          "cp": -128,
+          "mate": null
+        },
+        {
+          "cp": 138,
+          "mate": null
+        },
+        {
+          "cp": 71,
+          "mate": null
+        },
+        {
+          "cp": -62,
+          "mate": null
+        },
+        {
+          "cp": 45,
+          "mate": null
+        },
+        {
+          "cp": -45,
+          "mate": null
+        },
+        {
+          "cp": 61,
+          "mate": null
+        },
+        {
+          "cp": -12,
+          "mate": null
+        },
+        {
+          "cp": 178,
+          "mate": null
+        },
+        {
+          "cp": -169,
+          "mate": null
+        },
+        {
+          "cp": 165,
+          "mate": null
+        },
+        {
+          "cp": -173,
+          "mate": null
+        },
+        {
+          "cp": 253,
+          "mate": null
+        },
+        {
+          "cp": -238,
+          "mate": null
+        },
+        {
+          "cp": 233,
+          "mate": null
+        },
+        {
+          "cp": -62,
+          "mate": null
+        },
+        {
+          "cp": 60,
+          "mate": null
+        },
+        {
+          "cp": -52,
+          "mate": null
+        },
+        {
+          "cp": 47,
+          "mate": null
+        },
+        {
+          "cp": 80,
+          "mate": null
+        },
+        {
+          "cp": -51,
+          "mate": null
+        },
+        {
+          "cp": 109,
+          "mate": null
+        },
+        {
+          "cp": -108,
+          "mate": null
+        },
+        {
+          "cp": 66,
+          "mate": null
+        },
+        {
+          "cp": 115,
+          "mate": null
+        },
+        {
+          "cp": -151,
+          "mate": null
+        },
+        {
+          "cp": 326,
+          "mate": null
+        },
+        {
+          "cp": -306,
+          "mate": null
+        },
+        {
+          "cp": 321,
+          "mate": null
+        },
+        {
+          "cp": -247,
+          "mate": null
+        },
+        {
+          "cp": 247,
+          "mate": null
+        },
+        {
+          "cp": -247,
+          "mate": null
+        },
+        {
+          "cp": 260,
+          "mate": null
+        },
+        {
+          "cp": -253,
+          "mate": null
+        },
+        {
+          "cp": 256,
+          "mate": null
+        },
+        {
+          "cp": -196,
+          "mate": null
+        },
+        {
+          "cp": 246,
+          "mate": null
+        },
+        {
+          "cp": -297,
+          "mate": null
+        },
+        {
+          "cp": 1038,
+          "mate": null
+        },
+        {
+          "cp": -1034,
+          "mate": null
+        },
+        {
+          "cp": 1080,
+          "mate": null
+        },
+        {
+          "cp": -634,
+          "mate": null
+        },
+        {
+          "cp": null,
+          "mate": 2
+        },
+        {
+          "cp": 0,
+          "mate": null
+        },
+        {
+          "cp": 0,
+          "mate": null
+        },
+        {
+          "cp": 0,
+          "mate": null
+        },
+        {
+          "cp": 0,
+          "mate": null
+        },
+        {
+          "cp": 0,
+          "mate": null
+        },
+        {
+          "cp": 0,
+          "mate": null
+        },
+        {
+          "cp": 0,
+          "mate": null
+        },
+        {
+          "cp": 0,
+          "mate": null
+        },
+        {
+          "cp": null,
+          "mate": 1
+        },
+        {
+          "cp": null,
+          "mate": 0
+        }
+      ],
+      "moves": [
+        {
+          "ply": 1,
+          "san": "e3",
+          "mover": "w",
+          "best": "e2e4",
+          "cpLoss": 30,
+          "judgment": null
+        },
+        {
+          "ply": 2,
+          "san": "d5",
+          "mover": "b",
+          "best": "g8f6",
+          "cpLoss": 12,
+          "judgment": null
+        },
+        {
+          "ply": 3,
+          "san": "Nf3",
+          "mover": "w",
+          "best": "c2c4",
+          "cpLoss": 1,
+          "judgment": null
+        },
+        {
+          "ply": 4,
+          "san": "Nf6",
+          "mover": "b",
+          "best": "g8f6",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 5,
+          "san": "d3",
+          "mover": "w",
+          "best": "c2c4",
+          "cpLoss": 33,
+          "judgment": null
+        },
+        {
+          "ply": 6,
+          "san": "c5",
+          "mover": "b",
+          "best": "c7c5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 7,
+          "san": "Be2",
+          "mover": "w",
+          "best": "d3d4",
+          "cpLoss": 6,
+          "judgment": null
+        },
+        {
+          "ply": 8,
+          "san": "Nc6",
+          "mover": "b",
+          "best": "b8c6",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 9,
+          "san": "Bd2",
+          "mover": "w",
+          "best": "d3d4",
+          "cpLoss": 55,
+          "judgment": null
+        },
+        {
+          "ply": 10,
+          "san": "Bg4",
+          "mover": "b",
+          "best": "e7e5",
+          "cpLoss": 79,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 11,
+          "san": "c3",
+          "mover": "w",
+          "best": "c2c4",
+          "cpLoss": 57,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 12,
+          "san": "e6",
+          "mover": "b",
+          "best": "e7e5",
+          "cpLoss": 25,
+          "judgment": null
+        },
+        {
+          "ply": 13,
+          "san": "b3",
+          "mover": "w",
+          "best": "e1g1",
+          "cpLoss": 44,
+          "judgment": null
+        },
+        {
+          "ply": 14,
+          "san": "Be7",
+          "mover": "b",
+          "best": "e6e5",
+          "cpLoss": 22,
+          "judgment": null
+        },
+        {
+          "ply": 15,
+          "san": "a3",
+          "mover": "w",
+          "best": "e1g1",
+          "cpLoss": 10,
+          "judgment": null
+        },
+        {
+          "ply": 16,
+          "san": "O-O",
+          "mover": "b",
+          "best": "e6e5",
+          "cpLoss": 7,
+          "judgment": null
+        },
+        {
+          "ply": 17,
+          "san": "h3",
+          "mover": "w",
+          "best": "h2h3",
+          "cpLoss": 7,
+          "judgment": null
+        },
+        {
+          "ply": 18,
+          "san": "Bxf3",
+          "mover": "b",
+          "best": "g4h5",
+          "cpLoss": 44,
+          "judgment": null
+        },
+        {
+          "ply": 19,
+          "san": "Bxf3",
+          "mover": "w",
+          "best": "e2f3",
+          "cpLoss": 5,
+          "judgment": null
+        },
+        {
+          "ply": 20,
+          "san": "Qb6",
+          "mover": "b",
+          "best": "d8c7",
+          "cpLoss": 21,
+          "judgment": null
+        },
+        {
+          "ply": 21,
+          "san": "Qc2",
+          "mover": "w",
+          "best": "e1g1",
+          "cpLoss": 10,
+          "judgment": null
+        },
+        {
+          "ply": 22,
+          "san": "Ne5",
+          "mover": "b",
+          "best": "d5d4",
+          "cpLoss": 13,
+          "judgment": null
+        },
+        {
+          "ply": 23,
+          "san": "Be2",
+          "mover": "w",
+          "best": "f3e2",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 24,
+          "san": "a5",
+          "mover": "b",
+          "best": "d5d4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 25,
+          "san": "f4",
+          "mover": "w",
+          "best": "a3a4",
+          "cpLoss": 26,
+          "judgment": null
+        },
+        {
+          "ply": 26,
+          "san": "Ng6",
+          "mover": "b",
+          "best": "e5c6",
+          "cpLoss": 9,
+          "judgment": null
+        },
+        {
+          "ply": 27,
+          "san": "g4",
+          "mover": "w",
+          "best": "c3c4",
+          "cpLoss": 112,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 28,
+          "san": "h6",
+          "mover": "b",
+          "best": "a5a4",
+          "cpLoss": 44,
+          "judgment": null
+        },
+        {
+          "ply": 29,
+          "san": "h4",
+          "mover": "w",
+          "best": "c3c4",
+          "cpLoss": 10,
+          "judgment": null
+        },
+        {
+          "ply": 30,
+          "san": "Qd6",
+          "mover": "b",
+          "best": "c5c4",
+          "cpLoss": 209,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 31,
+          "san": "g5",
+          "mover": "w",
+          "best": "g4g5",
+          "cpLoss": 9,
+          "judgment": null
+        },
+        {
+          "ply": 32,
+          "san": "hxg5",
+          "mover": "b",
+          "best": "h6g5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 33,
+          "san": "hxg5",
+          "mover": "w",
+          "best": "h4g5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 34,
+          "san": "Nd7",
+          "mover": "b",
+          "best": "f6h7",
+          "cpLoss": 16,
+          "judgment": null
+        },
+        {
+          "ply": 35,
+          "san": "a4",
+          "mover": "w",
+          "best": "d3d4",
+          "cpLoss": 49,
+          "judgment": null
+        },
+        {
+          "ply": 36,
+          "san": "f5",
+          "mover": "b",
+          "best": "d5d4",
+          "cpLoss": 166,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 37,
+          "san": "Na3",
+          "mover": "w",
+          "best": "b1a3",
+          "cpLoss": 9,
+          "judgment": null
+        },
+        {
+          "ply": 38,
+          "san": "Kf7",
+          "mover": "b",
+          "best": "d5d4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 39,
+          "san": "Nb5",
+          "mover": "w",
+          "best": "a3b5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 40,
+          "san": "Qb6",
+          "mover": "b",
+          "best": "d6c6",
+          "cpLoss": 80,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 41,
+          "san": "Bh5",
+          "mover": "w",
+          "best": "e1c1",
+          "cpLoss": 15,
+          "judgment": null
+        },
+        {
+          "ply": 42,
+          "san": "Rh8",
+          "mover": "b",
+          "best": "f8h8",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 43,
+          "san": "Bxg6+",
+          "mover": "w",
+          "best": "c3c4",
+          "cpLoss": 171,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 44,
+          "san": "Kxg6",
+          "mover": "b",
+          "best": "f7g6",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 45,
+          "san": "O-O-O",
+          "mover": "w",
+          "best": "e1c1",
+          "cpLoss": 8,
+          "judgment": null
+        },
+        {
+          "ply": 46,
+          "san": "c4",
+          "mover": "b",
+          "best": "c5c4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 47,
+          "san": "d4",
+          "mover": "w",
+          "best": "b3c4",
+          "cpLoss": 127,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 48,
+          "san": "Qc6",
+          "mover": "b",
+          "best": "b6c6",
+          "cpLoss": 29,
+          "judgment": null
+        },
+        {
+          "ply": 49,
+          "san": "Rdg1",
+          "mover": "w",
+          "best": "b5a7",
+          "cpLoss": 58,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 50,
+          "san": "cxb3",
+          "mover": "b",
+          "best": "c4b3",
+          "cpLoss": 1,
+          "judgment": null
+        },
+        {
+          "ply": 51,
+          "san": "Qxb3",
+          "mover": "w",
+          "best": "c2b3",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 52,
+          "san": "Rac8",
+          "mover": "b",
+          "best": "d7b6",
+          "cpLoss": 181,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 53,
+          "san": "Na7",
+          "mover": "w",
+          "best": "b5a7",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 54,
+          "san": "Rxh1",
+          "mover": "b",
+          "best": "c6b6",
+          "cpLoss": 175,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 55,
+          "san": "Rxh1",
+          "mover": "w",
+          "best": "g1h1",
+          "cpLoss": 20,
+          "judgment": null
+        },
+        {
+          "ply": 56,
+          "san": "Qc7",
+          "mover": "b",
+          "best": "c6c4",
+          "cpLoss": 15,
+          "judgment": null
+        },
+        {
+          "ply": 57,
+          "san": "Qd1",
+          "mover": "w",
+          "best": "a7c8",
+          "cpLoss": 74,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 58,
+          "san": "Ba3+",
+          "mover": "b",
+          "best": "e7a3",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 59,
+          "san": "Kc2",
+          "mover": "w",
+          "best": "c1c2",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 60,
+          "san": "Kf7",
+          "mover": "b",
+          "best": "g6f7",
+          "cpLoss": 13,
+          "judgment": null
+        },
+        {
+          "ply": 61,
+          "san": "Qh5+",
+          "mover": "w",
+          "best": "a7c8",
+          "cpLoss": 7,
+          "judgment": null
+        },
+        {
+          "ply": 62,
+          "san": "Ke7",
+          "mover": "b",
+          "best": "f7e7",
+          "cpLoss": 3,
+          "judgment": null
+        },
+        {
+          "ply": 63,
+          "san": "Nxc8+",
+          "mover": "w",
+          "best": "h5h7",
+          "cpLoss": 60,
+          "judgment": null
+        },
+        {
+          "ply": 64,
+          "san": "Qxc8",
+          "mover": "b",
+          "best": "c7c8",
+          "cpLoss": 50,
+          "judgment": null
+        },
+        {
+          "ply": 65,
+          "san": "Qh8",
+          "mover": "w",
+          "best": "h1a1",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 66,
+          "san": "Qc5",
+          "mover": "b",
+          "best": "c8c4",
+          "cpLoss": 703,
+          "judgment": "blunder"
+        },
+        {
+          "ply": 67,
+          "san": "Qxg7+",
+          "mover": "w",
+          "best": "h8g7",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 68,
+          "san": "Kd6",
+          "mover": "b",
+          "best": "e7d6",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 69,
+          "san": "Rh7",
+          "mover": "w",
+          "best": "d4c5",
+          "cpLoss": 366,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 70,
+          "san": "Qc6",
+          "mover": "b",
+          "best": "c5c8",
+          "cpLoss": 366,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 71,
+          "san": "g6",
+          "mover": "w",
+          "best": "g7e5",
+          "cpLoss": 1000,
+          "judgment": "blunder"
+        },
+        {
+          "ply": 72,
+          "san": "Qxa4+",
+          "mover": "b",
+          "best": "c6a4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 73,
+          "san": "Kd3",
+          "mover": "w",
+          "best": "c2d3",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 74,
+          "san": "Qb5+",
+          "mover": "b",
+          "best": "a4c4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 75,
+          "san": "Kc2",
+          "mover": "w",
+          "best": "d3c2",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 76,
+          "san": "Qa4+",
+          "mover": "b",
+          "best": "b5a4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 77,
+          "san": "Kd3",
+          "mover": "w",
+          "best": "c2d3",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 78,
+          "san": "Qb5+",
+          "mover": "b",
+          "best": "a4c4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 79,
+          "san": "c4",
+          "mover": "w",
+          "best": "d3c2",
+          "cpLoss": 1000,
+          "judgment": "blunder"
+        },
+        {
+          "ply": 80,
+          "san": "Qxc4#",
+          "mover": "b",
+          "best": "b5c4",
+          "cpLoss": 0,
+          "judgment": null
+        }
+      ],
+      "summary": {
+        "w": {
+          "inaccuracy": 5,
+          "mistake": 2,
+          "blunder": 2,
+          "acpl": 84,
+          "accuracy": 86.3
+        },
+        "b": {
+          "inaccuracy": 3,
+          "mistake": 4,
+          "blunder": 1,
+          "acpl": 57,
+          "accuracy": 88.1
+        }
+      }
     }
   },
   {
@@ -11948,6 +12937,1595 @@
     "division": {
       "middle": 22,
       "end": 78
+    },
+    "stockfishAnalysis": {
+      "engine": "stockfish",
+      "depth": 12,
+      "generatedAt": 1791250164550,
+      "positions": [
+        {
+          "cp": 40,
+          "mate": null
+        },
+        {
+          "cp": -36,
+          "mate": null
+        },
+        {
+          "cp": 75,
+          "mate": null
+        },
+        {
+          "cp": -71,
+          "mate": null
+        },
+        {
+          "cp": 82,
+          "mate": null
+        },
+        {
+          "cp": -89,
+          "mate": null
+        },
+        {
+          "cp": 96,
+          "mate": null
+        },
+        {
+          "cp": -2,
+          "mate": null
+        },
+        {
+          "cp": 17,
+          "mate": null
+        },
+        {
+          "cp": -27,
+          "mate": null
+        },
+        {
+          "cp": 47,
+          "mate": null
+        },
+        {
+          "cp": -34,
+          "mate": null
+        },
+        {
+          "cp": 27,
+          "mate": null
+        },
+        {
+          "cp": -24,
+          "mate": null
+        },
+        {
+          "cp": 24,
+          "mate": null
+        },
+        {
+          "cp": 2,
+          "mate": null
+        },
+        {
+          "cp": 6,
+          "mate": null
+        },
+        {
+          "cp": 27,
+          "mate": null
+        },
+        {
+          "cp": -48,
+          "mate": null
+        },
+        {
+          "cp": 48,
+          "mate": null
+        },
+        {
+          "cp": 1,
+          "mate": null
+        },
+        {
+          "cp": 4,
+          "mate": null
+        },
+        {
+          "cp": 52,
+          "mate": null
+        },
+        {
+          "cp": 0,
+          "mate": null
+        },
+        {
+          "cp": 21,
+          "mate": null
+        },
+        {
+          "cp": -4,
+          "mate": null
+        },
+        {
+          "cp": 91,
+          "mate": null
+        },
+        {
+          "cp": 99,
+          "mate": null
+        },
+        {
+          "cp": 71,
+          "mate": null
+        },
+        {
+          "cp": -78,
+          "mate": null
+        },
+        {
+          "cp": 75,
+          "mate": null
+        },
+        {
+          "cp": 18,
+          "mate": null
+        },
+        {
+          "cp": 64,
+          "mate": null
+        },
+        {
+          "cp": 103,
+          "mate": null
+        },
+        {
+          "cp": 122,
+          "mate": null
+        },
+        {
+          "cp": -132,
+          "mate": null
+        },
+        {
+          "cp": 103,
+          "mate": null
+        },
+        {
+          "cp": -70,
+          "mate": null
+        },
+        {
+          "cp": 273,
+          "mate": null
+        },
+        {
+          "cp": -154,
+          "mate": null
+        },
+        {
+          "cp": 193,
+          "mate": null
+        },
+        {
+          "cp": -211,
+          "mate": null
+        },
+        {
+          "cp": 242,
+          "mate": null
+        },
+        {
+          "cp": -157,
+          "mate": null
+        },
+        {
+          "cp": 176,
+          "mate": null
+        },
+        {
+          "cp": -122,
+          "mate": null
+        },
+        {
+          "cp": 182,
+          "mate": null
+        },
+        {
+          "cp": -134,
+          "mate": null
+        },
+        {
+          "cp": 216,
+          "mate": null
+        },
+        {
+          "cp": -193,
+          "mate": null
+        },
+        {
+          "cp": 210,
+          "mate": null
+        },
+        {
+          "cp": -254,
+          "mate": null
+        },
+        {
+          "cp": 330,
+          "mate": null
+        },
+        {
+          "cp": 6,
+          "mate": null
+        },
+        {
+          "cp": 291,
+          "mate": null
+        },
+        {
+          "cp": -282,
+          "mate": null
+        },
+        {
+          "cp": 248,
+          "mate": null
+        },
+        {
+          "cp": -256,
+          "mate": null
+        },
+        {
+          "cp": 269,
+          "mate": null
+        },
+        {
+          "cp": -269,
+          "mate": null
+        },
+        {
+          "cp": 540,
+          "mate": null
+        },
+        {
+          "cp": -512,
+          "mate": null
+        },
+        {
+          "cp": 733,
+          "mate": null
+        },
+        {
+          "cp": -84,
+          "mate": null
+        },
+        {
+          "cp": 80,
+          "mate": null
+        },
+        {
+          "cp": 74,
+          "mate": null
+        },
+        {
+          "cp": -47,
+          "mate": null
+        },
+        {
+          "cp": 161,
+          "mate": null
+        },
+        {
+          "cp": -150,
+          "mate": null
+        },
+        {
+          "cp": 170,
+          "mate": null
+        },
+        {
+          "cp": -109,
+          "mate": null
+        },
+        {
+          "cp": 253,
+          "mate": null
+        },
+        {
+          "cp": -241,
+          "mate": null
+        },
+        {
+          "cp": 226,
+          "mate": null
+        },
+        {
+          "cp": -139,
+          "mate": null
+        },
+        {
+          "cp": 317,
+          "mate": null
+        },
+        {
+          "cp": -316,
+          "mate": null
+        },
+        {
+          "cp": 305,
+          "mate": null
+        },
+        {
+          "cp": -329,
+          "mate": null
+        },
+        {
+          "cp": 328,
+          "mate": null
+        },
+        {
+          "cp": -300,
+          "mate": null
+        },
+        {
+          "cp": 451,
+          "mate": null
+        },
+        {
+          "cp": -233,
+          "mate": null
+        },
+        {
+          "cp": 233,
+          "mate": null
+        },
+        {
+          "cp": -245,
+          "mate": null
+        },
+        {
+          "cp": 259,
+          "mate": null
+        },
+        {
+          "cp": -250,
+          "mate": null
+        },
+        {
+          "cp": 255,
+          "mate": null
+        },
+        {
+          "cp": 322,
+          "mate": null
+        },
+        {
+          "cp": 267,
+          "mate": null
+        },
+        {
+          "cp": -249,
+          "mate": null
+        },
+        {
+          "cp": 335,
+          "mate": null
+        },
+        {
+          "cp": -366,
+          "mate": null
+        },
+        {
+          "cp": 434,
+          "mate": null
+        },
+        {
+          "cp": -429,
+          "mate": null
+        },
+        {
+          "cp": 435,
+          "mate": null
+        },
+        {
+          "cp": -445,
+          "mate": null
+        },
+        {
+          "cp": 587,
+          "mate": null
+        },
+        {
+          "cp": -644,
+          "mate": null
+        },
+        {
+          "cp": 622,
+          "mate": null
+        },
+        {
+          "cp": -657,
+          "mate": null
+        },
+        {
+          "cp": 691,
+          "mate": null
+        },
+        {
+          "cp": -625,
+          "mate": null
+        },
+        {
+          "cp": 606,
+          "mate": null
+        },
+        {
+          "cp": -589,
+          "mate": null
+        },
+        {
+          "cp": 627,
+          "mate": null
+        },
+        {
+          "cp": -564,
+          "mate": null
+        },
+        {
+          "cp": 522,
+          "mate": null
+        },
+        {
+          "cp": -529,
+          "mate": null
+        },
+        {
+          "cp": 533,
+          "mate": null
+        },
+        {
+          "cp": -556,
+          "mate": null
+        },
+        {
+          "cp": 524,
+          "mate": null
+        },
+        {
+          "cp": -494,
+          "mate": null
+        },
+        {
+          "cp": 539,
+          "mate": null
+        },
+        {
+          "cp": -464,
+          "mate": null
+        },
+        {
+          "cp": 542,
+          "mate": null
+        },
+        {
+          "cp": -487,
+          "mate": null
+        },
+        {
+          "cp": 642,
+          "mate": null
+        },
+        {
+          "cp": -642,
+          "mate": null
+        },
+        {
+          "cp": 647,
+          "mate": null
+        },
+        {
+          "cp": -692,
+          "mate": null
+        },
+        {
+          "cp": 703,
+          "mate": null
+        },
+        {
+          "cp": -3652,
+          "mate": null
+        },
+        {
+          "cp": null,
+          "mate": 3
+        },
+        {
+          "cp": -3648,
+          "mate": null
+        },
+        {
+          "cp": 3628,
+          "mate": null
+        },
+        {
+          "cp": -3611,
+          "mate": null
+        },
+        {
+          "cp": null,
+          "mate": 2
+        },
+        {
+          "cp": null,
+          "mate": -1
+        },
+        {
+          "cp": null,
+          "mate": 1
+        },
+        {
+          "cp": null,
+          "mate": 0
+        }
+      ],
+      "moves": [
+        {
+          "ply": 1,
+          "san": "e4",
+          "mover": "w",
+          "best": "e2e4",
+          "cpLoss": 4,
+          "judgment": null
+        },
+        {
+          "ply": 2,
+          "san": "d5",
+          "mover": "b",
+          "best": "e7e5",
+          "cpLoss": 39,
+          "judgment": null
+        },
+        {
+          "ply": 3,
+          "san": "exd5",
+          "mover": "w",
+          "best": "e4d5",
+          "cpLoss": 4,
+          "judgment": null
+        },
+        {
+          "ply": 4,
+          "san": "Qxd5",
+          "mover": "b",
+          "best": "c7c6",
+          "cpLoss": 11,
+          "judgment": null
+        },
+        {
+          "ply": 5,
+          "san": "Nc3",
+          "mover": "w",
+          "best": "b1c3",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 6,
+          "san": "Qa5",
+          "mover": "b",
+          "best": "d5d8",
+          "cpLoss": 7,
+          "judgment": null
+        },
+        {
+          "ply": 7,
+          "san": "g3",
+          "mover": "w",
+          "best": "d2d4",
+          "cpLoss": 94,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 8,
+          "san": "Nf6",
+          "mover": "b",
+          "best": "b8c6",
+          "cpLoss": 15,
+          "judgment": null
+        },
+        {
+          "ply": 9,
+          "san": "Bg2",
+          "mover": "w",
+          "best": "g1f3",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 10,
+          "san": "c6",
+          "mover": "b",
+          "best": "e7e5",
+          "cpLoss": 20,
+          "judgment": null
+        },
+        {
+          "ply": 11,
+          "san": "Nge2",
+          "mover": "w",
+          "best": "g1f3",
+          "cpLoss": 13,
+          "judgment": null
+        },
+        {
+          "ply": 12,
+          "san": "Bf5",
+          "mover": "b",
+          "best": "c8f5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 13,
+          "san": "O-O",
+          "mover": "w",
+          "best": "e2d4",
+          "cpLoss": 3,
+          "judgment": null
+        },
+        {
+          "ply": 14,
+          "san": "e6",
+          "mover": "b",
+          "best": "e7e6",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 15,
+          "san": "d4",
+          "mover": "w",
+          "best": "e2d4",
+          "cpLoss": 26,
+          "judgment": null
+        },
+        {
+          "ply": 16,
+          "san": "Bd6",
+          "mover": "b",
+          "best": "f8e7",
+          "cpLoss": 8,
+          "judgment": null
+        },
+        {
+          "ply": 17,
+          "san": "Bf4",
+          "mover": "w",
+          "best": "c3b1",
+          "cpLoss": 33,
+          "judgment": null
+        },
+        {
+          "ply": 18,
+          "san": "Bxf4",
+          "mover": "b",
+          "best": "d6f4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 19,
+          "san": "Nxf4",
+          "mover": "w",
+          "best": "e2f4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 20,
+          "san": "h6",
+          "mover": "b",
+          "best": "e8g8",
+          "cpLoss": 49,
+          "judgment": null
+        },
+        {
+          "ply": 21,
+          "san": "Re1",
+          "mover": "w",
+          "best": "d1e1",
+          "cpLoss": 5,
+          "judgment": null
+        },
+        {
+          "ply": 22,
+          "san": "g5",
+          "mover": "b",
+          "best": "e8g8",
+          "cpLoss": 56,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 23,
+          "san": "Nfe2",
+          "mover": "w",
+          "best": "f4h5",
+          "cpLoss": 52,
+          "judgment": null
+        },
+        {
+          "ply": 24,
+          "san": "Nbd7",
+          "mover": "b",
+          "best": "b8d7",
+          "cpLoss": 21,
+          "judgment": null
+        },
+        {
+          "ply": 25,
+          "san": "h3",
+          "mover": "w",
+          "best": "e2c1",
+          "cpLoss": 17,
+          "judgment": null
+        },
+        {
+          "ply": 26,
+          "san": "h5",
+          "mover": "b",
+          "best": "e8g8",
+          "cpLoss": 87,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 27,
+          "san": "Kh2",
+          "mover": "w",
+          "best": "d1d2",
+          "cpLoss": 190,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 28,
+          "san": "g4",
+          "mover": "b",
+          "best": "h5h4",
+          "cpLoss": 170,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 29,
+          "san": "h4",
+          "mover": "w",
+          "best": "h3h4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 30,
+          "san": "O-O-O",
+          "mover": "b",
+          "best": "e8c8",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 31,
+          "san": "a3",
+          "mover": "w",
+          "best": "d1c1",
+          "cpLoss": 93,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 32,
+          "san": "Qb6",
+          "mover": "b",
+          "best": "d7e5",
+          "cpLoss": 82,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 33,
+          "san": "b4",
+          "mover": "w",
+          "best": "d1c1",
+          "cpLoss": 167,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 34,
+          "san": "Nd5",
+          "mover": "b",
+          "best": "d7e5",
+          "cpLoss": 225,
+          "judgment": "blunder"
+        },
+        {
+          "ply": 35,
+          "san": "Na4",
+          "mover": "w",
+          "best": "c3a4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 36,
+          "san": "Qb5",
+          "mover": "b",
+          "best": "b6a6",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 37,
+          "san": "c3",
+          "mover": "w",
+          "best": "a4b2",
+          "cpLoss": 33,
+          "judgment": null
+        },
+        {
+          "ply": 38,
+          "san": "a5",
+          "mover": "b",
+          "best": "b5d3",
+          "cpLoss": 203,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 39,
+          "san": "Rc1",
+          "mover": "w",
+          "best": "a4b2",
+          "cpLoss": 119,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 40,
+          "san": "N7b6",
+          "mover": "b",
+          "best": "d7b6",
+          "cpLoss": 39,
+          "judgment": null
+        },
+        {
+          "ply": 41,
+          "san": "Nxb6+",
+          "mover": "w",
+          "best": "a4b6",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 42,
+          "san": "Qxb6",
+          "mover": "b",
+          "best": "d5b6",
+          "cpLoss": 31,
+          "judgment": null
+        },
+        {
+          "ply": 43,
+          "san": "bxa5",
+          "mover": "w",
+          "best": "c3c4",
+          "cpLoss": 85,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 44,
+          "san": "Qxa5",
+          "mover": "b",
+          "best": "b6a5",
+          "cpLoss": 19,
+          "judgment": null
+        },
+        {
+          "ply": 45,
+          "san": "a4",
+          "mover": "w",
+          "best": "c3c4",
+          "cpLoss": 54,
+          "judgment": null
+        },
+        {
+          "ply": 46,
+          "san": "Kc7",
+          "mover": "b",
+          "best": "d8d7",
+          "cpLoss": 60,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 47,
+          "san": "Qb3",
+          "mover": "w",
+          "best": "c3c4",
+          "cpLoss": 48,
+          "judgment": null
+        },
+        {
+          "ply": 48,
+          "san": "Ra8",
+          "mover": "b",
+          "best": "d5b6",
+          "cpLoss": 82,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 49,
+          "san": "c4",
+          "mover": "w",
+          "best": "c3c4",
+          "cpLoss": 23,
+          "judgment": null
+        },
+        {
+          "ply": 50,
+          "san": "Nb4",
+          "mover": "b",
+          "best": "a5b6",
+          "cpLoss": 17,
+          "judgment": null
+        },
+        {
+          "ply": 51,
+          "san": "Red1",
+          "mover": "w",
+          "best": "e1d1",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 52,
+          "san": "Qxa4",
+          "mover": "b",
+          "best": "h8e8",
+          "cpLoss": 76,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 53,
+          "san": "Qc3",
+          "mover": "w",
+          "best": "b3e3",
+          "cpLoss": 336,
+          "judgment": "blunder"
+        },
+        {
+          "ply": 54,
+          "san": "Qa3",
+          "mover": "b",
+          "best": "b4a2",
+          "cpLoss": 297,
+          "judgment": "blunder"
+        },
+        {
+          "ply": 55,
+          "san": "Qd2",
+          "mover": "w",
+          "best": "c3d2",
+          "cpLoss": 9,
+          "judgment": null
+        },
+        {
+          "ply": 56,
+          "san": "Rhd8",
+          "mover": "b",
+          "best": "h8d8",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 57,
+          "san": "Ra1",
+          "mover": "w",
+          "best": "d4d5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 58,
+          "san": "Qd3",
+          "mover": "b",
+          "best": "a3b3",
+          "cpLoss": 13,
+          "judgment": null
+        },
+        {
+          "ply": 59,
+          "san": "Qf4+",
+          "mover": "w",
+          "best": "d2f4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 60,
+          "san": "Kb6",
+          "mover": "b",
+          "best": "c7d7",
+          "cpLoss": 271,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 61,
+          "san": "Rxd3",
+          "mover": "w",
+          "best": "d1d3",
+          "cpLoss": 28,
+          "judgment": null
+        },
+        {
+          "ply": 62,
+          "san": "Nxd3",
+          "mover": "b",
+          "best": "f5d3",
+          "cpLoss": 221,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 63,
+          "san": "Qd2",
+          "mover": "w",
+          "best": "a1b1",
+          "cpLoss": 649,
+          "judgment": "blunder"
+        },
+        {
+          "ply": 64,
+          "san": "Rxa1",
+          "mover": "b",
+          "best": "a8a1",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 65,
+          "san": "c5+",
+          "mover": "w",
+          "best": "d4d5",
+          "cpLoss": 154,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 66,
+          "san": "Kc7",
+          "mover": "b",
+          "best": "b6c7",
+          "cpLoss": 27,
+          "judgment": null
+        },
+        {
+          "ply": 67,
+          "san": "Nc3",
+          "mover": "w",
+          "best": "d4d5",
+          "cpLoss": 114,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 68,
+          "san": "Rxd4",
+          "mover": "b",
+          "best": "d8d4",
+          "cpLoss": 11,
+          "judgment": null
+        },
+        {
+          "ply": 69,
+          "san": "Qg5",
+          "mover": "w",
+          "best": "d2g5",
+          "cpLoss": 20,
+          "judgment": null
+        },
+        {
+          "ply": 70,
+          "san": "Bg6",
+          "mover": "b",
+          "best": "a1a5",
+          "cpLoss": 61,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 71,
+          "san": "Qe7+",
+          "mover": "w",
+          "best": "g5f6",
+          "cpLoss": 144,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 72,
+          "san": "Rd7",
+          "mover": "b",
+          "best": "d4d7",
+          "cpLoss": 12,
+          "judgment": null
+        },
+        {
+          "ply": 73,
+          "san": "Qf6",
+          "mover": "w",
+          "best": "e7f6",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 74,
+          "san": "Rc1",
+          "mover": "b",
+          "best": "a1a5",
+          "cpLoss": 87,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 75,
+          "san": "Ne2",
+          "mover": "w",
+          "best": "c3a4",
+          "cpLoss": 178,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 76,
+          "san": "Rxc5",
+          "mover": "b",
+          "best": "c1c5",
+          "cpLoss": 1,
+          "judgment": null
+        },
+        {
+          "ply": 77,
+          "san": "Nf4",
+          "mover": "w",
+          "best": "e2f4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 78,
+          "san": "Nxf4",
+          "mover": "b",
+          "best": "d3f4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 79,
+          "san": "Qxf4+",
+          "mover": "w",
+          "best": "g3f4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 80,
+          "san": "Kd8",
+          "mover": "b",
+          "best": "d7d6",
+          "cpLoss": 28,
+          "judgment": null
+        },
+        {
+          "ply": 81,
+          "san": "Be4",
+          "mover": "w",
+          "best": "g2e4",
+          "cpLoss": 151,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 82,
+          "san": "Rc4",
+          "mover": "b",
+          "best": "g6e4",
+          "cpLoss": 218,
+          "judgment": "mistake"
+        },
+        {
+          "ply": 83,
+          "san": "Qg5+",
+          "mover": "w",
+          "best": "f4g5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 84,
+          "san": "Kc7",
+          "mover": "b",
+          "best": "d8c7",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 85,
+          "san": "Bxg6",
+          "mover": "w",
+          "best": "g5a5",
+          "cpLoss": 14,
+          "judgment": null
+        },
+        {
+          "ply": 86,
+          "san": "fxg6",
+          "mover": "b",
+          "best": "f7g6",
+          "cpLoss": 9,
+          "judgment": null
+        },
+        {
+          "ply": 87,
+          "san": "Qxg6",
+          "mover": "w",
+          "best": "g5a5",
+          "cpLoss": 5,
+          "judgment": null
+        },
+        {
+          "ply": 88,
+          "san": "Rc2",
+          "mover": "b",
+          "best": "c4c5",
+          "cpLoss": 577,
+          "judgment": "blunder"
+        },
+        {
+          "ply": 89,
+          "san": "Kg2",
+          "mover": "w",
+          "best": "g6c2",
+          "cpLoss": 589,
+          "judgment": "blunder"
+        },
+        {
+          "ply": 90,
+          "san": "Rdd2",
+          "mover": "b",
+          "best": "c2c5",
+          "cpLoss": 18,
+          "judgment": null
+        },
+        {
+          "ply": 91,
+          "san": "Qf7+",
+          "mover": "w",
+          "best": "g6h5",
+          "cpLoss": 86,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 92,
+          "san": "Kb6",
+          "mover": "b",
+          "best": "c7b6",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 93,
+          "san": "Qxe6",
+          "mover": "w",
+          "best": "f7e6",
+          "cpLoss": 68,
+          "judgment": null
+        },
+        {
+          "ply": 94,
+          "san": "Rxf2+",
+          "mover": "b",
+          "best": "d2f2",
+          "cpLoss": 5,
+          "judgment": null
+        },
+        {
+          "ply": 95,
+          "san": "Kg1",
+          "mover": "w",
+          "best": "g2g1",
+          "cpLoss": 6,
+          "judgment": null
+        },
+        {
+          "ply": 96,
+          "san": "Rg2+",
+          "mover": "b",
+          "best": "f2g2",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 97,
+          "san": "Kf1",
+          "mover": "w",
+          "best": "g1h1",
+          "cpLoss": 142,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 98,
+          "san": "Rcf2+",
+          "mover": "b",
+          "best": "c2f2",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 99,
+          "san": "Ke1",
+          "mover": "w",
+          "best": "f1e1",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 100,
+          "san": "Re2+",
+          "mover": "b",
+          "best": "f2e2",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 101,
+          "san": "Qxe2",
+          "mover": "w",
+          "best": "e6e2",
+          "cpLoss": 34,
+          "judgment": null
+        },
+        {
+          "ply": 102,
+          "san": "Rxe2+",
+          "mover": "b",
+          "best": "g2e2",
+          "cpLoss": 66,
+          "judgment": null
+        },
+        {
+          "ply": 103,
+          "san": "Kxe2",
+          "mover": "w",
+          "best": "e1e2",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 104,
+          "san": "Kc5",
+          "mover": "b",
+          "best": "b6c5",
+          "cpLoss": 17,
+          "judgment": null
+        },
+        {
+          "ply": 105,
+          "san": "Ke3",
+          "mover": "w",
+          "best": "e2e3",
+          "cpLoss": 38,
+          "judgment": null
+        },
+        {
+          "ply": 106,
+          "san": "Kc4",
+          "mover": "b",
+          "best": "b7b5",
+          "cpLoss": 63,
+          "judgment": null
+        },
+        {
+          "ply": 107,
+          "san": "Kf4",
+          "mover": "w",
+          "best": "e3f4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 108,
+          "san": "b5",
+          "mover": "b",
+          "best": "c4d5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 109,
+          "san": "Kg5",
+          "mover": "w",
+          "best": "f4g5",
+          "cpLoss": 4,
+          "judgment": null
+        },
+        {
+          "ply": 110,
+          "san": "b4",
+          "mover": "b",
+          "best": "c4d5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 111,
+          "san": "Kxh5",
+          "mover": "w",
+          "best": "g5h5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 112,
+          "san": "b3",
+          "mover": "b",
+          "best": "c4d5",
+          "cpLoss": 30,
+          "judgment": null
+        },
+        {
+          "ply": 113,
+          "san": "Kxg4",
+          "mover": "w",
+          "best": "h5g4",
+          "cpLoss": 45,
+          "judgment": null
+        },
+        {
+          "ply": 114,
+          "san": "b2",
+          "mover": "b",
+          "best": "c4d5",
+          "cpLoss": 75,
+          "judgment": null
+        },
+        {
+          "ply": 115,
+          "san": "h5",
+          "mover": "w",
+          "best": "h4h5",
+          "cpLoss": 78,
+          "judgment": null
+        },
+        {
+          "ply": 116,
+          "san": "b1=Q",
+          "mover": "b",
+          "best": "c6c5",
+          "cpLoss": 55,
+          "judgment": null
+        },
+        {
+          "ply": 117,
+          "san": "h6",
+          "mover": "w",
+          "best": "h5h6",
+          "cpLoss": 155,
+          "judgment": "inaccuracy"
+        },
+        {
+          "ply": 118,
+          "san": "Qh7",
+          "mover": "b",
+          "best": "b1g6",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 119,
+          "san": "Kg5",
+          "mover": "w",
+          "best": "g4h5",
+          "cpLoss": 5,
+          "judgment": null
+        },
+        {
+          "ply": 120,
+          "san": "Kd5",
+          "mover": "b",
+          "best": "c4d3",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 121,
+          "san": "g4",
+          "mover": "w",
+          "best": "g5f4",
+          "cpLoss": 11,
+          "judgment": null
+        },
+        {
+          "ply": 122,
+          "san": "Ke5",
+          "mover": "b",
+          "best": "c6c5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 123,
+          "san": "Kh5",
+          "mover": "w",
+          "best": "g5h5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 124,
+          "san": "Kf6",
+          "mover": "b",
+          "best": "e5f4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 125,
+          "san": "g5+",
+          "mover": "w",
+          "best": "h5h4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 126,
+          "san": "Kf5",
+          "mover": "b",
+          "best": "f6f5",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 127,
+          "san": "g6",
+          "mover": "w",
+          "best": "h5h4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 128,
+          "san": "Qxg6+",
+          "mover": "b",
+          "best": "h7g6",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 129,
+          "san": "Kh4",
+          "mover": "w",
+          "best": "h5h4",
+          "cpLoss": 0,
+          "judgment": null
+        },
+        {
+          "ply": 130,
+          "san": "Qg4#",
+          "mover": "b",
+          "best": "g6g4",
+          "cpLoss": 0,
+          "judgment": null
+        }
+      ],
+      "summary": {
+        "w": {
+          "inaccuracy": 8,
+          "mistake": 6,
+          "blunder": 3,
+          "acpl": 63,
+          "accuracy": 85.5
+        },
+        "b": {
+          "inaccuracy": 9,
+          "mistake": 4,
+          "blunder": 3,
+          "acpl": 54,
+          "accuracy": 87.1
+        }
+      }
     }
   }
 ]
