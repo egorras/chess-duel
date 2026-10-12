@@ -24342,5 +24342,220 @@
         }
       }
     }
+  },
+  {
+    "id": "mBrHyYUy",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1791810989568,
+    "lastMoveAt": 1791811340357,
+    "status": "mate",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1883
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1713
+      }
+    },
+    "fullId": "mBrHyYUyIDcx",
+    "winner": "white",
+    "opening": {
+      "eco": "A04",
+      "name": "Zukertort Opening: Wade Defense",
+      "ply": 4
+    },
+    "moves": "e4 d6 Nf3 Bg4 Bc4 Nc6 Bxf7+ Kd7 Bb3 Nf6 O-O Nxe4 Ne5+ Nxe5 f3 Bxf3 gxf3 Ng5 f4 Nh3+ Kg2 Nc6 Qg4+ e6 Kxh3 Qf6 Nc3 h5 Qg5 Be7 Qxf6 Bxf6 d3 Raf8 Bd2 a6 Rae1 e5 fxe5 Bxe5 Ne4 Re8 c3 Ne7 d4 Bf6 Nxf6+ gxf6 Rxf6 b5 Rf7 Kc6 Rfxe7 Ref8 Rg7 a5 Bf7 a4 a3 Kb6 Re7 c5 Bd5 Rf2 Bc1 Rb8 Re6 Rd8 Rgg6 cxd4 cxd4 b4 Rxd6+ Kb5 Rb6+ Ka5 Ra6+ Kb5 Rgb6#",
+    "clocks": [
+      30003,
+      30003,
+      29915,
+      29867,
+      29611,
+      29827,
+      29499,
+      29227,
+      29067,
+      28771,
+      28715,
+      28547,
+      27683,
+      28299,
+      27251,
+      27619,
+      26835,
+      26931,
+      26723,
+      26811,
+      26515,
+      24435,
+      26043,
+      24259,
+      25915,
+      23219,
+      25683,
+      22443,
+      24211,
+      22003,
+      24067,
+      22003,
+      23787,
+      20779,
+      23627,
+      20043,
+      23579,
+      19491,
+      23411,
+      19491,
+      22867,
+      18403,
+      22315,
+      17267,
+      22035,
+      16275,
+      21939,
+      16259,
+      21819,
+      15523,
+      21675,
+      14987,
+      21307,
+      14891,
+      20587,
+      14779,
+      20099,
+      14019,
+      19971,
+      13747,
+      19715,
+      13579,
+      19003,
+      13059,
+      18091,
+      12675,
+      16731,
+      12139,
+      16403,
+      11851,
+      16123,
+      11667,
+      15891,
+      11563,
+      15323,
+      11483,
+      15179,
+      11412,
+      15138
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 26,
+      "end": 53
+    }
+  },
+  {
+    "id": "ed1Gsf5L",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1791811341484,
+    "lastMoveAt": 1791811461508,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1713
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1883
+      }
+    },
+    "fullId": "ed1Gsf5LLJZO",
+    "winner": "black",
+    "opening": {
+      "eco": "B12",
+      "name": "Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense",
+      "ply": 6
+    },
+    "moves": "e4 c6 d4 d5 e5 c5 c3 Nc6 Be3 Bf5 Bb5 cxd4 cxd4 e6 Ne2 Qb6 Bxc6+ bxc6 Qb3 Ne7 Nbc3 Rb8 O-O Qc7 Qa3 Ng6 h3 Bxa3 bxa3 O-O g4 Be4 Ng3 Bd3 Rad1 Bc4 Na4 a5 Nc5 Rb2 Bd2 Rxa2 Rfe1 Rxa3",
+    "clocks": [
+      30003,
+      30003,
+      29931,
+      29987,
+      29859,
+      29899,
+      29803,
+      29867,
+      29691,
+      29523,
+      29563,
+      29419,
+      29419,
+      29355,
+      29267,
+      29275,
+      29139,
+      29203,
+      28875,
+      28547,
+      28627,
+      28075,
+      27915,
+      27483,
+      27419,
+      27275,
+      27043,
+      27099,
+      26907,
+      26699,
+      26811,
+      26603,
+      26427,
+      25763,
+      26123,
+      25587,
+      25851,
+      25331,
+      25723,
+      25195,
+      24939,
+      25067,
+      23979,
+      24575,
+      23735
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 21
+    }
   }
 ]
