@@ -69453,5 +69453,227 @@
         }
       }
     }
+  },
+  {
+    "id": "xRHW03WX",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1794827246448,
+    "lastMoveAt": 1794827494915,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1685
+      },
+      "black": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1896
+      }
+    },
+    "fullId": "xRHW03WX2K3P",
+    "winner": "black",
+    "opening": {
+      "eco": "B12",
+      "name": "Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense",
+      "ply": 6
+    },
+    "moves": "d4 d5 e4 c6 e5 c5 Nf3 Nc6 Bb5 Bg4 c3 e6 Be3 Qb6 Bxc6+ bxc6 b3 cxd4 Bxd4 Bxf3 Qxf3 c5 Be3 Ne7 Nd2 Nf5 O-O Be7 b4 O-O a4 Qc7 Rfb1 cxb4 cxb4 Qxe5 g3 Bxb4 Bf4 Qd4 Be3 Nxe3 Qxe3 Qxd2 Qxd2 Bxd2 Rb7 a5 Rab1 Bb4 h4 Rab8 Ra7 g6 Kg2 Ra8 Rb7 Rfc8 g4 Kg7 Kf3 Rc3+ Kf4 Rac8 Ke5 Rf3 Rd7 Rxf2 g5 Rc4 Re1 Bxe1",
+    "clocks": [
+      30003,
+      30003,
+      29899,
+      28731,
+      29619,
+      28667,
+      29259,
+      28563,
+      28811,
+      28451,
+      28379,
+      28347,
+      28211,
+      28147,
+      28059,
+      28147,
+      27843,
+      27779,
+      27635,
+      27459,
+      26819,
+      27083,
+      26227,
+      27011,
+      25987,
+      26923,
+      25683,
+      26819,
+      25219,
+      26547,
+      24867,
+      26123,
+      23979,
+      25819,
+      23979,
+      25603,
+      23171,
+      25315,
+      22211,
+      24195,
+      21619,
+      23843,
+      21459,
+      23603,
+      21195,
+      23499,
+      20939,
+      23163,
+      20835,
+      23035,
+      20587,
+      22643,
+      20443,
+      22411,
+      20299,
+      22131,
+      20123,
+      21811,
+      19939,
+      21739,
+      19723,
+      21435,
+      19611,
+      20467,
+      19115,
+      19979,
+      18171,
+      19651,
+      17731,
+      19107,
+      17115,
+      18889,
+      16997
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 13,
+      "end": 45
+    }
+  },
+  {
+    "id": "qXyn7Vu0",
+    "rated": false,
+    "variant": "standard",
+    "speed": "blitz",
+    "perf": "blitz",
+    "createdAt": 1794827497281,
+    "lastMoveAt": 1794827733944,
+    "status": "resign",
+    "source": "friend",
+    "players": {
+      "white": {
+        "user": {
+          "name": "daoseeking",
+          "id": "daoseeking"
+        },
+        "rating": 1896
+      },
+      "black": {
+        "user": {
+          "name": "rushego",
+          "id": "rushego"
+        },
+        "rating": 1685
+      }
+    },
+    "fullId": "qXyn7Vu0Va3v",
+    "winner": "black",
+    "opening": {
+      "eco": "B12",
+      "name": "Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense",
+      "ply": 6
+    },
+    "moves": "e4 c6 d4 d5 e5 c5 c3 e6 Nf3 Nc6 Be2 Be7 Nbd2 h6 Nb3 c4 Nc5 Bxc5 dxc5 Qe7 Be3 f6 exf6 Nxf6 O-O O-O Bd4 Ne4 Ne5 Nxe5 Bxe5 Qg5 Bg3 Bd7 Bf3 Nxg3 fxg3 Rae8 Qd4 h5 Be2 Bc6 Rf3 e5 Rxf8+ Rxf8 Qd1 h4 Qc2 hxg3 hxg3 Qe3+ Kh2 Rf6 Rf1 Rh6+",
+    "clocks": [
+      30003,
+      30003,
+      29883,
+      29955,
+      29827,
+      29843,
+      29627,
+      29755,
+      29555,
+      29619,
+      29459,
+      29355,
+      29323,
+      29259,
+      29211,
+      27427,
+      29123,
+      27283,
+      29123,
+      27035,
+      28907,
+      26611,
+      28499,
+      26571,
+      28427,
+      26307,
+      28315,
+      26155,
+      27723,
+      25387,
+      27619,
+      25259,
+      27331,
+      24195,
+      26491,
+      23467,
+      26235,
+      22691,
+      25939,
+      21947,
+      24947,
+      21459,
+      24555,
+      21251,
+      23595,
+      21067,
+      22475,
+      19467,
+      20923,
+      18811,
+      20851,
+      18611,
+      20435,
+      17595,
+      19787,
+      17270,
+      19208
+    ],
+    "clock": {
+      "initial": 300,
+      "increment": 0,
+      "totalTime": 300
+    },
+    "division": {
+      "middle": 31,
+      "end": 46
+    }
   }
 ]
